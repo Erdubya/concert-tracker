@@ -19,3 +19,8 @@ function db_connect()
 	
 	return $dbh;
 }
+
+function create_db($dbh)
+{
+	//create the database
+}
