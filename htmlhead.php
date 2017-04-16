@@ -3,8 +3,8 @@
  * User: Erik Wilson
  * Date: 16-Apr-17
  * Time: 00:00
- * 
- * Include file to get rid of all that nasty suff clutering the head of the html files.
+ * Include file to get rid of all that nasty suff clutering the head of the
+ * html files.
  */
 ?>
 <head>
@@ -26,23 +26,25 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- jQueryUI -->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet"
+          href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
-	
-	<!-- Use this variable for extra styles/scripts	-->
-	<? if (isset($extraIncludes)) {
-		foreach ($extraIncludes as $link)
-		    echo $link;
-	}?>
 
-	<!-- Set the page title before the HTML section-->
-	<title>
-	<? if (isset($pageTitle)) {
-		echo $pageTitle;
-	} else {
-		echo "Default Title";
-	}?>
-	</title>
+    <!-- Use this variable for extra styles/scripts	-->
+	<? if (isset($extraIncludes)) {
+		foreach ($extraIncludes as $link) {
+			echo $link;
+		}
+	} ?>
+
+    <!-- Set the page title before the HTML section-->
+    <title>
+		<? if (isset($pageTitle)) {
+			echo $pageTitle;
+		} else {
+			echo "Default Title";
+		} ?>
+    </title>
 </head>

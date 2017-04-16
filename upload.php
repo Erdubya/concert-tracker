@@ -4,7 +4,7 @@
  * Date: 16-Apr-17
  * Time: 00:16
  */
-// check program if is installed
+// check if program is installed
 if ( !file_exists('config.php')) {
 	die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
 }
@@ -22,22 +22,22 @@ $extraIncludes = array(
 );
 
 if (isset($_POST['filesubmit'])) {
-    if (isset($_FILES['csvfile'])) {
-        // TODO: check errors
-        $file = $_FILES['csvfile']['tmp_name'];
-        
-	    $csv = array_map('str_getcsv', file($file));
-	    array_walk($csv, function(&$a) use ($csv) {
-		    $a = array_combine($csv[0], $a);
-	    });
-	    array_shift($csv); # remove column header
-        
-        echo "<pre>";
-        print_r($csv);
-        echo "</pre>";
-    } else {
-        echo "NO FILE SELECTED <br>";
-    }
+	if (isset($_FILES['csvfile'])) {
+		// TODO: check errors
+		$file = $_FILES['csvfile']['tmp_name'];
+
+		$csv = array_map('str_getcsv', file($file));
+		array_walk($csv, function (&$a) use ($csv) {
+			$a = array_combine($csv[0], $a);
+		});
+		array_shift($csv); # remove column header
+
+		echo "<pre>";
+		print_r($csv);
+		echo "</pre>";
+	} else {
+		echo "NO FILE SELECTED <br>";
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -96,7 +96,7 @@ if (isset($_POST['filesubmit'])) {
                 </label>
             </div>
         </div>
-<!--        <hr>-->
+        <!--        <hr>-->
         <div class="form-group">
             <label for="file-upload">Upload CSV</label>
             <input type="file" id="file-upload" name="csvfile">

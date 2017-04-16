@@ -12,16 +12,18 @@
 function db_connect()
 {
 	try {
-		$dbh = new PDO(HANDLER . ":host=" . HOSTNAME . ";dbname=" . DATABASE, USERNAME, PASSWORD);
+		$dbh = new PDO(HANDLER . ":host=" . HOSTNAME . ";dbname=" . DATABASE,
+			USERNAME, PASSWORD);
 	} catch (PDOException $e) {
 		$dbh = null;
 	}
-	
+
 	return $dbh;
 }
 
 /**
  * @param $dbh PDO The connection to build the database in
+ *
  * @return bool The success state of the database creation
  */
 function build_db($dbh)
@@ -40,10 +42,11 @@ function build_db($dbh)
 						notes VARCHAR(500), 
 						FOREIGN KEY (artist) REFERENCES artist(artist_id)
 						)";
-	
+
 	try {
 		$dbh->exec($artist_table);
 		$dbh->exec($concert_table);
+
 		return true;
 	} catch (PDOException $e) {
 		return false;
