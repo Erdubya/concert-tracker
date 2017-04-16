@@ -9,7 +9,7 @@
 
 // check if it's already been run
 if (file_exists("config.php")) {
-	die("Whoops! Already installed!");
+	die("Concert Tracker has already been installed. Delete config.php to reinstall.");
 }
 
 // run the config
