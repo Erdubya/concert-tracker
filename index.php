@@ -6,7 +6,7 @@
  */
 // check if program is installed
 if ( !file_exists('config.php')) {
-	die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
+    die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
 }
 
 //require the config file
@@ -23,11 +23,11 @@ ob_start();
     <!DOCTYPE html>
     <html lang="en">
     <!-- Include the HTML head -->
-	<? include "htmlhead.php" ?>
+    <? include "htmlhead.php" ?>
     <body>
     <header>
         <!-- Nav bar -->
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-inverse">
             <div class="container">
                 <!-- Navbar "Home" button -->
                 <div class="navbar-header">

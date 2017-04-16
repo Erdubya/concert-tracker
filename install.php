@@ -9,39 +9,39 @@
 
 // check if it's already been run
 if (file_exists("config.php")) {
-	die("Concert Tracker has already been installed. Delete config.php to reinstall.");
+    die("Concert Tracker has already been installed. Delete config.php to reinstall.");
 }
 
 // run the config
 if (isset($_POST['install'])) {
-	// Store POST data for easier access
-	$dbms     = $_POST['dbms'];
-	$hostname = $_POST['hostname'];
-	$database = $_POST['database'];
-	$username = $_POST['username'];
-	$password = $_POST['password'];
-	$mail_to  = $_POST['mailto'];
+    // Store POST data for easier access
+    $dbms     = $_POST['dbms'];
+    $hostname = $_POST['hostname'];
+    $database = $_POST['database'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $mail_to  = $_POST['mailto'];
 
-	// Write the file
-	$file   = file_get_contents('configdefault.php');
-	$config = str_replace(
-		array(
-			'{{MAIL_TO}}',
-			'{{HANDLER}}',
-			'{{HOSTNAME}}',
-			'{{DATABASE}}',
-			'{{USERNAME}}',
-			'{{PASSWORD}}'
-		),
-		array($mail_to, $dbms, $hostname, $database, $username, $password),
-		$file);
-	file_put_contents('config.php', $config);
+    // Write the file
+    $file   = file_get_contents('configdefault.php');
+    $config = str_replace(
+        array(
+            '{{MAIL_TO}}',
+            '{{HANDLER}}',
+            '{{HOSTNAME}}',
+            '{{DATABASE}}',
+            '{{USERNAME}}',
+            '{{PASSWORD}}'
+        ),
+        array($mail_to, $dbms, $hostname, $database, $username, $password),
+        $file);
+    file_put_contents('config.php', $config);
 
-	// Test DB connection
-	require_once "config.php";
-	$dbh = db_connect() or die(ERR_MSG);
+    // Test DB connection
+    require_once "config.php";
+    $dbh = db_connect() or die(ERR_MSG);
 
-	echo build_db($dbh);
+    echo build_db($dbh);
 
 //	header('Location: index.php');
 }

@@ -11,14 +11,14 @@
  */
 function db_connect()
 {
-	try {
-		$dbh = new PDO(HANDLER . ":host=" . HOSTNAME . ";dbname=" . DATABASE,
-			USERNAME, PASSWORD);
-	} catch (PDOException $e) {
-		$dbh = null;
-	}
+    try {
+        $dbh = new PDO(HANDLER . ":host=" . HOSTNAME . ";dbname=" . DATABASE,
+            USERNAME, PASSWORD);
+    } catch (PDOException $e) {
+        $dbh = null;
+    }
 
-	return $dbh;
+    return $dbh;
 }
 
 /**
@@ -28,13 +28,13 @@ function db_connect()
  */
 function build_db($dbh)
 {
-	$artist_table  = "CREATE TABLE IF NOT EXISTS artist(
+    $artist_table  = "CREATE TABLE IF NOT EXISTS artist(
 						artist_id SERIAL PRIMARY KEY ,
 						name VARCHAR(50) NOT NULL ,
 						genre VARCHAR(50) NOT NULL , 
 						country VARCHAR(50) NOT NULL
 						)";
-	$concert_table = "CREATE TABLE IF NOT EXISTS concert(
+    $concert_table = "CREATE TABLE IF NOT EXISTS concert(
 						concert_id SERIAL PRIMARY KEY ,
 						artist BIGINT UNSIGNED NOT NULL , 
 						date DATE NOT NULL , 
@@ -43,12 +43,12 @@ function build_db($dbh)
 						FOREIGN KEY (artist) REFERENCES artist(artist_id)
 						)";
 
-	try {
-		$dbh->exec($artist_table);
-		$dbh->exec($concert_table);
+    try {
+        $dbh->exec($artist_table);
+        $dbh->exec($concert_table);
 
-		return true;
-	} catch (PDOException $e) {
-		return false;
-	}
+        return true;
+    } catch (PDOException $e) {
+        return false;
+    }
 }

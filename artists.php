@@ -6,7 +6,7 @@
  */
 // check if program is installed
 if ( !file_exists('config.php')) {
-	die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
+    die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
 }
 
 //require the config file
@@ -25,7 +25,7 @@ $pageTitle = "Upload Data - Concert Tracker";
 <body>
 <header>
     <!-- Nav bar -->
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-inverse">
         <div class="container">
             <!-- Navbar "Home" button -->
             <div class="navbar-header">

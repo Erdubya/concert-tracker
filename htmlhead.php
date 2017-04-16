@@ -33,18 +33,18 @@
     <script src="js/bootstrap.min.js"></script>
 
     <!-- Use this variable for extra styles/scripts	-->
-	<? if (isset($extraIncludes)) {
-		foreach ($extraIncludes as $link) {
-			echo $link;
-		}
-	} ?>
+    <? if (isset($extraIncludes)) {
+        foreach ($extraIncludes as $link) {
+            echo $link;
+        }
+    } ?>
 
     <!-- Set the page title before the HTML section-->
     <title>
-		<? if (isset($pageTitle)) {
-			echo $pageTitle;
-		} else {
-			echo "Default Title";
-		} ?>
+        <? if (isset($pageTitle)) {
+            echo $pageTitle;
+        } else {
+            echo "Default Title";
+        } ?>
     </title>
 </head>
