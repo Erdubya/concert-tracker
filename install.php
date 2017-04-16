@@ -4,8 +4,7 @@
  * Date: 13-Apr-17
  * Time: 21:47
  * 
- * Installation script for concert-tracker.  My first attempt at writing one, so
- *  it's probably not that great.
+ * Installation script for concert-tracker.  My first attempt at writing one, so it's probably not that great.
  */
 
 // check if it's already been run
@@ -32,7 +31,13 @@ if (isset($_POST['install'])) {
             $file);
 	file_put_contents('config.php', $config);
 	
-	// TODO: Create DB
+	// Test DB connection
+    require_once "config.php";
+    $dbh = db_connect() or die(ERR_MSG);
+	
+    echo build_db($dbh);
+
+//	header('Location: index.php');
 }
 ?>
 <html>

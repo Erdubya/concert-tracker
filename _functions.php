@@ -20,7 +20,32 @@ function db_connect()
 	return $dbh;
 }
 
-function create_db($dbh)
+/**
+ * @param $dbh PDO The connection to build the database in
+ * @return bool The success state of the database creation
+ */
+function build_db($dbh)
 {
-	//create the database
+	$artist_table  = "CREATE TABLE IF NOT EXISTS artist(
+						artist_id SERIAL PRIMARY KEY ,
+						name VARCHAR(50) NOT NULL ,
+						genre VARCHAR(50) NOT NULL , 
+						country VARCHAR(50) NOT NULL
+						)";
+	$concert_table = "CREATE TABLE IF NOT EXISTS concert(
+						concert_id SERIAL PRIMARY KEY ,
+						artist BIGINT UNSIGNED NOT NULL , 
+						date DATE NOT NULL , 
+						city VARCHAR(30) NOT NULL , 
+						notes VARCHAR(500), 
+						FOREIGN KEY (artist) REFERENCES artist(artist_id)
+						)";
+	
+	try {
+		$dbh->exec($artist_table);
+		$dbh->exec($concert_table);
+		return true;
+	} catch (PDOException $e) {
+		return false;
+	}
 }
