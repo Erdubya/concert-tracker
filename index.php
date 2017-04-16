@@ -59,17 +59,27 @@ ob_start();
                     
                     <div class="collapse navbar-collapse" id="collapsible-navbar">
                         <ul class="nav navbar-nav">
-                            <li><a href="#">Artists <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">Concerts <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#">Artists</a></li>
+                            <li><a href="#">Concerts</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">Upload Data</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>
         </header>
     
-        <main>
-            <!-- TODO: TABLES TABLES TABLES -->
+        <main class="container">
+            <!-- TODO: Home page -->
+            <!-- Upcoming? -->
         </main>
+    
+        <footer class="panel-footer navbar-fixed-bottom">
+            <div class="container">
+                <p>Built by Erik Wilson</p>
+            </div>
+        </footer>
     </body>
     <script>
         $(".nav li").on("click", function() {
