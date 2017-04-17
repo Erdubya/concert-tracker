@@ -34,8 +34,8 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                        role="button">Data Management<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="upload.php">Import</a></li>
-                        <li><a href="upload.php">Export</a></li>
+                        <li><a href="import.php">Import</a></li>
+                        <li><a href="export.php">Export</a></li>
                     </ul>
                 </li>
             </ul>

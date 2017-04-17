@@ -1,0 +1,28 @@
+<?php
+/**
+ * User: Erik Wilson
+ * Date: 17-Apr-17
+ * Time: 01:09
+ */
+require_once "config.php";
+session_start();
+$dbh = db_connect() or die(ERR_MSG);
+
+header("Content-Type: text/csv");
+header("Content-Disposition: attachment; filename=" . $_POST['data'] . "s.csv");
+
+if ($_POST['data'] == 'artist') {
+    $csv_array = $dbh->query("SELECT name, genre, country FROM artist ORDER BY name ASC ",
+        PDO::FETCH_ASSOC);
+    $output    = fopen("php://output", "w");
+    foreach ($csv_array as $line) {
+        fputcsv($output, $line);
+    }
+} elseif ($_POST['data'] == 'concert') {
+    $csv_array = $dbh->query("SELECT a.name, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY a.name ASC ",
+        PDO::FETCH_ASSOC);
+    $output    = fopen("php://output", "w");
+    foreach ($csv_array as $line) {
+        fputcsv($output, $line);
+    }
+}

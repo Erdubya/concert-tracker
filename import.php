@@ -17,7 +17,7 @@ include "class/Encoding.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-$pageTitle = "Upload Data - Concert Tracker";
+$pageTitle = "Import Data - Concert Tracker";
 
 use ForceUTF8\Encoding;
 
@@ -81,7 +81,7 @@ if (isset($_POST['filesubmit'])) {
     <form class="container panel form-upload panel-default"
           action="<?php echo $_SERVER["PHP_SELF"]; ?>"
           method="post" enctype="multipart/form-data">
-        <h2>Upload Data</h2>
+        <h2>Import Data</h2>
         <hr>
         <div class="form-group">
             <div class="radio">
@@ -92,7 +92,7 @@ if (isset($_POST['filesubmit'])) {
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="filetype" value="concert">
+                    <input type="radio" name="filetype" value="concert" disabled>
                     Concert Data
                 </label>
             </div>
