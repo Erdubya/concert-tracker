@@ -20,15 +20,15 @@ $pageTitle = "Export Data - Concert Tracker";
 <!DOCTYPE html>
 <html lang="en">
 <!-- Include the HTML head -->
-<? include "htmlhead.php" ?>
+<? include "template/htmlhead.php" ?>
 <body>
 <header>
-    <? include "navbar.php" ?>
+    <? include "template/navbar.php" ?>
 </header>
 
 <main class="container head-foot-spacing">
     <form class="container panel form-upload panel-default"
-          action="export-csv.php"
+          action="logic/export-csv.php"
           method="post" enctype="multipart/form-data">
         <h2>Export Data</h2>
         <hr>

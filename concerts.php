@@ -22,10 +22,10 @@ $pageTitle = "Concerts - Concert Tracker";
 <!DOCTYPE html>
 <html lang="en">
 <!-- Include the HTML head -->
-<? include "htmlhead.php" ?>
+<? include "template/htmlhead.php" ?>
 <body>
 <header>
-    <? include "navbar.php" ?>
+    <? include "template/navbar.php" ?>
 </header>
 
 <main class="container head-foot-spacing">
@@ -75,7 +75,7 @@ $pageTitle = "Concerts - Concert Tracker";
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="panel2">
-            <form class="container" action="concerts-add.php" method="post">
+            <form class="container" action="logic/add-concert.php" method="post">
                 <h2>Add Concert</h2>
                 <hr>
                 <div class="form-group">

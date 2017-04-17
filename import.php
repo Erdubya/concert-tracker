@@ -20,15 +20,15 @@ $pageTitle = "Import Data - Concert Tracker";
 <!DOCTYPE html>
 <html lang="en">
 <!-- Include the HTML head -->
-<? include "htmlhead.php" ?>
+<? include "template/htmlhead.php" ?>
 <body>
 <header>
-    <? include "navbar.php" ?>
+    <? include "template/navbar.php" ?>
 </header>
 
 <main class="container head-foot-spacing">
     <form class="container panel form-upload panel-default"
-          action="import-csv.php"
+          action="logic/import-csv.php"
           method="post" enctype="multipart/form-data">
         <h2>Import Data</h2>
         <hr>

@@ -33,7 +33,14 @@ if (isset($_POST['install'])) {
             '{{USERNAME}}',
             '{{PASSWORD}}'
         ),
-        array($mail_to, $dbms, $hostname, $database, $username, $password),
+        array(
+            $mail_to,
+            $dbms,
+            $hostname,
+            $database,
+            $username,
+            $password
+        ), 
         $file);
     file_put_contents('config.php', $config);
 
@@ -43,7 +50,7 @@ if (isset($_POST['install'])) {
 
     echo build_db($dbh);
 
-//	header('Location: index.php');
+	header('Location: index.php');
 }
 ?>
 <html>
@@ -61,7 +68,7 @@ if (isset($_POST['install'])) {
         <input id="mysql" type="radio" name="dbms" value="mysql" checked/><br>
         <label for="pgsql">Postgres</label>
         <input id="pgsql" type="radio" name="dbms" value="pgsql" disabled/>
-        <!--        TODO: implement PostgreSQL support-->
+        <!--TODO: implement PostgreSQL support-->
     </div>
     <br>
     <div id="networkdb">
