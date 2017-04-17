@@ -16,7 +16,7 @@ require_once "config.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-$pageTitle     = "Artists - Concert Tracker";
+$pageTitle = "Artists - Concert Tracker";
 
 $stmt = $dbh->prepare("INSERT INTO artist(name, genre, country) VALUES (:artist, :genre, :country)");
 $stmt->bindParam(':artist', $name);
@@ -29,6 +29,9 @@ if (isset($_POST['submit'])) {
     $country = $_POST['country'];
 
     $stmt->execute();
+
+    unset($_POST);
+    header('Location: artists.php');
 }
 ?>
 <!DOCTYPE html>

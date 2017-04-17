@@ -17,6 +17,28 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 $pageTitle = "Concerts - Concert Tracker";
+
+$stmt = $dbh->prepare("INSERT INTO concert(artist, date, city, attend) VALUES (:artist, :showdate, :city, :attend)");
+$stmt->bindParam(':artist', $artist);
+$stmt->bindParam(':showdate', $date);
+$stmt->bindParam(':city', $city);
+$stmt->bindParam(':attend', $attend);
+
+if (isset($_POST['submit'])) {
+    $artist = $_POST['artist_id'];
+    $date   = $_POST['date'];
+    $city   = $_POST['city'];
+    if (isset($_POST['attend'])) {
+        $attend = 1;
+    } else {
+        $attend = 0;
+    }
+
+    $stmt->execute();
+
+    unset($_POST);
+    header('Location: concerts.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,8 +71,13 @@ $pageTitle = "Concerts - Concert Tracker";
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($dbh->query("SELECT a.name, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY c.date") as $key => $result) {
-                        echo "<tr>";
+                    foreach ($dbh->query("SELECT a.name, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY c.date DESC ") as $key => $result) {
+                        $current_date = date("Y-m-d");
+                        if ($result['date'] <= $current_date) {
+                            echo "<tr style='background-color: #f9f9f9;'>";
+                        } else {
+                            echo "<tr>";
+                        }
                         echo "<td>" . $result['date'] . "</td>";
                         echo "<td>" . $result['name'] . "</td>";
                         echo "<td>" . $result['city'] . "</td>";
@@ -73,12 +100,13 @@ $pageTitle = "Concerts - Concert Tracker";
                 <h2>Add Concert</h2>
                 <hr>
                 <div class="form-group">
-                    <label for="artist_name">Artist</label>
-                    <select id="artist_name" class="form-control">
+                    <label for="artist_id">Artist</label>
+                    <select id="artist_id" class="form-control" name="artist_id"
+                            required>
                         <option readonly selected>Select an Artist</option>
                         <?php
-                        foreach ($dbh->query("SELECT artist_id, name FROM artist ORDER BY  name ASC ") as $result) {
-                            echo "<option value='" . $result['artist_it'] . "'>" . $result['name'] . "</option>";
+                        foreach ($dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ") as $result) {
+                            echo "<option value='" . $result['artist_id'] . "'>" . $result['name'] . "</option>";
                         }
                         ?>
                     </select>
@@ -95,7 +123,7 @@ $pageTitle = "Concerts - Concert Tracker";
                 </div>
                 <div class="form-group">
                     <label>
-                        <input type="checkbox">
+                        <input type="checkbox" name="attend">
                         I'm going!
                     </label>
                 </div>

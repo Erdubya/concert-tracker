@@ -46,6 +46,8 @@ if (isset($_POST['filesubmit'])) {
             }
             $sql = "INSERT INTO artist(name, genre, country) VALUES "
                    . implode(", ", $sql);
+            unset($_POST);
+            header('Location: artists.php');
         } elseif ($_POST['filetype'] == "concert") {
             // TODO: does not work, needs foreign key handling
 //            foreach ($csv as $row => $line) {
@@ -57,9 +59,10 @@ if (isset($_POST['filesubmit'])) {
 //            }
 //            $sql = "INSERT INTO concert(artist, date, city, notes) VALUES "
 //                   . implode(", ", $sql);
+//            unset($_POST);
+//            header('Location: concerts.php');
         }
         $dbh->exec($sql);
-//        echo $sql;
     } else {
         echo "NO FILE SELECTED <br>";
     }
