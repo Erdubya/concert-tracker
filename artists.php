@@ -17,22 +17,6 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 $pageTitle = "Artists - Concert Tracker";
-
-$stmt = $dbh->prepare("INSERT INTO artist(name, genre, country) VALUES (:artist, :genre, :country)");
-$stmt->bindParam(':artist', $name);
-$stmt->bindParam(':genre', $genre);
-$stmt->bindParam(':country', $country);
-
-if (isset($_POST['submit'])) {
-    $name    = $_POST['artist_name'];
-    $genre   = $_POST['genre'];
-    $country = $_POST['country'];
-
-    $stmt->execute();
-
-    unset($_POST);
-    header('Location: artists.php');
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,14 +29,14 @@ if (isset($_POST['submit'])) {
 
 <main class="container head-foot-spacing">
     <ul class="nav nav-tabs" role="tablist">
-        <li class="active" role="presentation"><a href="#list" role="tab"
+        <li class="active" role="presentation"><a href="#panel1" role="tab"
                                                   data-toggle="tab">Artists</a>
         </li>
-        <li role="presentation"><a href="#form" role="tab"
+        <li role="presentation"><a href="#panel2" role="tab"
                                    data-toggle="tab">Add</a></li>
     </ul>
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="list">
+        <div role="tabpanel" class="tab-pane active" id="panel1">
             <div class="table-responsive">
                 <table class="table table-condensed">
                     <thead>
@@ -78,8 +62,8 @@ if (isset($_POST['submit'])) {
                 </table>
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="form">
-            <form class="container" action="" method="post">
+        <div role="tabpanel" class="tab-pane" id="panel2">
+            <form class="container" action="artists-add.php" method="post">
                 <h2>Add Artist</h2>
                 <hr>
                 <div class="form-group">
@@ -112,9 +96,10 @@ if (isset($_POST['submit'])) {
         <p class="text-center">Built by Erik Wilson</p>
     </div>
 </footer>
+
 <script>
     $(document).ready(function () {
-        // get current URL path and assign 'active' class
+        // get current URL path and assign 'active' class to navbar
         var pathname = new URL(window.location.href).pathname.split('/').pop();
         if (pathname !== "") {
             $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');

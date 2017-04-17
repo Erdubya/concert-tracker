@@ -12,7 +12,8 @@ if ( !file_exists('config.php')) {
 //require the config file
 require_once "config.php";
 
-// start the session and connect to DB
+// start the session
+session_start();
 
 $pageTitle = "Export Data - Concert Tracker";
 ?>
@@ -27,7 +28,7 @@ $pageTitle = "Export Data - Concert Tracker";
 
 <main class="container head-foot-spacing">
     <form class="container panel form-upload panel-default"
-          action="createcsv.php"
+          action="export-csv.php"
           method="post" enctype="multipart/form-data">
         <h2>Export Data</h2>
         <hr>
@@ -58,9 +59,10 @@ $pageTitle = "Export Data - Concert Tracker";
         <p class="text-center">Built by Erik Wilson</p>
     </div>
 </footer>
+
 <script>
     $(document).ready(function () {
-        // get current URL path and assign 'active' class
+        // get current URL path and assign 'active' class to navbar
         var pathname = new URL(window.location.href).pathname.split('/').pop();
         if (pathname !== "") {
             $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');

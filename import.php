@@ -11,62 +11,11 @@ if ( !file_exists('config.php')) {
 
 //require the config file
 require_once "config.php";
-include "class/Encoding.php";
 
 // start the session and connect to DB
 session_start();
-$dbh = db_connect() or die(ERR_MSG);
 
 $pageTitle = "Import Data - Concert Tracker";
-
-use ForceUTF8\Encoding;
-
-if (isset($_POST['filesubmit'])) {
-    if (isset($_FILES['csvfile'])) {
-        // TODO: check errors
-        $file = $_FILES['csvfile']['tmp_name'];
-
-        // Generate a 2D array from the CSV file
-        $csv = [];
-        foreach (file($file) as $line) {
-            $csv[] = str_getcsv(Encoding::toUTF8($line));
-        }
-        if (isset($_POST['headers'])) {
-            array_shift($csv); //Drop headers
-        }
-
-        // Convert that array into an SQL insert statement
-        $sql = [];
-        if ($_POST['filetype'] == "artist") {
-            foreach ($csv as $row => $line) {
-                $name      = $line[0];
-                $genre     = $line[1];
-                $country   = $line[2];
-                $sql[$row] = "(\"$name\", \"$genre\", \"$country\")";
-            }
-            $sql = "INSERT INTO artist(name, genre, country) VALUES "
-                   . implode(", ", $sql);
-            unset($_POST);
-            header('Location: artists.php');
-        } elseif ($_POST['filetype'] == "concert") {
-            // TODO: does not work, needs foreign key handling
-//            foreach ($csv as $row => $line) {
-//                $artist    = $line[0];
-//                $date      = date_parse($line[1]);
-//                $attended  = $line[2];
-//                $notes     = $line[3];
-//                $sql[$row] = "(\"$artist\", $date, $attended, \"$notes\")";
-//            }
-//            $sql = "INSERT INTO concert(artist, date, city, notes) VALUES "
-//                   . implode(", ", $sql);
-//            unset($_POST);
-//            header('Location: concerts.php');
-        }
-        $dbh->exec($sql);
-    } else {
-        echo "NO FILE SELECTED <br>";
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,14 +28,14 @@ if (isset($_POST['filesubmit'])) {
 
 <main class="container head-foot-spacing">
     <form class="container panel form-upload panel-default"
-          action="<?php echo $_SERVER["PHP_SELF"]; ?>"
+          action="import-csv.php"
           method="post" enctype="multipart/form-data">
         <h2>Import Data</h2>
         <hr>
         <div class="form-group">
             <div class="radio">
                 <label>
-                    <input type="radio" name="filetype" value="artist">
+                    <input type="radio" name="filetype" value="artist" required>
                     Artist Data
                 </label>
             </div>
@@ -100,7 +49,7 @@ if (isset($_POST['filesubmit'])) {
         <!--        <hr>-->
         <div class="form-group">
             <label for="file-upload">Upload CSV</label>
-            <input type="file" id="file-upload" name="csvfile">
+            <input type="file" id="file-upload" name="csvfile" required>
         </div>
         <div class="form-group">
             <label>
@@ -121,9 +70,10 @@ if (isset($_POST['filesubmit'])) {
         <p class="text-center">Built by Erik Wilson</p>
     </div>
 </footer>
+
 <script>
     $(document).ready(function () {
-        // get current URL path and assign 'active' class
+        // get current URL path and assign 'active' class to navbar
         var pathname = new URL(window.location.href).pathname.split('/').pop();
         if (pathname !== "") {
             $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');

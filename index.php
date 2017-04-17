@@ -43,9 +43,9 @@ ob_start();
 
     <script>
         $(document).ready(function () {
-            // get current URL path and assign 'active' class
+            // get current URL path and assign 'active' class to navbar
             var pathname = new URL(window.location.href).pathname.split('/').pop();
-            if (pathname != "") {
+            if (pathname !== "") {
                 $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
             }
         })
