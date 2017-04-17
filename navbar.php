@@ -6,7 +6,7 @@
  * Time: 19:41
  */
 ?>
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <!-- Nav bar -->
     <div class="container">
         <!-- Navbar "Home" button -->

@@ -39,6 +39,7 @@ function build_db($dbh)
 						artist BIGINT UNSIGNED NOT NULL , 
 						date DATE NOT NULL , 
 						city VARCHAR(30) NOT NULL , 
+						attend BOOLEAN NOT NULL DEFAULT FALSE,
 						notes VARCHAR(500), 
 						FOREIGN KEY (artist) REFERENCES artist(artist_id)
 						)";

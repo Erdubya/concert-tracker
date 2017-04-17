@@ -17,10 +17,7 @@ include "class/Encoding.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-$pageTitle     = "Upload Data - Concert Tracker";
-$extraIncludes = array(
-    '<link href="css/custom.css" rel="stylesheet">',
-);
+$pageTitle = "Upload Data - Concert Tracker";
 
 use ForceUTF8\Encoding;
 

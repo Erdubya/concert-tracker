@@ -17,9 +17,6 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 $pageTitle     = "Artists - Concert Tracker";
-$extraIncludes = array(
-    '<link href="css/custom.css" rel="stylesheet">',
-);
 
 $stmt = $dbh->prepare("INSERT INTO artist(name, genre, country) VALUES (:artist, :genre, :country)");
 $stmt->bindParam(':artist', $name);
@@ -43,7 +40,7 @@ if (isset($_POST['submit'])) {
     <? include "navbar.php"; ?>
 </header>
 
-<main class="container footer-spacing">
+<main class="container footer-spacing header-spacing">
     <ul class="nav nav-tabs" role="tablist">
         <li class="active" role="presentation"><a href="#list" role="tab"
                                                   data-toggle="tab">Artists</a>

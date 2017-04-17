@@ -8,6 +8,10 @@
     padding-bottom: 51px !important;
 }
 
+.header-spacing {
+    padding-top: 60px !important;
+}
+
 .table-responsive {
     /*max-height: 80vh;*/
 }

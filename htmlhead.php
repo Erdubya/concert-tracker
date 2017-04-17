@@ -32,6 +32,9 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 
+    <!-- Custom CSS file -->
+    <link href="css/custom.css" rel="stylesheet">
+
     <!-- Use this variable for extra styles/scripts	-->
     <? if (isset($extraIncludes)) {
         foreach ($extraIncludes as $link) {
