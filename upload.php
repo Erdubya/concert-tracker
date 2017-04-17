@@ -22,13 +22,14 @@ $extraIncludes = array(
     '<link href="css/custom.css" rel="stylesheet">',
 );
 
-use \ForceUTF8\Encoding;
+use ForceUTF8\Encoding;
 
 if (isset($_POST['filesubmit'])) {
     if (isset($_FILES['csvfile'])) {
         // TODO: check errors
         $file = $_FILES['csvfile']['tmp_name'];
-        $row = 0;
+
+        // Generate a 2D array from the CSV file
         $csv = [];
         foreach (file($file) as $line) {
             $csv[] = str_getcsv(Encoding::toUTF8($line));
@@ -36,11 +37,8 @@ if (isset($_POST['filesubmit'])) {
         if (isset($_POST['headers'])) {
             array_shift($csv); //Drop headers
         }
-        
-//        echo "<pre>";
-//        print_r($csv);
-//        echo "</pre>";
 
+        // Convert that array into an SQL insert statement
         $sql = [];
         if ($_POST['filetype'] == "artist") {
             foreach ($csv as $row => $line) {
@@ -49,10 +47,10 @@ if (isset($_POST['filesubmit'])) {
                 $country   = $line[2];
                 $sql[$row] = "(\"$name\", \"$genre\", \"$country\")";
             }
-            $sql = "INSERT INTO artist(name, genre, country) VALUES " 
+            $sql = "INSERT INTO artist(name, genre, country) VALUES "
                    . implode(", ", $sql);
         } elseif ($_POST['filetype'] == "concert") {
-            // DOES NOT WORK, NEEDS FOREIGN KEY HANDLING
+            // TODO: does not work, needs foreign key handling
 //            foreach ($csv as $row => $line) {
 //                $artist    = $line[0];
 //                $date      = date_parse($line[1]);
@@ -76,39 +74,12 @@ if (isset($_POST['filesubmit'])) {
 <? include "htmlhead.php" ?>
 <body>
 <header>
-    <nav class="navbar navbar-inverse">
-        <!-- Nav bar -->
-        <div class="container">
-            <!-- Navbar "Home" button -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse" data-target="#collapsible-navbar"
-                        aria-expanded="false">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/concert-tracker/">Concert
-                    Tracker</a>
-            </div>
-
-            <!-- Other navbar buttons -->
-            <div class="collapse navbar-collapse" id="collapsible-navbar">
-                <ul class="nav navbar-nav">
-                    <li><a href="artists.php">Artists</a></li>
-                    <li><a href="concerts.php">Concerts</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="upload.php">Upload Data</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <? include "navbar.php" ?>
 </header>
 
 <main class="container footer-spacing">
-    <form class="form-upload" action="<?php echo $_SERVER["PHP_SELF"]; ?>"
+    <form class="container panel form-upload panel-default"
+          action="<?php echo $_SERVER["PHP_SELF"]; ?>"
           method="post" enctype="multipart/form-data">
         <h2>Upload Data</h2>
         <hr>
@@ -138,10 +109,10 @@ if (isset($_POST['filesubmit'])) {
             </label>
         </div>
         <hr>
-        <button type="submit" class="btn btn-default" name="filesubmit">Submit
+        <button type="submit" class="btn btn-default" name="filesubmit">
+            Submit
         </button>
     </form>
-
 </main>
 
 <!-- Simple footer -->

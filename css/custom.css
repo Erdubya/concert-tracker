@@ -7,3 +7,7 @@
 .footer-spacing {
     padding-bottom: 51px !important;
 }
+
+.table-responsive {
+    /*max-height: 80vh;*/
+}
