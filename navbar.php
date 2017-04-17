@@ -26,18 +26,18 @@
         <!-- Other navbar buttons -->
         <div class="collapse navbar-collapse" id="collapsible-navbar">
             <ul class="nav navbar-nav">
-                <li><a href="artists.php">Artists</a></li>
                 <li><a href="concerts.php">Concerts</a></li>
+                <li><a href="artists.php">Artists</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Data Management<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button">Data Management<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="upload.php">Import</a></li>
                         <li><a href="upload.php">Export</a></li>
                     </ul>
                 </li>
-                
             </ul>
         </div>
     </div>

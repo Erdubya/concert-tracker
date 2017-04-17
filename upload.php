@@ -77,7 +77,7 @@ if (isset($_POST['filesubmit'])) {
     <? include "navbar.php" ?>
 </header>
 
-<main class="container footer-spacing">
+<main class="container head-foot-spacing">
     <form class="container panel form-upload panel-default"
           action="<?php echo $_SERVER["PHP_SELF"]; ?>"
           method="post" enctype="multipart/form-data">

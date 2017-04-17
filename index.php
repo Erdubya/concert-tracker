@@ -29,7 +29,7 @@ ob_start();
         <? include "navbar.php" ?>
     </header>
 
-    <main class="container footer-spacing">
+    <main class="container head-foot-spacing">
         <!-- TODO: Home page -->
         <!-- Upcoming? -->
     </main>

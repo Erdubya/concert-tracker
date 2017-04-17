@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
     <? include "navbar.php" ?>
 </header>
 
-<main class="container footer-spacing header-spacing">
+<main class="container head-foot-spacing">
     <ul class="nav nav-tabs" role="tablist">
         <li class="active" role="presentation"><a href="#list" role="tab"
                                                   data-toggle="tab">Concerts</a>

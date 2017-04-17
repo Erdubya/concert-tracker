@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
     <? include "navbar.php"; ?>
 </header>
 
-<main class="container footer-spacing header-spacing">
+<main class="container head-foot-spacing">
     <ul class="nav nav-tabs" role="tablist">
         <li class="active" role="presentation"><a href="#list" role="tab"
                                                   data-toggle="tab">Artists</a>
@@ -60,6 +60,7 @@ if (isset($_POST['submit'])) {
                         <th>Artist</th>
                         <th>Genre</th>
                         <th>Country</th>
+                        <th>Upcoming</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -69,6 +70,7 @@ if (isset($_POST['submit'])) {
                         echo "<td>" . $result['name'] . "</td>";
                         echo "<td>" . $result['genre'] . "</td>";
                         echo "<td>" . $result['country'] . "</td>";
+                        echo "<td><button type='button' class='btn btn-default btn-xs'><a href='http://www.google.com/#q=" . urlencode($result['name']) . "+tour' target='_blank'>Search!</a></button>";
                         echo "</tr>";
                     }
                     ?>

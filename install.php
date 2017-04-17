@@ -60,7 +60,8 @@ if (isset($_POST['install'])) {
         <label for="mysql">MySQL</label>
         <input id="mysql" type="radio" name="dbms" value="mysql" checked/><br>
         <label for="pgsql">Postgres</label>
-        <input id="pgsql" type="radio" name="dbms" value="pgsql"/>
+        <input id="pgsql" type="radio" name="dbms" value="pgsql" disabled/>
+        <!--        TODO: implement PostgreSQL support-->
     </div>
     <br>
     <div id="networkdb">
