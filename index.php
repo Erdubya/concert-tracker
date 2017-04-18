@@ -23,10 +23,10 @@ ob_start();
     <!DOCTYPE html>
     <html lang="en">
     <!-- Include the HTML head -->
-    <? include "template/htmlhead.php" ?>
+    <? include "htmlhead.php" ?>
     <body>
     <header>
-        <? include "template/navbar.php" ?>
+        <? include "navbar.php" ?>
     </header>
 
     <main class="container head-foot-spacing">

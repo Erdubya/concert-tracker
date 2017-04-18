@@ -21,10 +21,10 @@ $pageTitle = "Artists - Concert Tracker";
 <!DOCTYPE html>
 <html lang="en">
 <!-- Include the HTML head -->
-<? include "template/htmlhead.php" ?>
+<? include "htmlhead.php" ?>
 <body>
 <header>
-    <? include "template/navbar.php"; ?>
+    <? include "navbar.php"; ?>
 </header>
 
 <main class="container head-foot-spacing">
@@ -54,7 +54,7 @@ $pageTitle = "Artists - Concert Tracker";
                         echo "<td>" . $result['name'] . "</td>";
                         echo "<td>" . $result['genre'] . "</td>";
                         echo "<td>" . $result['country'] . "</td>";
-                        echo "<td><button type='button' class='btn btn-default btn-xs'><a href='http://www.google.com/#q=" . urlencode($result['name']) . "+tour' target='_blank'>Search!</a></button>";
+                        echo "<td><a class='btn btn-xs btn-primary' href='http://www.google.com/#q=" . urlencode($result['name']) . "+tour' target='_blank'>Search!</a>";
                         echo "</tr>";
                     }
                     ?>
@@ -82,7 +82,7 @@ $pageTitle = "Artists - Concert Tracker";
                            id="country" maxlength="50" required>
                 </div>
                 <hr>
-                <button type="submit" class="btn btn-primary" name="submit">
+                <button type="submit" class="btn btn-default" name="submit">
                     Submit
                 </button>
             </form>

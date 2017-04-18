@@ -6,7 +6,7 @@
  * Time: 19:41
  */
 ?>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <!-- Nav bar -->
     <div class="container">
         <!-- Navbar "Home" button -->
@@ -26,16 +26,16 @@
         <!-- Other navbar buttons -->
         <div class="collapse navbar-collapse" id="collapsible-navbar">
             <ul class="nav navbar-nav">
-                <li><a href="../concerts.php">Concerts</a></li>
-                <li><a href="../artists.php">Artists</a></li>
+                <li><a href="concerts.php">Concerts</a></li>
+                <li><a href="artists.php">Artists</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                        role="button">Data Management<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="../import.php">Import</a></li>
-                        <li><a href="../export.php">Export</a></li>
+                        <li><a href="import.php">Import</a></li>
+                        <li><a href="export.php">Export</a></li>
                     </ul>
                 </li>
             </ul>

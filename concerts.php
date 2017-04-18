@@ -17,15 +17,14 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 $pageTitle = "Concerts - Concert Tracker";
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <!-- Include the HTML head -->
-<? include "template/htmlhead.php" ?>
+<? include "htmlhead.php" ?>
 <body>
 <header>
-    <? include "template/navbar.php" ?>
+    <? include "navbar.php" ?>
 </header>
 
 <main class="container head-foot-spacing">
@@ -107,7 +106,7 @@ $pageTitle = "Concerts - Concert Tracker";
                     </label>
                 </div>
                 <hr>
-                <button type="submit" class="btn btn-primary" name="submit">
+                <button type="submit" class="btn btn-default" name="submit">
                     Submit
                 </button>
             </form>

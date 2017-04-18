@@ -5,8 +5,8 @@
  * Time: 12:56
  */
 //require the config file
-require_once "config.php";
-include "class/Encoding.php";
+require_once "../config.php";
+include "../class/Encoding.php";
 use ForceUTF8\Encoding;
 
 // start the session and connect to DB

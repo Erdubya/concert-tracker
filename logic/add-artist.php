@@ -5,7 +5,7 @@
  * Time: 13:08
  */
 //require the config file
-require_once "config.php";
+require_once "../config.php";
 
 // start the session and connect to DB
 session_start();
