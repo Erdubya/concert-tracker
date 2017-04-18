@@ -44,24 +44,83 @@ $pageTitle = "Artists - Concert Tracker";
                         <th>Artist</th>
                         <th>Genre</th>
                         <th>Country</th>
-                        <th>Upcoming</th>
+                        <th class="col-xs-1">Upcoming</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                     foreach ($dbh->query("SELECT * FROM artist ORDER BY name ASC ") as $result) {
                         echo "<tr>";
-                        echo "<td>" . $result['name'] . "</td>";
+                        echo "<td data-toggle='modal' data-target='#artist-modal'
+                         data-artist='" . $result['name'] . "' 
+                         data-genre='" . $result['genre'] . "' 
+                         data-country='" . $result['country'] . "'
+                         data-id='" . $result['artist_id'] . "'>"
+                             . $result['name']
+                             . "</td>";
                         echo "<td>" . $result['genre'] . "</td>";
                         echo "<td>" . $result['country'] . "</td>";
-                        echo "<td><a class='btn btn-xs btn-primary' href='http://www.google.com/#q=" . urlencode($result['name']) . "+tour' target='_blank'>Search!</a>";
+                        echo "<td><a class='btn btn-xs btn-primary center-block' href='http://www.google.com/#q=" . urlencode($result['name']) . "+tour' target='_blank'>Search!</a>";
                         echo "</tr>";
                     }
                     ?>
                     </tbody>
                 </table>
             </div>
+
+            <!-- MODAL -->
+            <div class="modal fade" id="artist-modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close"
+                                    data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Edit
+                                Artist</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="edit-form" action="logic/edit-artist.php"
+                                  method="post">
+                                <input hidden title="id" type="text"
+                                       id="artist-id" name="id">
+                                <div class="form-group">
+                                    <label for="artist-edit"
+                                           class="control-label">Artist</label>
+                                    <input type="text" id="artist-edit"
+                                           name="artist" class="form-control"
+                                           maxlength="50">
+                                </div>
+                                <div class="form-group">
+                                    <label for="genre-edit"
+                                           class="control-label">Genre</label>
+                                    <input type="text" id="genre-edit"
+                                           name="genre" class="form-control"
+                                           maxlength="50">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country-edit"
+                                           class="control-label">Genre</label>
+                                    <input type="text" id="country-edit"
+                                           name="country" class="form-control"
+                                           maxlength="50">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary"
+                                    form="edit-form">Save
+                                changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div role="tabpanel" class="tab-pane" id="panel2">
             <form class="container" action="logic/add-artist.php" method="post">
                 <h2>Add Artist</h2>
@@ -104,7 +163,23 @@ $pageTitle = "Artists - Concert Tracker";
         if (pathname !== "") {
             $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
         }
-    })
+    });
+
+    $('#artist-modal').on('show.bs.modal', function (event) {
+        var link = $(event.relatedTarget); // Item that triggered the modal
+        var artist = link.data('artist'); // Extract info from data-* attributes
+        var genre = link.data('genre');
+        var country = link.data('country');
+        var id = link.data('id');
+
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-body #artist-edit').val(artist);
+        modal.find('.modal-body #genre-edit').val(genre);
+        modal.find('.modal-body #country-edit').val(country);
+        modal.find('.modal-body #artist-id').val(id);
+    });
 </script>
 </body>
 </html>

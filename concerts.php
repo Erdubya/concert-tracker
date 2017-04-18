@@ -41,18 +41,20 @@ $pageTitle = "Concerts - Concert Tracker";
                 <table class="table table-condensed">
                     <thead>
                     <tr>
-                        <th>Date</th>
+                        <th class="col-xs-2">Date</th>
                         <th>Artist</th>
                         <th>City</th>
-                        <th>Attend</th>
+                        <th class="col-xs-1">Attend</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                     foreach ($dbh->query("SELECT a.name, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY c.date DESC ") as $key => $result) {
                         $current_date = date("Y-m-d");
-                        if ($result['date'] <= $current_date) {
-                            echo "<tr style='background-color: #f9f9f9;'>";
+                        if ($result['date'] <= $current_date && !$result['attend']) {
+                            echo "<tr class='warning'>";
+                        } elseif ($result['date'] <= $current_date) {
+                            echo "<tr class='active'>";
                         } else {
                             echo "<tr>";
                         }
