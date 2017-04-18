@@ -11,23 +11,28 @@ require_once "../config.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
+// Prepare the sql statement
 $stmt = $dbh->prepare("UPDATE artist SET name=:artist, genre=:genre, country=:country WHERE artist_id=:id");
 $stmt->bindParam(':artist', $name);
 $stmt->bindParam(':genre', $genre);
 $stmt->bindParam(':country', $country);
 $stmt->bindParam(':id', $id);
 
+// Assign the variables
 $name    = $_POST['artist'];
 $genre   = $_POST['genre'];
 $country = $_POST['country'];
 $id      = (int) $_POST['id'];
 
+// Execute the statement
 $stmt->execute();
 
+// Debug
 //var_dump($name);
 //var_dump($genre);
 //var_dump($country);
 //var_dump($id);
 
+// clear POST and return to the calling page
 unset($_POST);
 header('Location: ../artists.php');

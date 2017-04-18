@@ -53,3 +53,13 @@ function build_db($dbh)
         return false;
     }
 }
+
+/**
+ * checks if the program is installed, and ends the script if it is not
+ */
+function check_install()
+{
+    if ( !file_exists('config.php')) {
+        die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
+    }
+}

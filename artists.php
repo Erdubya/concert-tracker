@@ -4,10 +4,8 @@
  * Date: 16-Apr-17
  * Time: 00:49
  */
-// check if program is installed
-if ( !file_exists('config.php')) {
-    die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
-}
+require_once '_functions.php';
+check_install();
 
 //require the config file
 require_once "config.php";
@@ -28,6 +26,7 @@ $pageTitle = "Artists - Concert Tracker";
 </header>
 
 <main class="container head-foot-spacing">
+    <!-- Set up tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li class="active" role="presentation"><a href="#panel1" role="tab"
                                                   data-toggle="tab">Artists</a>
@@ -36,7 +35,9 @@ $pageTitle = "Artists - Concert Tracker";
                                    data-toggle="tab">Add</a></li>
     </ul>
     <div class="tab-content">
+        <!-- Tab 1 -->
         <div role="tabpanel" class="tab-pane active" id="panel1">
+            <!-- ARTIST LIST -->
             <div class="table-responsive">
                 <table class="table table-condensed">
                     <thead>
@@ -51,6 +52,7 @@ $pageTitle = "Artists - Concert Tracker";
                     <?php
                     foreach ($dbh->query("SELECT * FROM artist ORDER BY name ASC ") as $result) {
                         echo "<tr>";
+                        // Set click action for this cell to open the appropriate modal
                         echo "<td data-toggle='modal' data-target='#artist-modal'
                          data-artist='" . $result['name'] . "' 
                          data-genre='" . $result['genre'] . "' 
@@ -68,7 +70,7 @@ $pageTitle = "Artists - Concert Tracker";
                 </table>
             </div>
 
-            <!-- MODAL -->
+            <!-- EDIT MODAL -->
             <div class="modal fade" id="artist-modal" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -100,7 +102,7 @@ $pageTitle = "Artists - Concert Tracker";
                                 </div>
                                 <div class="form-group">
                                     <label for="country-edit"
-                                           class="control-label">Genre</label>
+                                           class="control-label">Country</label>
                                     <input type="text" id="country-edit"
                                            name="country" class="form-control"
                                            maxlength="50">
@@ -121,7 +123,9 @@ $pageTitle = "Artists - Concert Tracker";
             </div>
         </div>
 
+        <!-- Tab 2 -->
         <div role="tabpanel" class="tab-pane" id="panel2">
+            <!-- ADD FORM -->
             <form class="container" action="logic/add-artist.php" method="post">
                 <h2>Add Artist</h2>
                 <hr>
@@ -157,6 +161,7 @@ $pageTitle = "Artists - Concert Tracker";
 </footer>
 
 <script>
+    // Control navbar active highlighting
     $(document).ready(function () {
         // get current URL path and assign 'active' class to navbar
         var pathname = new URL(window.location.href).pathname.split('/').pop();
@@ -165,6 +170,7 @@ $pageTitle = "Artists - Concert Tracker";
         }
     });
 
+    // Set dynamic data in the edit modal
     $('#artist-modal').on('show.bs.modal', function (event) {
         var link = $(event.relatedTarget); // Item that triggered the modal
         var artist = link.data('artist'); // Extract info from data-* attributes
@@ -174,7 +180,7 @@ $pageTitle = "Artists - Concert Tracker";
 
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
+        var modal = $(this);
         modal.find('.modal-body #artist-edit').val(artist);
         modal.find('.modal-body #genre-edit').val(genre);
         modal.find('.modal-body #country-edit').val(country);

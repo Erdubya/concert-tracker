@@ -5,8 +5,6 @@
  * Time: 21:23
  */
 
-require_once '_functions.php';
-
 putenv("TZ=US/Eastern");
 define("MAIL_TO", "{{MAIL_TO}}");
 define("ERR_MSG",

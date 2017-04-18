@@ -4,10 +4,8 @@
  * Date: 16-Apr-17
  * Time: 00:16
  */
-// check if program is installed
-if ( !file_exists('config.php')) {
-    die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
-}
+require_once '_functions.php';
+check_install();
 
 //require the config file
 require_once "config.php";
@@ -27,6 +25,7 @@ $pageTitle = "Import Data - Concert Tracker";
 </header>
 
 <main class="container head-foot-spacing">
+    <!-- Import from file form -->
     <form class="container panel form-upload panel-default"
           action="logic/import-csv.php"
           method="post" enctype="multipart/form-data">
@@ -46,7 +45,6 @@ $pageTitle = "Import Data - Concert Tracker";
                 </label>
             </div>
         </div>
-        <!--        <hr>-->
         <div class="form-group">
             <label for="file-upload">Upload CSV</label>
             <input type="file" id="file-upload" name="csvfile" required>
@@ -72,6 +70,7 @@ $pageTitle = "Import Data - Concert Tracker";
 </footer>
 
 <script>
+    // Handle dynamic navbar highlighting
     $(document).ready(function () {
         // get current URL path and assign 'active' class to navbar
         var pathname = new URL(window.location.href).pathname.split('/').pop();

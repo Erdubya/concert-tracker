@@ -4,10 +4,8 @@
  * Date: 17-Apr-17
  * Time: 00:52
  */
-// check if program is installed
-if ( !file_exists('config.php')) {
-    die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
-}
+require_once '_functions.php';
+check_install();
 
 //require the config file
 require_once "config.php";
@@ -27,6 +25,7 @@ $pageTitle = "Export Data - Concert Tracker";
 </header>
 
 <main class="container head-foot-spacing">
+    <!-- Export Request form -->
     <form class="container panel form-upload panel-default"
           action="logic/export-csv.php"
           method="post" enctype="multipart/form-data">
@@ -61,6 +60,7 @@ $pageTitle = "Export Data - Concert Tracker";
 </footer>
 
 <script>
+    // Set dynamic navbar highlighting
     $(document).ready(function () {
         // get current URL path and assign 'active' class to navbar
         var pathname = new URL(window.location.href).pathname.split('/').pop();

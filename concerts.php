@@ -4,10 +4,8 @@
  * Date: 16-Apr-17
  * Time: 00:49
  */
-// check if program is installed
-if ( !file_exists('config.php')) {
-    die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
-}
+require_once '_functions.php';
+check_install();
 
 //require the config file
 require_once "config.php";
@@ -28,6 +26,7 @@ $pageTitle = "Concerts - Concert Tracker";
 </header>
 
 <main class="container head-foot-spacing">
+    <!-- Set up tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li class="active" role="presentation"><a href="#panel1" role="tab"
                                                   data-toggle="tab">Concerts</a>
@@ -36,7 +35,9 @@ $pageTitle = "Concerts - Concert Tracker";
                                    data-toggle="tab">Add</a></li>
     </ul>
     <div class="tab-content">
+        <!-- Tab 1 -->
         <div role="tabpanel" class="tab-pane active" id="panel1">
+            <!-- Concert List -->
             <div class="table-responsive">
                 <table class="table table-condensed">
                     <thead>
@@ -51,6 +52,7 @@ $pageTitle = "Concerts - Concert Tracker";
                     <?php
                     foreach ($dbh->query("SELECT a.name, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY c.date DESC ") as $key => $result) {
                         $current_date = date("Y-m-d");
+                        // Check if the show was in the past and highlight accordingly
                         if ($result['date'] <= $current_date && !$result['attend']) {
                             echo "<tr class='warning'>";
                         } elseif ($result['date'] <= $current_date) {
@@ -62,6 +64,7 @@ $pageTitle = "Concerts - Concert Tracker";
                         echo "<td>" . $result['name'] . "</td>";
                         echo "<td>" . $result['city'] . "</td>";
                         echo "<td>";
+                        // Set symbol for attendance bool
                         if ($result['attend']) {
                             echo "<span class='glyphicon glyphicon-ok-sign'>";
                         } else {
@@ -75,7 +78,10 @@ $pageTitle = "Concerts - Concert Tracker";
                 </table>
             </div>
         </div>
+        
+        <!-- Tab 2 -->
         <div role="tabpanel" class="tab-pane" id="panel2">
+            <!-- Add form -->
             <form class="container" action="logic/add-concert.php" method="post">
                 <h2>Add Concert</h2>
                 <hr>
@@ -85,6 +91,7 @@ $pageTitle = "Concerts - Concert Tracker";
                             required>
                         <option readonly selected>Select an Artist</option>
                         <?php
+                        // Get list of available artists
                         foreach ($dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ") as $result) {
                             echo "<option value='" . $result['artist_id'] . "'>" . $result['name'] . "</option>";
                         }
@@ -124,6 +131,7 @@ $pageTitle = "Concerts - Concert Tracker";
 </footer>
 
 <script>
+    // Set navbar active highlighting
     $(document).ready(function () {
         // get current URL path and assign 'active' class to navbar
         var pathname = new URL(window.location.href).pathname.split('/').pop();

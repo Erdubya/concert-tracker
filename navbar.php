@@ -29,6 +29,7 @@
                 <li><a href="concerts.php">Concerts</a></li>
                 <li><a href="artists.php">Artists</a></li>
             </ul>
+            <!-- Dropdown -->
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -36,6 +37,17 @@
                     <ul class="dropdown-menu">
                         <li><a href="import.php">Import</a></li>
                         <li><a href="export.php">Export</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Dropdown part 2 -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button">Account<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Option 1</a></li>
+                        <li><a href="#">option 2</a></li>
                     </ul>
                 </li>
             </ul>

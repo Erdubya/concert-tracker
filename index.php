@@ -4,10 +4,8 @@
  * Date: 13-Apr-17
  * Time: 21:23
  */
-// check if program is installed
-if ( !file_exists('config.php')) {
-    die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
-}
+require_once '_functions.php';
+check_install();
 
 //require the config file
 require_once "config.php";
@@ -42,6 +40,7 @@ ob_start();
     </footer>
 
     <script>
+        // Handle navbar dynamic highlighting
         $(document).ready(function () {
             // get current URL path and assign 'active' class to navbar
             var pathname = new URL(window.location.href).pathname.split('/').pop();
