@@ -6,8 +6,11 @@
  * Installation script for concert-tracker.  My first attempt at writing one,
  * so it's probably not that great.
  */
-require_once '_functions.php';
-check_install();
+
+// check if it's already been run
+if (file_exists("config.php")) {
+    die("Concert Tracker has already been installed. Delete config.php to reinstall.");
+}
 
 // run the config
 if (isset($_POST['install'])) {
