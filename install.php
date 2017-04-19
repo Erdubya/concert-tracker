@@ -12,6 +12,8 @@ if (file_exists("config.php")) {
     die("Concert Tracker has already been installed. Delete config.php to reinstall.");
 }
 
+require_once "_functions.php";
+
 // run the config
 if (isset($_POST['install'])) {
     // Store POST data for easier access
