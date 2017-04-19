@@ -14,6 +14,9 @@ require_once "config.php";
 session_start();
 
 $pageTitle = "Export Data - Concert Tracker";
+$extraIncludes = array(
+    "<script src='js/bootstrap-checkbox.js' defer></script>"
+);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +48,10 @@ $pageTitle = "Export Data - Concert Tracker";
                 </label>
             </div>
         </div>
+        <div class="form-group">
+            <label for="bom">Include BOM</label><br>
+            <input type="checkbox" id="bom" name="bom" checked data-group-cls="btn-group-sm">
+        </div>
         <hr>
         <button type="submit" class="btn btn-default" name="export">
             Export
@@ -67,6 +74,8 @@ $pageTitle = "Export Data - Concert Tracker";
         if (pathname !== "") {
             $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
         }
+
+        $(':checkbox').checkboxpicker();
     })
 </script>
 </body>

@@ -14,6 +14,9 @@ require_once "config.php";
 session_start();
 
 $pageTitle = "Import Data - Concert Tracker";
+$extraIncludes = array(
+    "<script src='js/bootstrap-checkbox.js' defer></script>"
+);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +35,7 @@ $pageTitle = "Import Data - Concert Tracker";
         <h2>Import Data</h2>
         <hr>
         <div class="form-group">
+            <label>Data Type</label>
             <div class="radio">
                 <label>
                     <input type="radio" name="filetype" value="artist" required>
@@ -40,7 +44,8 @@ $pageTitle = "Import Data - Concert Tracker";
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="filetype" value="concert" disabled>
+                    <input type="radio" name="filetype" value="concert"
+                           disabled>
                     Concert Data
                 </label>
             </div>
@@ -50,10 +55,9 @@ $pageTitle = "Import Data - Concert Tracker";
             <input type="file" id="file-upload" name="csvfile" required>
         </div>
         <div class="form-group">
-            <label>
-                <input type="checkbox" value="" name="headers">
-                My data has headers
-            </label>
+            <label for="headers">Headers</label><br>
+            <input id="headers" type="checkbox" name="headers"
+                   data-group-cls="btn-group-sm">
         </div>
         <hr>
         <button type="submit" class="btn btn-default" name="filesubmit">
@@ -77,6 +81,8 @@ $pageTitle = "Import Data - Concert Tracker";
         if (pathname !== "") {
             $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
         }
+        
+        $(':checkbox').checkboxpicker();
     })
 </script>
 </body>

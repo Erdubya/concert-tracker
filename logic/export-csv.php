@@ -5,11 +5,15 @@
  * Time: 01:09
  */
 require_once "../config.php";
+require_once "../_functions.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 header("Content-Type: text/csv");
 header("Content-Disposition: attachment; filename=" . $_POST['data'] . "s.csv");
+if (isset($_POST['bom'])) {
+    echo "\xEF\xBB\xBF"; // UTF-8 BOM for EXCEL use
+}
 
 if ($_POST['data'] == 'artist') {
     $csv_array = $dbh->query("SELECT name, genre, country FROM artist ORDER BY name ASC ",
