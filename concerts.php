@@ -15,6 +15,11 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 $pageTitle = "Concerts - Concert Tracker";
+$extraIncludes = array(
+        "<script src='js/bootstrap-checkbox.js' defer></script>"
+);
+
+$artist_list = $dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,12 +50,12 @@ $pageTitle = "Concerts - Concert Tracker";
                         <th class="col-xs-2">Date</th>
                         <th>Artist</th>
                         <th>City</th>
-                        <th class="col-xs-1">Attend</th>
+                        <th class="col-xs-1 text-center">Attend</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($dbh->query("SELECT a.name, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY c.date DESC ") as $key => $result) {
+                    foreach ($dbh->query("SELECT c.concert_id, a.name, c.artist, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY c.date DESC ") as $key => $result) {
                         $current_date = date("Y-m-d");
                         // Check if the show was in the past and highlight accordingly
                         if ($result['date'] <= $current_date && !$result['attend']) {
@@ -60,15 +65,23 @@ $pageTitle = "Concerts - Concert Tracker";
                         } else {
                             echo "<tr>";
                         }
-                        echo "<td>" . $result['date'] . "</td>";
+                        echo "<td data-toggle='modal' data-target='#concert-modal' 
+                         data-id='" . $result['concert_id'] . "' 
+                         data-date='" . $result['date'] . "' 
+                         data-city='" . $result['city'] . "' 
+                         data-notes='" . $result['notes'] . "' 
+                         data-attend='" . $result['attend'] . "' 
+                         data-artist='" . $result['artist'] . "'>"
+                             . $result['date']
+                             . "</td>";
                         echo "<td>" . $result['name'] . "</td>";
                         echo "<td>" . $result['city'] . "</td>";
-                        echo "<td>";
+                        echo "<td class='text-center'>";
                         // Set symbol for attendance bool
                         if ($result['attend']) {
-                            echo "<span class='glyphicon glyphicon-ok-sign'>";
+                            echo "<span class='glyphicon glyphicon-ok'>";
                         } else {
-                            echo "<span class='glyphicon glyphicon-remove-sign'>";
+                            echo "<span class='glyphicon glyphicon-remove'>";
                         }
                         echo "</td>";
                         echo "</tr>";
@@ -77,12 +90,81 @@ $pageTitle = "Concerts - Concert Tracker";
                     </tbody>
                 </table>
             </div>
+
+            <!-- EDIT MODAL -->
+            <div class="modal fade" id="concert-modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close"
+                                    data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Edit
+                                Concert</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="edit-form" action="logic/edit-concert.php"
+                                  method="post">
+                                <input hidden title="id" type="text"
+                                       id="concert-id" name="id">
+                                <div class="form-group">
+                                    <label for="date-edit"
+                                           class="control-label">Date</label>
+                                    <input type="date" id="date-edit"
+                                           name="date" class="form-control"
+                                           maxlength="50">
+                                </div>
+                                <div class="form-group">
+                                    <label for="artist-edit"
+                                           class="control-label">Artist</label>
+                                    <select id="artist-edit" name="artist" class="form-control">
+                                        <?php
+                                        // Get list of available artists
+                                        foreach ($artist_list as $result) {
+                                            echo "<option value='" . $result['artist_id'] . "'>" . $result['name'] . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="city-edit"
+                                           class="control-label">Country</label>
+                                    <input type="text" id="city-edit"
+                                           name="city" class="form-control"
+                                           maxlength="50">
+                                </div>
+                                <div class="form-group">
+                                    <label for="notes-edit"
+                                           class="control-label">Notes</label>
+                                    <textarea id="notes-edit" name="notes"
+                                              class="form-control"
+                                              maxlength="500" rows="10"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="attend-edit">Attending</label><br>
+                                    <input title="attend" type="checkbox" id="attend-edit" name="attend" data-reverse data-group-cls="btn-group-sm">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary"
+                                    form="edit-form">Save
+                                changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
+
         <!-- Tab 2 -->
         <div role="tabpanel" class="tab-pane" id="panel2">
             <!-- Add form -->
-            <form class="container" action="logic/add-concert.php" method="post">
+            <form class="container" action="logic/add-concert.php"
+                  method="post">
                 <h2>Add Concert</h2>
                 <hr>
                 <div class="form-group">
@@ -92,7 +174,7 @@ $pageTitle = "Concerts - Concert Tracker";
                         <option readonly selected>Select an Artist</option>
                         <?php
                         // Get list of available artists
-                        foreach ($dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ") as $result) {
+                        foreach ($artist_list as $result) {
                             echo "<option value='" . $result['artist_id'] . "'>" . $result['name'] . "</option>";
                         }
                         ?>
@@ -109,10 +191,8 @@ $pageTitle = "Concerts - Concert Tracker";
                            id="city" maxlength="30" required>
                 </div>
                 <div class="form-group">
-                    <label>
-                        <input type="checkbox" name="attend">
-                        I'm going!
-                    </label>
+                    <label for="attend-add" class="control-label">I'm going!</label><br>
+                    <input id="attend-add" type="checkbox" name="attend" class="checkbox-inline" data-reverse data-group-cls="btn-group-sm">
                 </div>
                 <hr>
                 <button type="submit" class="btn btn-default" name="submit">
@@ -138,7 +218,64 @@ $pageTitle = "Concerts - Concert Tracker";
         if (pathname !== "") {
             $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
         }
-    })
+
+        $(':checkbox').checkboxpicker();
+    });
+
+    // Set dynamic data in the edit modal
+    $('#concert-modal').on('show.bs.modal', function (event) {
+        var link = $(event.relatedTarget); // Item that triggered the modal
+        
+        var date = link.data('date'); // Extract info from data-* attributes
+        var artist = link.data('artist');
+        var city = link.data('city');
+        var notes = link.data('notes');
+        var attend = link.data('attend');
+        var id = link.data('id');
+        
+        console.log(date);
+        console.log(artist);
+        console.log(city);
+        console.log(notes);
+        console.log(attend);
+        console.log(id);
+
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('.modal-body #date-edit').val(date);
+        modal.find('.modal-body #artist-edit').val(artist);
+        modal.find('.modal-body #city-edit').val(city);
+        modal.find('.modal-body #notes-edit').val(notes);
+        if (attend === 1) {
+            modal.find('.modal-body #attend-edit').prop('checked', true);
+        }
+        modal.find('.modal-body #concert-id').val(id);
+    });
+    
+//    function change_attend() {
+//        var attend = $('#attend-edit');
+//        var attbtn = $('#attend-btn');
+//        var attspn = attbtn.find('span');
+//        
+//        if (attend.attr('checked')) {
+//            attbtn.addClass('btn-danger');
+//            attbtn.removeClass('btn-success');
+//            attspn.addClass('glyphicon-remove');
+//            attspn.removeClass('glyphicon-ok');
+//            attend.removeAttr('checked');
+//        } else {
+//            attbtn.removeClass('btn-danger');
+//            attbtn.addClass('btn-success');
+//            attspn.removeClass('glyphicon-remove');
+//            attspn.addClass('glyphicon-ok');
+//            attend.prop('checked', true);
+//        }
+//    }
+    
+    $('textarea').on('keyup', function(){
+        $(this).val($(this).val().replace(/[\r\n\v]+/g, ''));
+    });
 </script>
 </body>
 </html>

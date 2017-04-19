@@ -6,6 +6,7 @@
  */
 //require the config file
 require_once "../config.php";
+require_once "../_functions.php";
 
 // start the session and connect to DB
 session_start();
