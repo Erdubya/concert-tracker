@@ -19,15 +19,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/concert-tracker/">Concert
+            <a class="navbar-brand" href="/">Concert
                 Tracker</a>
         </div>
 
         <!-- Other navbar buttons -->
         <div class="collapse navbar-collapse" id="collapsible-navbar">
             <ul class="nav navbar-nav">
-                <li><a href="concerts.php">Concerts</a></li>
-                <li><a href="artists.php">Artists</a></li>
+                <li><a href="/concerts.php">Concerts</a></li>
+                <li><a href="/artists.php">Artists</a></li>
             </ul>
             <!-- Dropdown -->
             <ul class="nav navbar-nav">
@@ -35,8 +35,8 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                        role="button">Data Management<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="import.php">Import</a></li>
-                        <li><a href="export.php">Export</a></li>
+                        <li><a href="/import.php">Import</a></li>
+                        <li><a href="/export.php">Export</a></li>
                     </ul>
                 </li>
             </ul>
