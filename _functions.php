@@ -22,19 +22,21 @@ function db_connect()
 }
 
 /**
- * @param $dbh PDO The connection to build the database in
+ * @param $dbh     PDO The connection to build the database in
+ * @param $handler string The DB handler to create the DB for
  *
  * @return bool The success state of the database creation
  */
-function build_db($dbh)
+function build_db($dbh, $handler)
 {
-    $artist_table  = "CREATE TABLE IF NOT EXISTS artist(
+    if ($handler == "mysql") {
+        $artist_table  = "CREATE TABLE IF NOT EXISTS artist(
 						artist_id SERIAL PRIMARY KEY ,
-						name VARCHAR(50) NOT NULL ,
+						name VARCHAR(50) UNIQUE NOT NULL ,
 						genre VARCHAR(50) NOT NULL , 
 						country VARCHAR(50) NOT NULL
 						)";
-    $concert_table = "CREATE TABLE IF NOT EXISTS concert(
+        $concert_table = "CREATE TABLE IF NOT EXISTS concert(
 						concert_id SERIAL PRIMARY KEY ,
 						artist BIGINT UNSIGNED NOT NULL , 
 						date DATE NOT NULL , 
@@ -43,7 +45,10 @@ function build_db($dbh)
 						notes VARCHAR(500), 
 						FOREIGN KEY (artist) REFERENCES artist(artist_id)
 						)";
-
+    } else {
+        $artist_table = NULL;
+        $concert_table = NULL;
+    }
     try {
         $dbh->exec($artist_table);
         $dbh->exec($concert_table);
