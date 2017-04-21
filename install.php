@@ -6,9 +6,11 @@
  * Installation script for concert-tracker.  My first attempt at writing one,
  * so it's probably not that great.
  */
+$pageTitle = "Concert Tracker Install";
 
 // check if it's already been run
 if (file_exists("config.php")) {
+    echo "<title>" . $pageTitle . "</title>";
     die("Concert Tracker has already been installed. Delete config.php to reinstall.");
 }
 
@@ -42,7 +44,7 @@ if (isset($_POST['install'])) {
             $database,
             $username,
             $password
-        ), 
+        ),
         $file);
     file_put_contents('config.php', $config);
 
@@ -50,46 +52,62 @@ if (isset($_POST['install'])) {
     require_once "config.php";
     $dbh = db_connect() or die(ERR_MSG);
 
-    echo build_db($dbh);
+    echo build_db($dbh, $dbms);
 
-	header('Location: index.php');
+    header('Location: index.php');
 }
 ?>
 <html>
 <head>
-    <title>Concert Tracker Installer</title>
-    <script></script>
+    <?php include "htmlhead.php" ?>
 </head>
 <body>
-<h1>Concert Tracker Installer</h1>
-<form method="post">
-    <h2>Database</h2>
-    <div id="manager">
-        Database Manager: <br>
-        <label for="mysql">MySQL</label>
-        <input id="mysql" type="radio" name="dbms" value="mysql" checked/><br>
-        <label for="pgsql">Postgres</label>
-        <input id="pgsql" type="radio" name="dbms" value="pgsql" disabled/>
-        <!--TODO: implement PostgreSQL support-->
-    </div>
-    <br>
-    <div id="networkdb">
-        <label for="hostname">Hostname:</label>
-        <input id="hostname" type="text" name="hostname"/><br>
-        <label for="dbname">Database:</label>
-        <input id="dbname" type="text" name="database"/><br>
-        <label for="username">Username:</label>
-        <input id="username" type="text" name="username"/><br>
-        <label for="password">Password:</label>
-        <input id="password" type="password" name="password"/><br>
-    </div>
-    <h2>Administration</h2>
-    <div id="admin">
-        <label for="email">Mail To:</label>
-        <input id="email" type="email" name="mailto"/><br>
-    </div>
-    <br>
-    <input type="submit" value="Install" name="install"/>
-</form>
+<div class="container">
+    <h1>Concert Tracker Installer</h1>
+    <form method="post">
+        <h2>Database</h2>
+        <div id="manager" class="form-group">
+            <div class="radio">
+                <label for="mysql">
+                    <input id="mysql" type="radio" name="dbms" value="mysql"
+                           checked/>
+                    MySQL
+                </label>
+            </div>
+            <div class="radio">
+                <label for="pgsql">
+                    <input id="pgsql" type="radio" name="dbms" value="pgsql"
+                           disabled/>
+                    Postgres
+                </label>
+            </div>
+            <!--TODO: implement PostgreSQL support-->
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="hostname">Hostname:</label><br>
+            <input id="hostname" type="text" name="hostname"
+                   class="form-control" required/>
+            <label for="dbname">Database:</label>
+            <input id="dbname" type="text" name="database"
+                   class="form-control" required/>
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input id="username" type="text" name="username"
+                   class="form-control" required/>
+            <label for="password">Password:</label>
+            <input id="password" type="password" name="password"
+                   class="form-control" required/>
+        </div>
+        <h2>Administration</h2>
+        <div id="admin" class="form-group">
+            <label for="email">Mail To:</label>
+            <input id="email" type="email" name="mailto" class="form-control"/>
+        </div>
+        <br>
+        <button type="submit" name="install" class="btn btn-default">Install</button>
+    </form>
+</div>
 </body>
 </html>
