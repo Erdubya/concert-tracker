@@ -18,8 +18,8 @@ $pageTitle = "Concerts - Concert Tracker";
 $extraIncludes = array(
         "<script src='js/bootstrap-checkbox.js' defer></script>"
 );
-
-$artist_list = $dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ");
+$stmt = $dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ");
+$artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -171,7 +171,7 @@ $artist_list = $dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC
                     <label for="artist_id">Artist</label>
                     <select id="artist_id" class="form-control" name="artist_id"
                             required>
-                        <option readonly selected>Select an Artist</option>
+                        <option readonly selected disabled>Select an Artist</option>
                         <?php
                         // Get list of available artists
                         foreach ($artist_list as $result) {
