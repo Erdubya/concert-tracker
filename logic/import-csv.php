@@ -28,18 +28,20 @@ if (isset($_FILES['csvfile'])) {
     }
 
     // Convert that array into an SQL insert statement
-    $sql = [];
+    $sql = $dbh->prepare("INSERT INTO artist(name, genre, country) VALUES (:artist, :genre, :country)");
+    $sql->bindParam(':artist', $name);
+    $sql->bindParam(':genre', $genre);
+    $sql->bindParam(':country', $country);
     if ($_POST['filetype'] == "artist") {
         foreach ($csv as $row => $line) {
             $name      = $line[0];
             $genre     = $line[1];
             $country   = $line[2];
-            $sql[$row] = "(\"$name\", \"$genre\", \"$country\")";
+            $sql->execute();
         }
-        $sql = "INSERT INTO artist(name, genre, country) VALUES "
-               . implode(", ", $sql);
+        
         unset($_POST);
-        header('Location: artists.php');
+        header('Location: /artists.php');
     } elseif ($_POST['filetype'] == "concert") {
         // TODO: does not work, needs foreign key handling
 //            foreach ($csv as $row => $line) {
