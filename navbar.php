@@ -41,16 +41,16 @@
                 </li>
             </ul>
             <!-- Dropdown part 2 -->
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                       role="button">Account<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Option 1</a></li>
-                        <li><a href="#">option 2</a></li>
-                    </ul>
-                </li>
-            </ul>
+<!--            <ul class="nav navbar-nav navbar-right">-->
+<!--                <li class="dropdown">-->
+<!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"-->
+<!--                       role="button">Account<span class="caret"></span></a>-->
+<!--                    <ul class="dropdown-menu">-->
+<!--                        <li><a href="#">Option 1</a></li>-->
+<!--                        <li><a href="#">option 2</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--            </ul>-->
         </div>
     </div>
 </nav>

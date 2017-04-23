@@ -43,7 +43,8 @@ function build_db($dbh, $handler)
 						city VARCHAR(30) NOT NULL , 
 						attend BOOLEAN NOT NULL DEFAULT FALSE,
 						notes VARCHAR(500), 
-						FOREIGN KEY (artist) REFERENCES artist(artist_id)
+						FOREIGN KEY (artist) REFERENCES artist(artist_id),
+						UNIQUE (artist, date)
 						)";
     } else {
         $artist_table = NULL;
@@ -67,4 +68,18 @@ function check_install()
     if ( !file_exists('config.php')) {
         die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
     }
+}
+
+/**
+ * Removes the byte order mark from a utf-8 string.
+ * 
+ * @param $text string The string to the bom from, if it exists 
+ *
+ * @return string The input string, minus the bom.
+ */
+function remove_utf8_bom($text)
+{
+    $bom = pack('H*','EFBBBF');
+    $text = preg_replace("/^$bom/", '', $text);
+    return $text;
 }

@@ -44,8 +44,7 @@ $extraIncludes = array(
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="filetype" value="concert"
-                           disabled>
+                    <input type="radio" name="filetype" value="concert">
                     Concert Data
                 </label>
             </div>
