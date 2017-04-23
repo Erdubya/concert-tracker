@@ -5,9 +5,9 @@
  * Time: 12:56
  */
 //require the config file
-require_once "../config.php";
-require_once "../_functions.php";
-include "../class/Encoding.php";
+require_once "config.php";
+require_once "_functions.php";
+include "class/Encoding.php";
 use ForceUTF8\Encoding;
 
 // start the session and connect to DB
@@ -43,7 +43,7 @@ if (isset($_FILES['csvfile'])) {
         }
 
         unset($_POST);
-        header('Location: /artists.php');
+        header('Location: artists.php');
     } elseif ($_POST['filetype'] == "concert") {
         // Prepare the statement for insertion
         $sql = $dbh->prepare("INSERT INTO concert(artist, date, city, notes, attend) VALUES (:artist, :showdate, :city, :notes, :attend)");
@@ -78,7 +78,7 @@ if (isset($_FILES['csvfile'])) {
         }
 
         unset($_POST);
-        header('Location: ../concerts.php');
+        header('Location: concerts.php');
     }
 } else {
     echo "NO FILE SELECTED <br>";

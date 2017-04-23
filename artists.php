@@ -82,7 +82,7 @@ $pageTitle = "Artists - Concert Tracker";
                                 Artist</h4>
                         </div>
                         <div class="modal-body">
-                            <form id="edit-form" action="logic/edit-artist.php"
+                            <form id="edit-form" action="edit-artist.php"
                                   method="post">
                                 <input hidden title="id" type="text"
                                        id="artist-id" name="id">
@@ -126,7 +126,7 @@ $pageTitle = "Artists - Concert Tracker";
         <!-- Tab 2 -->
         <div role="tabpanel" class="tab-pane" id="panel2">
             <!-- ADD FORM -->
-            <form class="container" action="logic/add-artist.php" method="post">
+            <form class="container" action="add-artist.php" method="post">
                 <h2>Add Artist</h2>
                 <hr>
                 <div class="form-group">

@@ -103,7 +103,7 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 Concert</h4>
                         </div>
                         <div class="modal-body">
-                            <form id="edit-form" action="logic/edit-concert.php"
+                            <form id="edit-form" action="edit-concert.php"
                                   method="post">
                                 <input hidden title="id" type="text"
                                        id="concert-id" name="id">
@@ -163,7 +163,7 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- Tab 2 -->
         <div role="tabpanel" class="tab-pane" id="panel2">
             <!-- Add form -->
-            <form class="container" action="logic/add-concert.php"
+            <form class="container" action="add-concert.php"
                   method="post">
                 <h2>Add Concert</h2>
                 <hr>

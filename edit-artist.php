@@ -5,8 +5,8 @@
  * Time: 13:17
  */
 //require the config file
-require_once "../config.php";
-require_once "../_functions.php";
+require_once "config.php";
+require_once "_functions.php";
 
 // start the session and connect to DB
 session_start();
@@ -36,4 +36,4 @@ $stmt->execute();
 
 // clear POST and return to the calling page
 unset($_POST);
-header('Location: ../artists.php');
+header('Location: artists.php');

@@ -30,7 +30,7 @@ $extraIncludes = array(
 <main class="container head-foot-spacing">
     <!-- Import from file form -->
     <form class="container panel form-upload panel-default"
-          action="logic/import-csv.php"
+          action="import-csv.php"
           method="post" enctype="multipart/form-data">
         <h2>Import Data</h2>
         <hr>

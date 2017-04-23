@@ -5,8 +5,8 @@
  * Time: 17:14
  */
 //require the config file
-require_once "../config.php";
-require_once "../_functions.php";
+require_once "config.php";
+require_once "_functions.php";
 
 // start the session and connect to DB
 session_start();
@@ -41,4 +41,4 @@ if (isset($_POST['attend'])) {
 $stmt->execute();
 
 unset($_POST);
-header('Location: ../concerts.php');
+header('Location: concerts.php');

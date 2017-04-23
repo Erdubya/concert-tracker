@@ -30,7 +30,7 @@ $extraIncludes = array(
 <main class="container head-foot-spacing">
     <!-- Export Request form -->
     <form class="container panel form-upload panel-default"
-          action="logic/export-csv.php"
+          action="export-csv.php"
           method="post" enctype="multipart/form-data">
         <h2>Export Data</h2>
         <hr>
