@@ -91,7 +91,7 @@ $pageTitle = "Artists - Concert Tracker";
                                            class="control-label">Artist</label>
                                     <input type="text" id="artist-edit"
                                            name="artist" class="form-control"
-                                           maxlength="50">
+                                           maxlength="50" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="genre-edit"
@@ -137,12 +137,12 @@ $pageTitle = "Artists - Concert Tracker";
                 <div class="form-group">
                     <label for="genre">Genre</label>
                     <input class="form-control" type="text" name="genre"
-                           id="genre" maxlength="50" required>
+                           id="genre" maxlength="50">
                 </div>
                 <div class="form-group">
                     <label for="country">Country</label>
                     <input class="form-control" type="text" name="country"
-                           id="country" maxlength="50" required>
+                           id="country" maxlength="50">
                 </div>
                 <hr>
                 <button type="submit" class="btn btn-default" name="submit">

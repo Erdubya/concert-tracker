@@ -33,8 +33,8 @@ function build_db($dbh, $handler)
         $artist_table  = "CREATE TABLE IF NOT EXISTS artist(
 						artist_id SERIAL PRIMARY KEY ,
 						name VARCHAR(50) UNIQUE NOT NULL ,
-						genre VARCHAR(50) NOT NULL , 
-						country VARCHAR(50) NOT NULL
+						genre VARCHAR(50) NULL , 
+						country VARCHAR(50) NULL
 						)";
         $concert_table = "CREATE TABLE IF NOT EXISTS concert(
 						concert_id SERIAL PRIMARY KEY ,
@@ -47,8 +47,8 @@ function build_db($dbh, $handler)
 						UNIQUE (artist, date)
 						)";
     } else {
-        $artist_table = NULL;
-        $concert_table = NULL;
+        $artist_table  = null;
+        $concert_table = null;
     }
     try {
         $dbh->exec($artist_table);
@@ -72,14 +72,15 @@ function check_install()
 
 /**
  * Removes the byte order mark from a utf-8 string.
- * 
- * @param $text string The string to the bom from, if it exists 
+ *
+ * @param $text string The string to the bom from, if it exists
  *
  * @return string The input string, minus the bom.
  */
 function remove_utf8_bom($text)
 {
-    $bom = pack('H*','EFBBBF');
+    $bom  = pack('H*', 'EFBBBF');
     $text = preg_replace("/^$bom/", '', $text);
+
     return $text;
 }
