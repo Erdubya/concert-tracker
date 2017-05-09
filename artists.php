@@ -154,11 +154,7 @@ $pageTitle = "Artists - Concert Tracker";
 </main>
 
 <!-- Simple footer -->
-<footer class="panel-footer navbar-fixed-bottom">
-    <div class="container">
-        <p class="text-center">Built by Erik Wilson</p>
-    </div>
-</footer>
+<?php include 'footer.php' ?>
 
 <script>
     // Control navbar active highlighting
