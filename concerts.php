@@ -16,7 +16,7 @@ $dbh = db_connect() or die(ERR_MSG);
 
 $pageTitle = "Concerts - Concert Tracker";
 $extraIncludes = array(
-        "<script src='js/bootstrap-checkbox.js' defer></script>"
+    "<script src='js/bootstrap-checkbox.js' defer></script>"
 );
 $stmt = $dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ");
 $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -117,7 +117,8 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="form-group">
                                     <label for="artist-edit"
                                            class="control-label">Artist</label>
-                                    <select id="artist-edit" name="artist" class="form-control">
+                                    <select id="artist-edit" name="artist"
+                                            class="form-control">
                                         <?php
                                         // Get list of available artists
                                         foreach ($artist_list as $result) {
@@ -138,11 +139,15 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                            class="control-label">Notes</label>
                                     <textarea id="notes-edit" name="notes"
                                               class="form-control"
-                                              maxlength="500" rows="10"></textarea>
+                                              maxlength="500"
+                                              rows="10"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="attend-edit">Attending</label><br>
-                                    <input title="attend" type="checkbox" id="attend-edit" name="attend" data-reverse data-group-cls="btn-group-sm">
+                                    <input title="attend" type="checkbox"
+                                           id="attend-edit" name="attend"
+                                           data-reverse
+                                           data-group-cls="btn-group-sm">
                                 </div>
                             </form>
                         </div>
@@ -174,7 +179,8 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <label for="artist_id">Artist</label>
                     <select id="artist_id" class="form-control" name="artist_id"
                             required>
-                        <option readonly selected disabled>Select an Artist</option>
+                        <option readonly selected disabled>Select an Artist
+                        </option>
                         <?php
                         // Get list of available artists
                         foreach ($artist_list as $result) {
@@ -194,8 +200,11 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
                            id="city" maxlength="30" required>
                 </div>
                 <div class="form-group">
-                    <label for="attend-add" class="control-label">I'm going!</label><br>
-                    <input id="attend-add" type="checkbox" name="attend" class="checkbox-inline" data-reverse data-group-cls="btn-group-sm">
+                    <label for="attend-add" class="control-label">I'm
+                        going!</label><br>
+                    <input id="attend-add" type="checkbox" name="attend"
+                           class="checkbox-inline" data-reverse
+                           data-group-cls="btn-group-sm">
                 </div>
                 <hr>
                 <button type="submit" class="btn btn-default" name="submit">
@@ -228,14 +237,14 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // Set dynamic data in the edit modal
     $('#concert-modal').on('show.bs.modal', function (event) {
         var link = $(event.relatedTarget); // Item that triggered the modal
-        
+
         var date = link.data('date'); // Extract info from data-* attributes
         var artist = link.data('artist');
         var city = link.data('city');
         var notes = link.data('notes');
         var attend = link.data('attend');
         var id = link.data('id');
-        
+
         console.log(date);
         console.log(artist);
         console.log(city);
@@ -255,28 +264,28 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         modal.find('.modal-body #concert-id').val(id);
     });
-    
-//    function change_attend() {
-//        var attend = $('#attend-edit');
-//        var attbtn = $('#attend-btn');
-//        var attspn = attbtn.find('span');
-//        
-//        if (attend.attr('checked')) {
-//            attbtn.addClass('btn-danger');
-//            attbtn.removeClass('btn-success');
-//            attspn.addClass('glyphicon-remove');
-//            attspn.removeClass('glyphicon-ok');
-//            attend.removeAttr('checked');
-//        } else {
-//            attbtn.removeClass('btn-danger');
-//            attbtn.addClass('btn-success');
-//            attspn.removeClass('glyphicon-remove');
-//            attspn.addClass('glyphicon-ok');
-//            attend.prop('checked', true);
-//        }
-//    }
-    
-    $('textarea').on('keyup', function(){
+
+    //    function change_attend() {
+    //        var attend = $('#attend-edit');
+    //        var attbtn = $('#attend-btn');
+    //        var attspn = attbtn.find('span');
+    //        
+    //        if (attend.attr('checked')) {
+    //            attbtn.addClass('btn-danger');
+    //            attbtn.removeClass('btn-success');
+    //            attspn.addClass('glyphicon-remove');
+    //            attspn.removeClass('glyphicon-ok');
+    //            attend.removeAttr('checked');
+    //        } else {
+    //            attbtn.removeClass('btn-danger');
+    //            attbtn.addClass('btn-success');
+    //            attspn.removeClass('glyphicon-remove');
+    //            attspn.addClass('glyphicon-ok');
+    //            attend.prop('checked', true);
+    //        }
+    //    }
+
+    $('textarea').on('keyup', function () {
         $(this).val($(this).val().replace(/[\r\n\v]+/g, ''));
     });
 </script>

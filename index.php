@@ -29,6 +29,36 @@ ob_start();
 
     <main class="container head-foot-spacing">
         <!-- TODO: Home page -->
+        <h3>Next show:</h3>
+
+        <div class="jumbotron">
+            <?php
+            $result = $dbh->query("SELECT name, city, date, attend, notes, genre, country FROM concert, artist WHERE date >= CURDATE() AND concert.artist = artist.artist_id ORDER BY date LIMIT 1");
+            $result = $result->fetch(PDO::FETCH_ASSOC);
+            ?>
+            <h1><?php echo $result['name'] ?>
+                <small> <?php echo date("D, d M Y" ,strtotime($result['date'])) ?></small>
+            </h1>
+            <h3>Concert Info:</h3>
+            <ul>
+                <li><?php echo $result['city'] ?></li>
+                <li><?php echo $result['notes'] ?></li>
+                <li>
+                    <?php
+                    if ($result['attend'] == 1) {
+                        echo "Attending!";
+                    } else {
+                        echo "Not Going";
+                    }
+                    ?>
+                </li>
+            </ul>
+            <h3>Artist Info:</h3>
+            <ul>
+                <li><?php echo $result['country'] ?></li>
+                <li><?php echo $result['genre'] ?></li>
+            </ul>
+        </div>
         <!-- Upcoming? -->
     </main>
 

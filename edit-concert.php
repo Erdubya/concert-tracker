@@ -43,13 +43,5 @@ if (isset($_POST['update'])) {
     $stmt->execute();
 }
 
-//var_dump($artist);
-//var_dump($date);
-//var_dump($city);
-//var_dump($notes);
-//var_dump($id);
-//var_dump($attend);
-
-
 unset($_POST);
 header('Location: concerts.php');
