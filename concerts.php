@@ -147,12 +147,15 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </form>
                         </div>
                         <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger"
+                                    form="edit-form" name="delete"
+                                    style="float: left">Delete
+                            </button>
                             <button type="button" class="btn btn-default"
                                     data-dismiss="modal">Close
                             </button>
                             <button type="submit" class="btn btn-primary"
-                                    form="edit-form">Save
-                                changes
+                                    form="edit-form" name="update">Save Changes
                             </button>
                         </div>
                     </div>
