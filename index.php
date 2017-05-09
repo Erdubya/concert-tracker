@@ -28,27 +28,34 @@ ob_start();
     </header>
 
     <main class="container head-foot-spacing">
-        <!-- TODO: Home page -->
         <h3>Next show:</h3>
 
         <div class="jumbotron">
             <?php
             $result = $dbh->query("SELECT name, city, date, notes, genre, country FROM concert, artist WHERE date >= CURDATE() AND attend = 1 AND concert.artist = artist.artist_id ORDER BY date LIMIT 1");
             $result = $result->fetch(PDO::FETCH_ASSOC);
+            if ($result != false) {
+                ?>
+                <h1><?php echo $result['name'] ?>
+                    <small> <?php echo date("D, d M Y",
+                            strtotime($result['date'])) ?></small>
+                </h1>
+                <h3>Concert Info:</h3>
+                <ul>
+                    <li><?php echo $result['city'] ?></li>
+                    <li><?php echo $result['notes'] ?></li>
+                </ul>
+                <h3>Artist Info:</h3>
+                <ul>
+                    <li><?php echo $result['country'] ?></li>
+                    <li><?php echo $result['genre'] ?></li>
+                </ul>
+                <?php
+            } else {
+                echo "<h2>Not attending any concerts</h2>";
+                echo "<p>Check the concerts page for upcoming shows!</p>";
+            }
             ?>
-            <h1><?php echo $result['name'] ?>
-                <small> <?php echo date("D, d M Y" ,strtotime($result['date'])) ?></small>
-            </h1>
-            <h3>Concert Info:</h3>
-            <ul>
-                <li><?php echo $result['city'] ?></li>
-                <li><?php echo $result['notes'] ?></li>
-            </ul>
-            <h3>Artist Info:</h3>
-            <ul>
-                <li><?php echo $result['country'] ?></li>
-                <li><?php echo $result['genre'] ?></li>
-            </ul>
         </div>
         <!-- Upcoming? -->
     </main>
