@@ -81,5 +81,5 @@ if (isset($_FILES['csvfile'])) {
         header('Location: concerts.php');
     }
 } else {
-    echo "NO FILE SELECTED <br>";
+    header('Location: import.php');
 }

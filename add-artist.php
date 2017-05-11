@@ -12,16 +12,17 @@ require_once "_functions.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-$stmt = $dbh->prepare("INSERT INTO artist(name, genre, country) VALUES (:artist, :genre, :country)");
-$stmt->bindParam(':artist', $name);
-$stmt->bindParam(':genre', $genre);
-$stmt->bindParam(':country', $country);
+if (isset($_POST['submit'])) {
+    $stmt = $dbh->prepare("INSERT INTO artist(name, genre, country) VALUES (:artist, :genre, :country)");
+    $stmt->bindParam(':artist', $name);
+    $stmt->bindParam(':genre', $genre);
+    $stmt->bindParam(':country', $country);
 
-$name    = $_POST['artist_name'];
-$genre   = $_POST['genre'];
-$country = $_POST['country'];
+    $name    = $_POST['artist_name'];
+    $genre   = $_POST['genre'];
+    $country = $_POST['country'];
 
-$stmt->execute();
-
+    $stmt->execute();
+}
 unset($_POST);
 header('Location: artists.php');

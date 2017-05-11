@@ -5,6 +5,8 @@
  * Date: 16-Apr-17
  * Time: 19:41
  */
+
+ob_start();
 ?>
 <nav class="navbar navbar-default navbar-fixed-top">
     <!-- Nav bar -->
@@ -54,3 +56,5 @@
         </div>
     </div>
 </nav>
+<?php
+$navbar = ob_get_clean();

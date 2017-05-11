@@ -24,7 +24,10 @@ ob_start();
     <?php include "htmlhead.php" ?>
     <body>
     <header>
-        <?php include "navbar.php" ?>
+        <?php
+        include "navbar.php";
+        echo $navbar;
+        ?>
     </header>
 
     <main class="container head-foot-spacing">
@@ -61,8 +64,11 @@ ob_start();
     </main>
 
     <!-- Simple footer -->
-    <?php include 'footer.php' ?>
-
+    <?php
+    include 'footer.php';
+    echo $footer;
+    ?>
+    
     <script>
         // Handle navbar dynamic highlighting
         $(document).ready(function () {
