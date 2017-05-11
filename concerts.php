@@ -20,6 +20,7 @@ $extraIncludes = array(
 );
 $stmt = $dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ");
 $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -286,3 +287,5 @@ $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </script>
 </body>
 </html>
+<?php
+ob_end_flush();

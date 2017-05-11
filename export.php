@@ -17,6 +17,8 @@ $pageTitle = "Export Data - Concert Tracker";
 $extraIncludes = array(
     "<script src='js/bootstrap-checkbox.js' defer></script>"
 );
+
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,4 +78,5 @@ $extraIncludes = array(
 </script>
 </body>
 </html>
-
+<?php
+ob_end_flush();

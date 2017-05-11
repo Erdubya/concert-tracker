@@ -15,6 +15,8 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 $pageTitle = "Artists - Concert Tracker";
+
+ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -185,3 +187,5 @@ $pageTitle = "Artists - Concert Tracker";
 </script>
 </body>
 </html>
+<?php
+ob_end_flush();
