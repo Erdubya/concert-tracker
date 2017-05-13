@@ -76,9 +76,8 @@ if (isset($_POST['install'])) {
             </div>
             <div class="radio">
                 <label for="pgsql">
-                    <input id="pgsql" type="radio" name="dbms" value="pgsql"
-                           disabled/>
-                    Postgres <i>Not implemented</i>
+                    <input id="pgsql" type="radio" name="dbms" value="pgsql"/>
+                    Postgres
                 </label>
             </div>
             <!--TODO: implement PostgreSQL support-->
