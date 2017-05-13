@@ -33,23 +33,25 @@ if (isset($_POST['login'])) {
         $_SESSION['user'] = $result['user_id'];
         $_SESSION['username'] = $result['name'];
         
-        $selector = random_bytes(12);
-        $token = random_bytes(64);
-        $value = $selector . ":" . $token;
-        $expires = time() + (86400 * 30); // 30 day expiry
-        
-        setcookie("uid", $value, $expires, "/");
-        
-        $stmt = $dbh->prepare("INSERT INTO auth_token(selector, token, user_id, expires) VALUES(:selector, :token, :userid, :expires)");
-        $stmt->bindParam(":selector", $selector);
-        $stmt->bindParam(":token", hash("sha256", $token));
-        $stmt->bindParam(":userid", $_SESSION['user']);
-        $stmt->bindParam(":expires", date("c", $expires));
-        
-        try {
-            $stmt->execute();
-        } catch (PDOException $e) {
-            echo $e->getMessage();
+        if (isset($_POST['remember'])) {
+            $selector = random_bytes(12);
+            $token    = random_bytes(64);
+            $value    = $selector . ":" . $token;
+            $expires  = time() + (86400 * 30); // 30 day expiry
+
+            setcookie("uid", $value, $expires, "/");
+
+            $stmt = $dbh->prepare("INSERT INTO auth_token(selector, token, user_id, expires) VALUES(:selector, :token, :userid, :expires)");
+            $stmt->bindParam(":selector", $selector);
+            $stmt->bindParam(":token", hash("sha256", $token));
+            $stmt->bindParam(":userid", $_SESSION['user']);
+            $stmt->bindParam(":expires", date("c", $expires));
+
+            try {
+                $stmt->execute();
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+            }
         }
         header("Location: index.php");
     } else {
