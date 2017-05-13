@@ -1,5 +1,5 @@
 # concert-tracker
-A web-based PHP solution to tracking concerts you've attended and artist you want to see.
+A web-based PHP solution to tracking concerts you've attended and artists you want to see.
 
 Allows for simple management of artists and concerts, along with the ability to import and export data.
 
