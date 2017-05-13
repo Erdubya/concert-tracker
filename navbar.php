@@ -44,16 +44,24 @@ ob_start();
                 </li>
             </ul>
             <!-- Dropdown part 2 -->
-<!--            <ul class="nav navbar-nav navbar-right">-->
-<!--                <li class="dropdown">-->
-<!--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"-->
-<!--                       role="button">Account<span class="caret"></span></a>-->
-<!--                    <ul class="dropdown-menu">-->
-<!--                        <li><a href="#">Option 1</a></li>-->
-<!--                        <li><a href="#">option 2</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--            </ul>-->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button">
+                        <?php 
+                        if (isset($_SESSION['username'])) {
+                            echo $_SESSION['username'];
+                        } else {
+                            echo "Account";
+                        }
+                        ?>
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+<!--                        <li><a href="settings.php">Options</a></li>-->
+                        <li><a href="logout.php">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
             <?php } ?>
         </div>
     </div>

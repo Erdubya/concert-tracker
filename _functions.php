@@ -168,3 +168,31 @@ function remove_utf8_bom($text)
 
     return $text;
 }
+
+/**
+ * @param $dbh PDO The database connector
+ *
+ * @return bool True if the cookie validates, false otherwise.
+ */
+function cookie_loader($dbh) {
+    if (isset($_COOKIE['uid'])) {
+        $value = $_COOKIE['uid'];
+        
+        list($selector, $token) = explode(":", $value); 
+        
+        $stmt = $dbh->prepare("SELECT token, user_id, expires FROM auth_token WHERE selector = $selector");
+        $stmt->execute();
+        
+        $result = $stmt->fetch();
+        
+        if (hash_equals($result['token'], hash("sha256", $token)) && $result['expires'] >= time()) {
+            $_SESSION['user'] = $result['user_id'];
+            return true;
+        } else {
+            return false;
+        }
+        
+    } else {
+        return false;
+    }
+}
