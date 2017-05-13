@@ -75,7 +75,7 @@ ob_start();
                          data-city='" . $result['city'] . "' 
                          data-notes='" . $result['notes'] . "' 
                          data-attend='" . $result['attend'] . "' 
-                         data-artist='" . $result['artist'] . "'>"
+                         data-artist='" . $result['artist_id'] . "'>"
                                  . $result['date']
                                  . "</td>";
                             echo "<td>" . $result['name'] . "</td>";
