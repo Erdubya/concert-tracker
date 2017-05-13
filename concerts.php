@@ -14,6 +14,13 @@ require_once "config.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
+// redirect if not logged in
+if (!isset($_SESSION['user'])) {
+    header("'Location: login.php'");
+} else {
+    $userid = $_SESSION['user'];
+}
+
 $pageTitle     = "Concerts - Concert Tracker";
 $extraIncludes = array(
     "<script src='js/bootstrap-checkbox.js' defer></script>"
