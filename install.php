@@ -52,7 +52,12 @@ if (isset($_POST['install'])) {
     require_once "config.php";
     $dbh = db_connect() or die(ERR_MSG);
 
-    echo build_db($dbh, $dbms);
+    // build database and handle errors
+    if (!build_db($dbh, $dbms)) {
+        unlink('config.php');
+        unset($_POST);
+        header('Location: install.php');
+    }
 
     header('Location: index.php');
 }
