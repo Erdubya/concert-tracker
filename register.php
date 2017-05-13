@@ -1,8 +1,8 @@
 <?php
 /**
  * User: Erik Wilson
- * Date: 10-May-17
- * Time: 23:39
+ * Date: 13-May-17
+ * Time: 17:20
  */
 require_once '_functions.php';
 check_install();
@@ -14,17 +14,13 @@ require_once "config.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-unset($_SESSION['user']);
-//$_SESSION['user'] = 1;
-//$_SESSION['username'] = "Erik";
-
 cookie_loader($dbh);
 
 if (isset($_SESSION['user'])) {
     header("Location: index.php");
 }
 
-$pageTitle = "Login - Concert Tracker";
+$pageTitle = "Register - Concert Tracker";
 
 ob_start();
 ?>
@@ -43,26 +39,29 @@ ob_start();
     <main class="container head-foot-spacing">
         <!-- Import from file form -->
         <form class="container panel form-login panel-default"
-              action="user-login.php" method="post">
-            <a class="btn btn-sm btn-primary" style="float: right" href="register.php">Register Here</a>
-            <h2>Login</h2>
+              action="user-register.php" method="post">
+            <a class="btn btn-sm btn-primary" style="float: right" href="login.php">Login Here</a>
+            <h2>Register</h2>
             <hr>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" maxlength="50" id="name" class="form-control">
+            </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" name="email" maxlength="50" id="email" class="form-control">
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" name="password" id="password" class="form-control">
+                <input type="password" name="password" id="password" class="form-control" minlength="8">
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" name="remember"> Remember me
-                </label>
+            <div class="form-group">
+                <label for="passconf">Confirm Password:</label>
+                <input type="password" name="passconf" id="passconf" class="form-control" minlength="8">
             </div>
             <hr>
-            <button type="submit" class="btn btn-default" name="login">
-                Login
+            <button type="submit" class="btn btn-default" name="register">
+                Register
             </button>
         </form>
     </main>
@@ -72,7 +71,7 @@ ob_start();
     include 'footer.php';
     echo $footer;
     ?>
-    
+
     </body>
     </html>
 <?php

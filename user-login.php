@@ -60,5 +60,6 @@ if (isset($_POST['login'])) {
     }
     
 } else {
+    unset($_POST);
     header("Location: login.php");
 }
