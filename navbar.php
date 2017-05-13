@@ -25,6 +25,7 @@ ob_start();
                 Tracker</a>
         </div>
 
+        <?php if (isset($_SESSION['user'])) { ?>
         <!-- Other navbar buttons -->
         <div class="collapse navbar-collapse" id="collapsible-navbar">
             <ul class="nav navbar-nav">
@@ -53,6 +54,7 @@ ob_start();
 <!--                    </ul>-->
 <!--                </li>-->
 <!--            </ul>-->
+            <?php } ?>
         </div>
     </div>
 </nav>

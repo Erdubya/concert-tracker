@@ -15,7 +15,7 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 if (!isset($_SESSION['user'])) {
-    header("'Location: login.php'");
+    header("Location: login.php");
 } else {
     $userid = $_SESSION['user'];
 }
@@ -26,8 +26,10 @@ ob_start();
 ?>
     <!DOCTYPE html>
     <html lang="en">
-    <!-- Include the HTML head -->
-    <?php include "htmlhead.php" ?>
+    <?php
+    // Include the HTML head
+    include "htmlhead.php" 
+    ?>
     <body>
     <header>
         <?php
@@ -41,7 +43,7 @@ ob_start();
 
         <div class="jumbotron">
             <?php
-            $date = date("Y-m-d");
+            $date   = date("Y-m-d");
             $result = $dbh->query("SELECT name, city, date, notes, genre, country FROM concert, artist WHERE date >= '$date' AND attend = TRUE AND concert.artist_id = artist.artist_id ORDER BY date LIMIT 1");
             $result = $result->fetch(PDO::FETCH_ASSOC);
             if ($result != false) {

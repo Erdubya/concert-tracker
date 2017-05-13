@@ -4,6 +4,12 @@
     margin: 0 auto;
 }
 
+.form-login {
+    max-width: 400px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
 .head-foot-spacing {
     padding-bottom: 51px !important;
     padding-top: 60px !important;

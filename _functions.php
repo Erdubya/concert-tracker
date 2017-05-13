@@ -62,7 +62,7 @@ function mysql_tables() {
     $tables['user']    = "CREATE TABLE IF NOT EXISTS user(
                           user_id SERIAL PRIMARY KEY ,
                           email VARCHAR(30) UNIQUE ,
-                          password VARCHAR(255) ,
+                          passwd VARCHAR(255) ,
                           name VARCHAR(50)
                           )";
     $tables['artist']  = "CREATE TABLE IF NOT EXISTS artist(
@@ -104,7 +104,7 @@ function pgsql_tables() {
     $tables['user']    = "CREATE TABLE IF NOT EXISTS users(
                           user_id SERIAL PRIMARY KEY ,
                           email VARCHAR(30) UNIQUE ,
-                          password VARCHAR(255) ,
+                          passwd VARCHAR(255) ,
                           name VARCHAR(50)
                           )";
     $tables['artist']  = "CREATE TABLE IF NOT EXISTS artist(

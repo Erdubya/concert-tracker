@@ -15,7 +15,7 @@ session_start();
 
 // redirect if not logged in
 if (!isset($_SESSION['user'])) {
-    header("'Location: login.php'");
+    header("Location: login.php");
 } else {
     $userid = $_SESSION['user'];
 }

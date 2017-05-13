@@ -16,7 +16,7 @@ $dbh = db_connect() or die(ERR_MSG);
 
 // redirect if not logged in
 if (!isset($_SESSION['user'])) {
-    header("'Location: login.php'");
+    header("Location: login.php");
 } else {
     $userid = $_SESSION['user'];
 }
