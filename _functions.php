@@ -59,35 +59,39 @@ function build_db($dbh, $handler)
 function mysql_tables() {
     unset($tables);
     
-    $tables['user']    = "CREATE TABLE IF NOT EXISTS user(
-                          user_id SERIAL PRIMARY KEY ,
-                          email VARCHAR(30) UNIQUE ,
-                          passwd VARCHAR(255) ,
-                          name VARCHAR(50)
+    $tables['user']    = "CREATE TABLE IF NOT EXISTS users(
+                          user_id INT UNSIGNED AUTO_INCREMENT,
+                          email VARCHAR(30) UNIQUE NOT NULL ,
+                          passwd VARCHAR(255) NOT NULL ,
+                          name VARCHAR(50) NOT NULL ,
+                          PRIMARY KEY (user_id)
                           )";
     $tables['artist']  = "CREATE TABLE IF NOT EXISTS artist(
-						  artist_id SERIAL PRIMARY KEY ,
-						  user_id BIGINT UNSIGNED NOT NULL ,
+						  artist_id INT UNSIGNED AUTO_INCREMENT ,
+						  user_id INT UNSIGNED NOT NULL ,
 						  name VARCHAR(50) UNIQUE NOT NULL ,
 						  genre VARCHAR(50) NULL , 
-						  country VARCHAR(50) NULL
+						  country VARCHAR(50) NULL,
+						  PRIMARY KEY (artist_id)
 						  )";
     $tables['concert'] = "CREATE TABLE IF NOT EXISTS concert(
-						  concert_id SERIAL PRIMARY KEY ,
-						  artist_id BIGINT UNSIGNED NOT NULL , 
+						  concert_id INT UNSIGNED AUTO_INCREMENT ,
+						  artist_id INT UNSIGNED NOT NULL , 
 						  date DATE NOT NULL , 
 						  city VARCHAR(30) NOT NULL , 
 						  attend BOOLEAN NOT NULL DEFAULT FALSE,
 						  notes VARCHAR(500), 
+						  PRIMARY KEY (concert_id) ,
 						  FOREIGN KEY (artist_id) REFERENCES artist(artist_id),
 						  UNIQUE (artist_id, date)
 						  )";
     $tables['token']   = "CREATE TABLE IF NOT EXISTS auth_token(
-                          token_id SERIAL PRIMARY KEY ,
-                          selector CHAR(12) UNIQUE ,
-                          token CHAR(64) ,
-                          user_id INT NOT NULL ,
-                          expires DATETIME ,
+                          token_id INT UNSIGNED AUTO_INCREMENT ,
+                          selector CHAR(12) UNIQUE NOT NULL ,
+                          token CHAR(64) NOT NULL ,
+                          user_id INT UNSIGNED NOT NULL ,
+                          expires DATETIME NOT NULL ,
+                          PRIMARY KEY (token_id) ,
                           FOREIGN KEY (user_id) REFERENCES users(user_id)
                           )";
     
@@ -102,34 +106,38 @@ function mysql_tables() {
 function pgsql_tables() {
     unset($tables);
     $tables['user']    = "CREATE TABLE IF NOT EXISTS users(
-                          user_id SERIAL PRIMARY KEY ,
-                          email VARCHAR(30) UNIQUE ,
-                          passwd VARCHAR(255) ,
-                          name VARCHAR(50)
+                          user_id SERIAL ,
+                          email VARCHAR(30) UNIQUE NOT NULL ,
+                          passwd VARCHAR(255) NOT NULL ,
+                          name VARCHAR(50) NOT NULL ,
+                          PRIMARY KEY (user_id)
                           )";
     $tables['artist']  = "CREATE TABLE IF NOT EXISTS artist(
-						  artist_id SERIAL PRIMARY KEY ,
+						  artist_id SERIAL ,
 						  user_id INT NOT NULL ,
 						  name VARCHAR(50) UNIQUE NOT NULL ,
 						  genre VARCHAR(50) NULL , 
-						  country VARCHAR(50) NULL
+						  country VARCHAR(50) NULL ,
+						  PRIMARY KEY (artist_id)
 						  )";
     $tables['concert'] = "CREATE TABLE IF NOT EXISTS concert(
-						  concert_id SERIAL PRIMARY KEY ,
+						  concert_id SERIAL ,
 						  artist_id INT NOT NULL , 
 						  date DATE NOT NULL , 
 						  city VARCHAR(30) NOT NULL , 
 						  attend BOOLEAN NOT NULL DEFAULT FALSE,
-						  notes VARCHAR(500), 
+						  notes VARCHAR(500) ,
+						  PRIMARY KEY (concert_id) ,
 						  FOREIGN KEY (artist_id) REFERENCES artist(artist_id),
 						  UNIQUE (artist_id, date)
 						  )";
-    $tables['token']    = "CREATE TABLE IF NOT EXISTS auth_token(
-                          token_id SERIAL PRIMARY KEY ,
-                          selector CHAR(12) UNIQUE ,
-                          token CHAR(64) ,
+    $tables['token']   = "CREATE TABLE IF NOT EXISTS auth_token(
+                          token_id SERIAL ,
+                          selector CHAR(12) UNIQUE NOT NULL ,
+                          token CHAR(64) NOT NULL ,
                           user_id INT NOT NULL ,
-                          expires DATETIME ,
+                          expires DATETIME NOT NULL ,
+                          PRIMARY KEY (token_id) ,
                           FOREIGN KEY (user_id) REFERENCES users(user_id)
                           )";
     

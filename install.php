@@ -91,7 +91,7 @@ if (isset($_POST['install'])) {
         <div class="form-group">
             <label for="hostname">Hostname:</label><br>
             <input id="hostname" type="text" name="hostname"
-                   class="form-control" required/>
+                   class="form-control" required value="localhost"/>
             <label for="dbname">Database:</label>
             <input id="dbname" type="text" name="database"
                    class="form-control" required/>
