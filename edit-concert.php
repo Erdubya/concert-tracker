@@ -13,7 +13,7 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 if (isset($_POST['update'])) {
-    $stmt = $dbh->prepare("UPDATE concert SET artist=:artist, date=:showdate, city=:city, attend=:attend, notes=:notes WHERE concert_id=:id");
+    $stmt = $dbh->prepare("UPDATE concert SET artist_id=:artist, date=:showdate, city=:city, attend=:attend, notes=:notes WHERE concert_id=:id");
     $stmt->bindParam(':artist', $artist);
     $stmt->bindParam(':showdate', $date);
     $stmt->bindParam(':city', $city);

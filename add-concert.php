@@ -13,7 +13,7 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 if (isset($_POST['submit'])) {
-    $stmt = $dbh->prepare("INSERT INTO concert(artist, date, city, attend) VALUES (:artist, :showdate, :city, :attend)");
+    $stmt = $dbh->prepare("INSERT INTO concert(artist_id, date, city, attend) VALUES (:artist, :showdate, :city, :attend)");
     $stmt->bindParam(':artist', $artist);
     $stmt->bindParam(':showdate', $date);
     $stmt->bindParam(':city', $city);

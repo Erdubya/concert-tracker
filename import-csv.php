@@ -46,7 +46,7 @@ if (isset($_FILES['csvfile'])) {
         header('Location: artists.php');
     } elseif ($_POST['filetype'] == "concert") {
         // Prepare the statement for insertion
-        $sql = $dbh->prepare("INSERT INTO concert(artist, date, city, notes, attend) VALUES (:artist, :showdate, :city, :notes, :attend)");
+        $sql = $dbh->prepare("INSERT INTO concert(artist_id, date, city, notes, attend) VALUES (:artist, :showdate, :city, :notes, :attend)");
         $sql->bindParam(':artist', $artist);
         $sql->bindParam(':showdate', $date);
         $sql->bindParam(':city', $city);

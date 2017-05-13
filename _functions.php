@@ -38,13 +38,13 @@ function build_db($dbh, $handler)
 						)";
         $concert_table = "CREATE TABLE IF NOT EXISTS concert(
 						concert_id SERIAL PRIMARY KEY ,
-						artist BIGINT UNSIGNED NOT NULL , 
+						artist_id BIGINT UNSIGNED NOT NULL , 
 						date DATE NOT NULL , 
 						city VARCHAR(30) NOT NULL , 
 						attend BOOLEAN NOT NULL DEFAULT FALSE,
 						notes VARCHAR(500), 
-						FOREIGN KEY (artist) REFERENCES artist(artist_id),
-						UNIQUE (artist, date)
+						FOREIGN KEY (artist_id) REFERENCES artist(artist_id),
+						UNIQUE (artist_id, date)
 						)";
     } elseif ($handler == "pgsql") {
         $artist_table  = "CREATE TABLE IF NOT EXISTS artist(
@@ -55,13 +55,13 @@ function build_db($dbh, $handler)
 						)";
         $concert_table = "CREATE TABLE IF NOT EXISTS concert(
 						concert_id SERIAL PRIMARY KEY ,
-						artist INT NOT NULL , 
+						artist_id INT NOT NULL , 
 						date DATE NOT NULL , 
 						city VARCHAR(30) NOT NULL , 
 						attend BOOLEAN NOT NULL DEFAULT FALSE,
 						notes VARCHAR(500), 
-						FOREIGN KEY (artist) REFERENCES artist(artist_id),
-						UNIQUE (artist, date)
+						FOREIGN KEY (artist_id) REFERENCES artist(artist_id),
+						UNIQUE (artist_id, date)
 						)";
     } else {
         $artist_table  = null;

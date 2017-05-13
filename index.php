@@ -36,7 +36,7 @@ ob_start();
         <div class="jumbotron">
             <?php
             $date = date("Y-m-d");
-            $result = $dbh->query("SELECT name, city, date, notes, genre, country FROM concert, artist WHERE date >= '$date' AND attend = TRUE AND concert.artist = artist.artist_id ORDER BY date LIMIT 1");
+            $result = $dbh->query("SELECT name, city, date, notes, genre, country FROM concert, artist WHERE date >= '$date' AND attend = TRUE AND concert.artist_id = artist.artist_id ORDER BY date LIMIT 1");
             $result = $result->fetch(PDO::FETCH_ASSOC);
             if ($result != false) {
                 ?>

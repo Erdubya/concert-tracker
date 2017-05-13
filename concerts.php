@@ -59,7 +59,7 @@ ob_start();
                         </thead>
                         <tbody>
                         <?php
-                        foreach ($dbh->query("SELECT c.concert_id, a.name, c.artist, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY c.date DESC ") as $key => $result) {
+                        foreach ($dbh->query("SELECT c.concert_id, a.name, c.artist_id, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist_id ORDER BY c.date DESC ") as $key => $result) {
                             $current_date = date("Y-m-d");
                             // Check if the show was in the past and highlight accordingly
                             if ($result['date'] <= $current_date && !$result['attend']) {
