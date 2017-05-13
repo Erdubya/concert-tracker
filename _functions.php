@@ -179,13 +179,17 @@ function cookie_loader($dbh) {
         $value = $_COOKIE['uid'];
         
         list($selector, $token) = explode(":", $value); 
+//        var_dump($selector);
+//        var_dump($token);
         
-        $stmt = $dbh->prepare("SELECT token, user_id, expires FROM auth_token WHERE selector = $selector");
+        $stmt = $dbh->prepare("SELECT token, user_id, expires FROM auth_token WHERE selector = :selector");
+        $stmt->bindParam(":selector", $selector);
         $stmt->execute();
         
         $result = $stmt->fetch();
+//        var_dump($result);
         
-        if (hash_equals($result['token'], hash("sha256", $token)) && $result['expires'] >= time()) {
+        if (hash_equals($result['token'], hash("sha256", $token)) && strtotime($result['expires']) >= time()) {
             $_SESSION['user'] = $result['user_id'];
             return true;
         } else {
@@ -195,4 +199,13 @@ function cookie_loader($dbh) {
     } else {
         return false;
     }
+}
+
+/**
+ * @param int $length The length of the token to generate
+ *
+ * @return string The generated token
+ */
+function gen_token($length = 20) {
+    return bin2hex(random_bytes($length));
 }

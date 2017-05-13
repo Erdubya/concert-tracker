@@ -55,9 +55,10 @@ ob_start();
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" class="form-control" minlength="8">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="confirm-div">
                 <label for="passconf">Confirm Password:</label>
                 <input type="password" name="passconf" id="passconf" class="form-control" minlength="8">
+                <span id="helpblock-match" class="help-block hidden">Passwords must match</span>
             </div>
             <hr>
             <button type="submit" class="btn btn-default" name="register">
@@ -71,6 +72,35 @@ ob_start();
     include 'footer.php';
     echo $footer;
     ?>
+    
+    <script>
+        function checkPasswordMatch() {
+            // set variables
+            var password        = $("#password").val();
+            var confirmPassword = $("#passconf").val();
+            var div             = $("#confirm-div");
+            var matchHelp       = $("#helpblock-match");
+
+            // check password confirmation
+            if (password === "" && confirmPassword === "") {
+                div.removeClass("has-success");
+                div.removeClass("has-error");
+                matchHelp.addClass("hidden");
+            } else if (password !== confirmPassword) {
+                div.removeClass("has-success");
+                div.addClass("has-error");
+                matchHelp.removeClass("hidden");
+            } else {
+                div.removeClass("has-error");
+                div.addClass("has-success");
+                matchHelp.addClass("hidden");
+            }
+        }
+
+        $(document).ready(function () {
+            $("#password, #passconf").keyup(checkPasswordMatch);
+        });
+    </script>
 
     </body>
     </html>

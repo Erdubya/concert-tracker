@@ -34,8 +34,9 @@ if (isset($_POST['login'])) {
         $_SESSION['username'] = $result['name'];
         
         if (isset($_POST['remember'])) {
-            $selector = random_bytes(12);
-            $token    = random_bytes(64);
+            $selector = gen_token(6);
+            $token    = gen_token(32);
+            
             $value    = $selector . ":" . $token;
             $expires  = time() + (86400 * 30); // 30 day expiry
 
@@ -43,15 +44,21 @@ if (isset($_POST['login'])) {
 
             $stmt = $dbh->prepare("INSERT INTO auth_token(selector, token, user_id, expires) VALUES(:selector, :token, :userid, :expires)");
             $stmt->bindParam(":selector", $selector);
-            $stmt->bindParam(":token", hash("sha256", $token));
+            $stmt->bindParam(":token", $hashToken);
             $stmt->bindParam(":userid", $_SESSION['user']);
-            $stmt->bindParam(":expires", date("c", $expires));
-
-            try {
-                $stmt->execute();
-            } catch (PDOException $e) {
-                echo $e->getMessage();
-            }
+            $stmt->bindParam(":expires", $formatExp);
+            
+            $hashToken = hash("sha256", $token);
+            $formatExp = date("Y-m-d H:i:s", $expires);
+            
+//            if(!$stmt->execute()) {
+//                var_dump($selector);
+//                var_dump($token);
+//                var_dump($hashToken);
+//                var_dump($_SESSION['user']);
+//                var_dump($formatExp);
+//                die();
+//            }
         }
         header("Location: index.php");
     } else {

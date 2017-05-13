@@ -13,7 +13,19 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 if (isset($_POST['register'])) {
+    // set up SQL statement
+    $stmt = $dbh->prepare("INSERT INTO users(email, passwd, name) VALUES (:email, :passwd, :name)");
+    $stmt->bindParam(":email", $email);
+    $stmt->bindParam(":passwd", $passwd);
+    $stmt->bindParam(":name", $name);
     
+    $email  = trim($_POST['email']);
+    $passwd = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $name   = trim($_POST['name']);
+    
+    $stmt->execute();
+    
+    header("Location: login.php");
 } else {
     unset($_POST);
     header("Location: register.php");
