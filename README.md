@@ -3,11 +3,11 @@ A web-based PHP solution to tracking concerts you've attended and artist you wan
 
 Allows for simple management of artists and concerts, along with the ability to import and export data.
 
-#Dependencies
+# Dependencies
 * A web server with PHP support
 * PostgreSQL or MySQL (Others may work, these are the only ones tested)
 
-#Installation
+# Installation
 The recommended installation is fairly straightforward:
 
 1. Create a database role and a database that that role has full access to.
