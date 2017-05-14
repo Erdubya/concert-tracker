@@ -14,7 +14,17 @@ require_once "config.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-$pageTitle = "Concert Tracker";
+unset($_SESSION['user']);
+//$_SESSION['user'] = 1;
+//$_SESSION['username'] = "Erik";
+
+cookie_loader($dbh);
+
+if (isset($_SESSION['user'])) {
+    header("Location: index.php");
+}
+
+$pageTitle = "Login - Concert Tracker";
 
 ob_start();
 ?>
@@ -31,7 +41,30 @@ ob_start();
     </header>
 
     <main class="container head-foot-spacing">
-
+        <!-- Import from file form -->
+        <form class="container panel form-login panel-default"
+              action="user-login.php" method="post">
+            <a class="btn btn-sm btn-primary" style="float: right" href="register.php">Register Here</a>
+            <h2>Login</h2>
+            <hr>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" maxlength="50" id="email" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" class="form-control">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="remember"> Remember me
+                </label>
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-default" name="login">
+                Login
+            </button>
+        </form>
     </main>
 
     <!-- Simple footer -->
@@ -39,17 +72,7 @@ ob_start();
     include 'footer.php';
     echo $footer;
     ?>
-
-    <script>
-        // Handle navbar dynamic highlighting
-        $(document).ready(function () {
-            // get current URL path and assign 'active' class to navbar
-            var pathname = new URL(window.location.href).pathname.split('/').pop();
-            if (pathname !== "") {
-                $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
-            }
-        })
-    </script>
+    
     </body>
     </html>
 <?php

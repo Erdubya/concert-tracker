@@ -20,16 +20,29 @@ if (isset($_POST['export'])) {
     }
 
     if ($_POST['data'] == 'artist') {
-        $csv_array = $dbh->query("SELECT name, genre, country FROM artist ORDER BY name ASC ",
-            PDO::FETCH_ASSOC);
+        $stmt = $dbh->prepare("SELECT name, genre, country FROM artist WHERE user_id = :userid ORDER BY name ASC ");
+        $stmt->bindParam(":userid", $_SESSION['user']);
+        $stmt->execute();
+        
+        $csv_array = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $output    = fopen("php://output", "w");
+        
         foreach ($csv_array as $line) {
             fputcsv($output, $line);
         }
     } elseif ($_POST['data'] == 'concert') {
-        $csv_array = $dbh->query("SELECT a.name, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist ORDER BY a.name ASC ",
-            PDO::FETCH_ASSOC);
+        $sql = "SELECT a.name, c.date, c.city, c.notes, c.attend 
+                FROM concert AS c, artist AS a 
+                WHERE a.artist_id = c.artist_id
+                  AND a.user_id = :userid
+                ORDER BY a.name ASC";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(":userid", $_SESSION['user']);
+        $stmt->execute();
+        
+        $csv_array = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $output    = fopen("php://output", "w");
+        
         foreach ($csv_array as $line) {
             fputcsv($output, $line);
         }

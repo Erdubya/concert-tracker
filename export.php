@@ -13,6 +13,13 @@ require_once "config.php";
 // start the session
 session_start();
 
+// redirect if not logged in
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+} else {
+    $userid = $_SESSION['user'];
+}
+
 $pageTitle     = "Export Data - Concert Tracker";
 $extraIncludes = array(
     "<script src='js/bootstrap-checkbox.js' defer></script>"

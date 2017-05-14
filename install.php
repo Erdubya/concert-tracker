@@ -52,7 +52,12 @@ if (isset($_POST['install'])) {
     require_once "config.php";
     $dbh = db_connect() or die(ERR_MSG);
 
-    echo build_db($dbh, $dbms);
+    // build database and handle errors
+    if (!build_db($dbh, $dbms)) {
+        unlink('config.php');
+        unset($_POST);
+        header('Location: install.php');
+    }
 
     header('Location: index.php');
 }
@@ -86,7 +91,7 @@ if (isset($_POST['install'])) {
         <div class="form-group">
             <label for="hostname">Hostname:</label><br>
             <input id="hostname" type="text" name="hostname"
-                   class="form-control" required/>
+                   class="form-control" required value="localhost"/>
             <label for="dbname">Database:</label>
             <input id="dbname" type="text" name="database"
                    class="form-control" required/>
