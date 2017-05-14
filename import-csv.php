@@ -7,7 +7,7 @@
 //require the config file
 require_once "config.php";
 require_once "_functions.php";
-include "class/Encoding.php";
+include "lib/Encoding.php";
 use ForceUTF8\Encoding;
 
 // start the session and connect to DB
