@@ -15,7 +15,7 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 // redirect if not logged in
-if (!isset($_SESSION['user'])) {
+if ( !isset($_SESSION['user'])) {
     header("Location: login.php");
 } else {
     $userid = $_SESSION['user'];
@@ -62,14 +62,18 @@ ob_start();
                         </thead>
                         <tbody>
                         <?php
-                        foreach ($dbh->query("SELECT * FROM artist ORDER BY name ASC ") as $result) {
+                        $stmt = $dbh->prepare("SELECT artist_id, name, genre, country FROM artist WHERE user_id=:userid ORDER BY name ASC ");
+                        $stmt->bindParam(":userid", $userid);
+                        $stmt->execute();
+                        foreach ($stmt->fetchAll() as $result) {
                             echo "<tr>";
                             // Set click action for this cell to open the appropriate modal
-                            echo "<td data-toggle='modal' data-target='#artist-modal'
-                         data-artist='" . $result['name'] . "' 
-                         data-genre='" . $result['genre'] . "' 
-                         data-country='" . $result['country'] . "'
-                         data-id='" . $result['artist_id'] . "'>"
+                            echo "<td data-toggle='modal' 
+                                      data-target='#artist-modal'
+                                      data-artist='" . $result['name'] . "' 
+                                      data-genre='" . $result['genre'] . "' 
+                                      data-country='" . $result['country'] . "'
+                                      data-id='" . $result['artist_id'] . "'>"
                                  . $result['name']
                                  . "</td>";
                             echo "<td>" . $result['genre'] . "</td>";

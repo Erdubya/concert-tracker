@@ -25,8 +25,10 @@ $pageTitle     = "Concerts - Concert Tracker";
 $extraIncludes = array(
     "<script src='js/bootstrap-checkbox.js' defer></script>"
 );
-$stmt          = $dbh->query("SELECT artist_id, name FROM artist ORDER BY name ASC ");
-$artist_list   = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $dbh->prepare("SELECT artist_id, name FROM artist WHERE user_id=:userid ORDER BY name ASC ");
+$stmt->bindParam(":userid", $userid);
+$stmt->execute();
+$artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ob_start();
 ?>
     <!DOCTYPE html>
@@ -66,8 +68,17 @@ ob_start();
                         </thead>
                         <tbody>
                         <?php
-                        foreach ($dbh->query("SELECT c.concert_id, a.name, c.artist_id, c.date, c.city, c.notes, c.attend FROM concert AS c, artist AS a WHERE a.artist_id = c.artist_id ORDER BY c.date DESC ") as $key => $result) {
+                        $sql = "SELECT c.concert_id, a.name, c.artist_id, c.date, c.city, c.notes, c.attend 
+                                FROM concert AS c, artist AS a 
+                                WHERE a.artist_id = c.artist_id
+                                  AND a.user_id = :userid
+                                ORDER BY c.date DESC";
+                        $stmt = $dbh->prepare($sql);
+                        $stmt->bindParam(":userid", $userid);
+                        $stmt->execute();
+                        foreach ($stmt->fetchAll() as $key => $result) {
                             $current_date = date("Y-m-d");
+                            
                             // Check if the show was in the past and highlight accordingly
                             if ($result['date'] <= $current_date && !$result['attend']) {
                                 echo "<tr class='warning'>";
@@ -76,13 +87,16 @@ ob_start();
                             } else {
                                 echo "<tr>";
                             }
-                            echo "<td data-toggle='modal' data-target='#concert-modal' 
-                         data-id='" . $result['concert_id'] . "' 
-                         data-date='" . $result['date'] . "' 
-                         data-city='" . $result['city'] . "' 
-                         data-notes='" . $result['notes'] . "' 
-                         data-attend='" . $result['attend'] . "' 
-                         data-artist='" . $result['artist_id'] . "'>"
+                            
+                            //create the display row, with data for edit display
+                            echo "<td data-toggle='modal' 
+                                      data-target='#concert-modal' 
+                                      data-id='"     . $result['concert_id'] . "' 
+                                      data-date='"   . $result['date'] . "' 
+                                      data-city='"   . $result['city'] . "' 
+                                      data-notes='"  . $result['notes'] . "' 
+                                      data-attend='" . $result['attend'] . "' 
+                                      data-artist='" . $result['artist_id'] . "'>"
                                  . $result['date']
                                  . "</td>";
                             echo "<td>" . $result['name'] . "</td>";

@@ -13,11 +13,13 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 if (isset($_POST['submit'])) {
-    $stmt = $dbh->prepare("INSERT INTO artist(name, genre, country) VALUES (:artist, :genre, :country)");
+    $stmt = $dbh->prepare("INSERT INTO artist(user_id, name, genre, country) VALUES (:userid, :artist, :genre, :country)");
+    $stmt->bindParam(":userid", $user);
     $stmt->bindParam(':artist', $name);
     $stmt->bindParam(':genre', $genre);
     $stmt->bindParam(':country', $country);
 
+    $user    = $_SESSION['user'];
     $name    = $_POST['artist_name'];
     $genre   = $_POST['genre'];
     $country = $_POST['country'];
