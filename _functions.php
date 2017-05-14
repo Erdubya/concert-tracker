@@ -69,10 +69,12 @@ function mysql_tables() {
     $tables['artist']  = "CREATE TABLE IF NOT EXISTS artist(
 						  artist_id INT UNSIGNED AUTO_INCREMENT ,
 						  user_id INT UNSIGNED NOT NULL ,
-						  name VARCHAR(50) UNIQUE NOT NULL ,
+						  name VARCHAR(50) NOT NULL ,
 						  genre VARCHAR(50) NULL , 
 						  country VARCHAR(50) NULL,
-						  PRIMARY KEY (artist_id)
+						  PRIMARY KEY (artist_id),
+						  FOREIGN KEY (user_id) REFERENCES users(user_id),
+						  UNIQUE (user_id, name)
 						  )";
     $tables['concert'] = "CREATE TABLE IF NOT EXISTS concert(
 						  concert_id INT UNSIGNED AUTO_INCREMENT ,
@@ -115,10 +117,12 @@ function pgsql_tables() {
     $tables['artist']  = "CREATE TABLE IF NOT EXISTS artist(
 						  artist_id SERIAL ,
 						  user_id INT NOT NULL ,
-						  name VARCHAR(50) UNIQUE NOT NULL ,
+						  name VARCHAR(50) NOT NULL ,
 						  genre VARCHAR(50) NULL , 
 						  country VARCHAR(50) NULL ,
-						  PRIMARY KEY (artist_id)
+						  PRIMARY KEY (artist_id),
+						  FOREIGN KEY (user_id) REFERENCES users(user_id),
+						  UNIQUE (user_id, name)
 						  )";
     $tables['concert'] = "CREATE TABLE IF NOT EXISTS concert(
 						  concert_id SERIAL ,

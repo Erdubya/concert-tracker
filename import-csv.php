@@ -30,11 +30,13 @@ if (isset($_FILES['csvfile'])) {
     $sql = "";
     if ($_POST['filetype'] == "artist") {
         // Convert that array into an SQL insert statement
-        $sql = $dbh->prepare("INSERT INTO artist(name, genre, country) VALUES (:artist, :genre, :country)");
+        $sql = $dbh->prepare("INSERT INTO artist(user_id, name, genre, country) VALUES (:userid, :artist, :genre, :country)");
+        $sql->bindParam(':userid', $user);
         $sql->bindParam(':artist', $name);
         $sql->bindParam(':genre', $genre);
         $sql->bindParam(':country', $country);
 
+        $user = $_SESSION['user'];
         foreach ($csv as $row => $line) {
             $name    = $line[0];
             $genre   = $line[1];
@@ -56,8 +58,8 @@ if (isset($_FILES['csvfile'])) {
         // Iterate over the uploaded data
         foreach ($csv as $row => $line) {
             // Get the PK of the artist from th DB
-            $stmt = $dbh->prepare("SELECT artist_id FROM artist WHERE name = :artistname");
-            $stmt->execute(array(':artistname' => $line[0]));
+            $stmt = $dbh->prepare("SELECT artist_id FROM artist WHERE name = :artistname AND user_id = :userid");
+            $stmt->execute(array(':artistname' => $line[0], ':userid' => $_SESSION['user']));
             $artist = $stmt->fetchColumn(0);
 
             // If the artist exists, insert the concert
