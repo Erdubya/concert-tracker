@@ -108,7 +108,7 @@ function mysql_tables() {
 function pgsql_tables() {
     unset($tables);
     $tables['user']    = "CREATE TABLE IF NOT EXISTS users(
-                          user_id SERIAL ,
+                          user_id SERIAL,
                           email VARCHAR(30) UNIQUE NOT NULL ,
                           passwd VARCHAR(255) NOT NULL ,
                           name VARCHAR(50) NOT NULL ,
@@ -140,7 +140,7 @@ function pgsql_tables() {
                           selector CHAR(12) UNIQUE NOT NULL ,
                           token CHAR(64) NOT NULL ,
                           user_id INT NOT NULL ,
-                          expires DATETIME NOT NULL ,
+                          expires TIMESTAMP NOT NULL ,
                           PRIMARY KEY (token_id) ,
                           FOREIGN KEY (user_id) REFERENCES users(user_id)
                           )";
