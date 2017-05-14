@@ -182,7 +182,7 @@ function cookie_loader($dbh) {
 //        var_dump($selector);
 //        var_dump($token);
         
-        $stmt = $dbh->prepare("SELECT token, user_id, expires FROM auth_token WHERE selector = :selector");
+        $stmt = $dbh->prepare("SELECT token, auth_token.user_id, expires, name FROM auth_token, users WHERE selector = :selector AND auth_token.user_id = users.user_id");
         $stmt->bindParam(":selector", $selector);
         $stmt->execute();
         
@@ -191,6 +191,7 @@ function cookie_loader($dbh) {
         
         if (hash_equals($result['token'], hash("sha256", $token)) && strtotime($result['expires']) >= time()) {
             $_SESSION['user'] = $result['user_id'];
+            $_SESSION['username'] = $result['name'];
             return true;
         } else {
             return false;
