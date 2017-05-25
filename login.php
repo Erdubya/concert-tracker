@@ -14,10 +14,6 @@ require_once "config.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-unset($_SESSION['user']);
-//$_SESSION['user'] = 1;
-//$_SESSION['username'] = "Erik";
-
 cookie_loader($dbh);
 
 if (isset($_SESSION['user'])) {

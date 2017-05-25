@@ -57,7 +57,7 @@ ob_start();
                         ?>
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-<!--                        <li><a href="settings.php">Options</a></li>-->
+                        <li><a href="profile.php">Options</a></li>
                         <li><a href="logout.php">Logout</a></li>
                     </ul>
                 </li>

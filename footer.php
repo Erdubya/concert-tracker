@@ -10,7 +10,7 @@ ob_start();
 ?>
 <footer class="panel-footer navbar-fixed-bottom">
     <div class="container">
-        <p class="text-center">Built by <a href="mailto:<?php echo MAIL_TO ?>">Erik Wilson</a></p>
+        <p class="text-center">Built by <a href="https://github.com/Erdubya" target="_blank">Erik Wilson</a></p>
     </div>
 </footer>
 <?php
