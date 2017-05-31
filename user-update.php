@@ -48,12 +48,12 @@ if (isset($_POST['update'])) {
         header("Location: profile.php");
     } else {
         unset($_POST);
-        die("PASSWORD incorrect");
+//        die("PASSWORD incorrect");
 //        header("Location: profile.php");
     }
 
 } else {
     unset($_POST);
-    die("UPDATE not set");
+//    die("UPDATE not set");
 //    header("Location: profile.php");
 }
