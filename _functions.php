@@ -35,9 +35,9 @@ function build_db($dbh, $handler)
     } elseif ($handler == "pgsql") {
         $tables = pgsql_tables();
     } else {
-        $tables  = null;
+        $tables = null;
     }
-    
+
     // attempt to execute the queries
     try {
         $dbh->exec($tables['user']);
@@ -53,12 +53,12 @@ function build_db($dbh, $handler)
 
 /**
  * Generates the SQL needed to create the database tables in MySQL.
- * 
  * @return array An array of SQL strings for creating tables.
  */
-function mysql_tables() {
+function mysql_tables()
+{
     unset($tables);
-    
+
     $tables['user']    = "CREATE TABLE IF NOT EXISTS users(
                           user_id INT UNSIGNED AUTO_INCREMENT,
                           email VARCHAR(30) UNIQUE NOT NULL ,
@@ -96,16 +96,16 @@ function mysql_tables() {
                           PRIMARY KEY (token_id) ,
                           FOREIGN KEY (user_id) REFERENCES users(user_id)
                           )";
-    
+
     return $tables;
 }
 
 /**
  * Generates the SQL needed to create the database tables in PostgreSQL.
- * 
  * @return array An array of SQL strings for creating tables.
  */
-function pgsql_tables() {
+function pgsql_tables()
+{
     unset($tables);
     $tables['user']    = "CREATE TABLE IF NOT EXISTS users(
                           user_id SERIAL,
@@ -144,7 +144,7 @@ function pgsql_tables() {
                           PRIMARY KEY (token_id) ,
                           FOREIGN KEY (user_id) REFERENCES users(user_id)
                           )";
-    
+
     return $tables;
 }
 
@@ -153,7 +153,7 @@ function pgsql_tables() {
  */
 function check_install()
 {
-    if ( !file_exists('config.php')) {
+    if (!file_exists('config.php')) {
         die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
     }
 }
@@ -174,43 +174,78 @@ function remove_utf8_bom($text)
 }
 
 /**
+ * Tests and loads persistent login information from a cookie
+ *
  * @param $dbh PDO The database connector
  *
  * @return bool True if the cookie validates, false otherwise.
  */
-function cookie_loader($dbh) {
+function cookie_loader($dbh)
+{
     if (isset($_COOKIE['uid'])) {
         $value = $_COOKIE['uid'];
-        
-        list($selector, $token) = explode(":", $value); 
+
+        list($selector, $token) = explode(":", $value);
 //        var_dump($selector);
 //        var_dump($token);
-        
+
         $stmt = $dbh->prepare("SELECT token, auth_token.user_id, expires, name FROM auth_token, users WHERE selector = :selector AND auth_token.user_id = users.user_id");
         $stmt->bindParam(":selector", $selector);
         $stmt->execute();
-        
+
         $result = $stmt->fetch();
 //        var_dump($result);
-        
-        if (hash_equals($result['token'], hash("sha256", $token)) && strtotime($result['expires']) >= time()) {
-            $_SESSION['user'] = $result['user_id'];
+
+        if (hash_equals($result['token'], hash("sha256",
+                $token)) && strtotime($result['expires']) >= time()
+        ) {
+            $_SESSION['user']     = $result['user_id'];
             $_SESSION['username'] = $result['name'];
+
             return true;
         } else {
             return false;
         }
-        
+
     } else {
         return false;
     }
 }
 
 /**
+ * Generates a random token from urandom byte data.
+ *
  * @param int $length The length of the token to generate
  *
  * @return string The generated token
  */
-function gen_token($length = 20) {
+function gen_token($length = 20)
+{
     return bin2hex(random_bytes($length));
+}
+
+/**
+ * Prints a PDO statement prepared query with the specified data.
+ *
+ * @param $string     string The statement as prepared by PDO
+ * @param $data       array An array of the data used by PDOStatement, indexed
+ *                    or associative as needed
+ *
+ * @return string
+ */
+function get_prep_stmt($string, $data)
+{
+    $indexed = $data == array_values($data);
+    foreach ($data as $k => $v) {
+        if (is_string($v)) {
+            $v = "'$v'";
+        }
+        if ($indexed) {
+            $string = preg_replace('/\?/', $v, $string, 1);
+        } else {
+            $string = str_replace(":$k", $v, $string);
+        }
+    }
+
+    return $string;
 }

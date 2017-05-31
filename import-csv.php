@@ -41,14 +41,22 @@ if (isset($_FILES['csvfile'])) {
             $name    = $line[0];
             $genre   = $line[1];
             $country = $line[2];
-            $sql->execute();
+            
+            // run only if artist does not exist
+            $check = $dbh->prepare("SELECT artist_id FROM artist WHERE name=?");
+            $check->execute($name);
+            $result = $check->fetch();
+            if ($result = false) {
+                $sql->execute();
+            }
         }
 
         unset($_POST);
         header('Location: artists.php');
     } elseif ($_POST['filetype'] == "concert") {
         // Prepare the statement for insertion
-        $sql = $dbh->prepare("INSERT INTO concert(artist_id, date, city, notes, attend) VALUES (:artist, :showdate, :city, :notes, :attend)");
+        $sql_str = "INSERT INTO concert(artist_id, date, city, notes, attend) VALUES (:artist, :showdate, :city, :notes, :attend)";
+        $sql = $dbh->prepare($sql_str);
         $sql->bindParam(':artist', $artist);
         $sql->bindParam(':showdate', $date);
         $sql->bindParam(':city', $city);
@@ -68,12 +76,20 @@ if (isset($_FILES['csvfile'])) {
                 $city   = $line[2];
                 $notes  = $line[3];
                 $attend = $line[4];
+                
+                // fix boolean return from postgres
+                if (is_string($attend)) {
+                    $attend = (int)$attend;
+                }
 
-//                var_dump($artist);
-//                var_dump($date);
-//                var_dump($city);
-//                var_dump($notes);
-//                var_dump($attend);
+//                $array = array(
+//                    "artist" => $artist, 
+//                    "showdate" => $date,
+//                    "city" => $city,
+//                    "notes" => $notes,
+//                    "attend" => $attend);
+//                var_dump($array);
+//                echo get_prep_stmt($sql_str, $array);
 
                 $sql->execute();
             }

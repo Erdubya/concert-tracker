@@ -85,7 +85,7 @@ if (isset($_POST['install'])) {
                     Postgres
                 </label>
             </div>
-            <!--TODO: implement PostgreSQL support-->
+            <!--TODO: implement SQLite support?-->
         </div>
         <br>
         <div class="form-group">
