@@ -76,13 +76,14 @@ ob_start();
                         $stmt = $dbh->prepare($sql);
                         $stmt->bindParam(":userid", $userid);
                         $stmt->execute();
+                        
                         foreach ($stmt->fetchAll() as $key => $result) {
                             $current_date = date("Y-m-d");
                             
                             // Check if the show was in the past and highlight accordingly
-                            if ($result['date'] <= $current_date && !$result['attend']) {
+                            if ($result['date'] < $current_date && !$result['attend']) {
                                 echo "<tr class='warning'>";
-                            } elseif ($result['date'] <= $current_date) {
+                            } elseif ($result['date'] < $current_date) {
                                 echo "<tr class='active'>";
                             } else {
                                 echo "<tr>";
@@ -99,8 +100,10 @@ ob_start();
                                       data-artist='" . $result['artist_id'] . "'>"
                                  . $result['date']
                                  . "</td>";
+                            
                             echo "<td>" . $result['name'] . "</td>";
                             echo "<td>" . $result['city'] . "</td>";
+                            
                             echo "<td class='text-center'>";
                             // Set symbol for attendance bool
                             if ($result['attend']) {
@@ -109,6 +112,7 @@ ob_start();
                                 echo "<span class='glyphicon glyphicon-remove'>";
                             }
                             echo "</td>";
+                            
                             echo "</tr>";
                         }
                         ?>
