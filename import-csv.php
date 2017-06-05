@@ -44,9 +44,9 @@ if (isset($_FILES['csvfile'])) {
             
             // run only if artist does not exist
             $check = $dbh->prepare("SELECT artist_id FROM artist WHERE name=?");
-            $check->execute($name);
+            $check->execute(array($name));
             $result = $check->fetch();
-            if ($result = false) {
+            if ($result == false) {
                 $sql->execute();
             }
         }
