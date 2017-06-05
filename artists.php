@@ -62,7 +62,16 @@ ob_start();
                         </thead>
                         <tbody>
                         <?php
-                        $stmt = $dbh->prepare("SELECT artist_id, name, genre, country FROM artist WHERE user_id=:userid ORDER BY name ASC ");
+                        $sql = "SELECT artist_id, name, genre, country 
+                                FROM artist 
+                                WHERE user_id=:userid 
+                                ORDER BY (
+                                  CASE WHEN name RLIKE '^(the)' 
+                                    THEN SUBSTR(name, LOCATE(' ', name) + 1)
+                                  ELSE
+                                    name
+                                  END) ASC ";
+                        $stmt = $dbh->prepare($sql);
                         $stmt->bindParam(":userid", $userid);
                         $stmt->execute();
                         foreach ($stmt->fetchAll() as $result) {

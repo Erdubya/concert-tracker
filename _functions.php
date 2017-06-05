@@ -196,13 +196,17 @@ function cookie_loader($dbh)
         $result = $stmt->fetch();
 //        var_dump($result);
 
-        if (hash_equals($result['token'], hash("sha256",
-                $token)) && strtotime($result['expires']) >= time()
-        ) {
-            $_SESSION['user']     = $result['user_id'];
-            $_SESSION['username'] = $result['name'];
+        if ($result != false) {
+            if (hash_equals($result['token'], hash("sha256",
+                    $token)) && strtotime($result['expires']) >= time()
+            ) {
+                $_SESSION['user']     = $result['user_id'];
+                $_SESSION['username'] = $result['name'];
 
-            return true;
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

@@ -21,14 +21,20 @@ if (!isset($_SESSION['user'])) {
     $userid = $_SESSION['user'];
 }
 
+// set the page title
 $pageTitle     = "Concerts - Concert Tracker";
+
+// include script for checkbox formatting
 $extraIncludes = array(
     "<script src='js/bootstrap-checkbox.js' defer></script>"
 );
+
+// get list of artist names
 $stmt = $dbh->prepare("SELECT artist_id, name FROM artist WHERE user_id=:userid ORDER BY name ASC ");
 $stmt->bindParam(":userid", $userid);
 $stmt->execute();
 $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ob_start();
 ?>
     <!DOCTYPE html>
@@ -68,6 +74,8 @@ ob_start();
                         </thead>
                         <tbody>
                         <?php
+                        
+                        // Get list of concerts
                         $sql = "SELECT c.concert_id, a.name, c.artist_id, c.date, c.city, c.notes, c.attend 
                                 FROM concert AS c, artist AS a 
                                 WHERE a.artist_id = c.artist_id
@@ -77,10 +85,11 @@ ob_start();
                         $stmt->bindParam(":userid", $userid);
                         $stmt->execute();
                         
+                        // display concerts
                         foreach ($stmt->fetchAll() as $key => $result) {
                             $current_date = date("Y-m-d");
                             
-                            // Check if the show was in the past and highlight accordingly
+                            // Check if the show was in the past and highlight the row accordingly
                             if ($result['date'] < $current_date && !$result['attend']) {
                                 echo "<tr class='warning'>";
                             } elseif ($result['date'] < $current_date) {
@@ -89,7 +98,7 @@ ob_start();
                                 echo "<tr>";
                             }
                             
-                            //create the display row, with data for edit display
+                            //date column, with data for edit display
                             echo "<td data-toggle='modal' 
                                       data-target='#concert-modal' 
                                       data-id='"     . $result['concert_id'] . "' 
@@ -101,9 +110,11 @@ ob_start();
                                  . $result['date']
                                  . "</td>";
                             
+                            // artist and city
                             echo "<td>" . $result['name'] . "</td>";
                             echo "<td>" . $result['city'] . "</td>";
                             
+                            // attendance
                             echo "<td class='text-center'>";
                             // Set symbol for attendance bool
                             if ($result['attend']) {
@@ -113,6 +124,7 @@ ob_start();
                             }
                             echo "</td>";
                             
+                            // end row
                             echo "</tr>";
                         }
                         ?>
@@ -150,7 +162,7 @@ ob_start();
                                         <select id="artist-edit" name="artist"
                                                 class="form-control">
                                             <?php
-                                            // Get list of available artists
+                                            // Display list of available artists
                                             foreach ($artist_list as $result) {
                                                 echo "<option value='" . $result['artist_id'] . "'>" . $result['name'] . "</option>";
                                             }
@@ -213,7 +225,7 @@ ob_start();
                             <option readonly selected disabled>Select an Artist
                             </option>
                             <?php
-                            // Get list of available artists
+                            // Display list of available artists
                             foreach ($artist_list as $result) {
                                 echo "<option value='" . $result['artist_id'] . "'>" . $result['name'] . "</option>";
                             }
