@@ -15,12 +15,13 @@ session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
 // redirect if not logged in
-if ( !isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
     header("Location: login.php");
 } else {
     $userid = $_SESSION['user'];
 }
 
+// set page title
 $pageTitle = "Artists - Concert Tracker";
 
 ob_start();
@@ -62,15 +63,10 @@ ob_start();
                         </thead>
                         <tbody>
                         <?php
-                        $sql = "SELECT artist_id, name, genre, country 
-                                FROM artist 
-                                WHERE user_id=:userid 
-                                ORDER BY (
-                                  CASE WHEN name RLIKE '^(the)' 
-                                    THEN SUBSTR(name, LOCATE(' ', name) + 1)
-                                  ELSE
-                                    name
-                                  END) ASC ";
+                        $sql  = "SELECT artist_id, name, genre, country 
+                                 FROM artist 
+                                 WHERE user_id=:userid 
+                                 ORDER BY " . artist_sort_sql() ." ASC ";
                         $stmt = $dbh->prepare($sql);
                         $stmt->bindParam(":userid", $userid);
                         $stmt->execute();

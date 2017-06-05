@@ -30,7 +30,7 @@ $extraIncludes = array(
 );
 
 // get list of artist names
-$stmt = $dbh->prepare("SELECT artist_id, name FROM artist WHERE user_id=:userid ORDER BY name ASC ");
+$stmt = $dbh->prepare("SELECT artist_id, name FROM artist WHERE user_id=:userid ORDER BY " . artist_sort_sql() . " ASC ");
 $stmt->bindParam(":userid", $userid);
 $stmt->execute();
 $artist_list = $stmt->fetchAll(PDO::FETCH_ASSOC);

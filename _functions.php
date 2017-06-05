@@ -253,3 +253,27 @@ function get_prep_stmt($string, $data)
 
     return $string;
 }
+
+/**
+ * Returns an order by string for sorting artists in the appropriate sql dialect.
+ * 
+ * @return string The string to use following ORDER BY.
+ */
+function artist_sort_sql()
+{
+    if (HANDLER == "mysql") {
+        return "(CASE WHEN name RLIKE '^(the)' 
+                     THEN SUBSTR(name, LOCATE(' ', name) + 1) 
+                 ELSE 
+                     name 
+                 END)";
+    } elseif (HANDLER == "pgsql") {
+        return "(CASE WHEN name ~* '^(the)' 
+                     THEN SUBSTR(name, POSITION(' ' IN name) + 1)
+                 ELSE
+                     name
+                 END)";
+    } else {
+        return "name";
+    }
+}
