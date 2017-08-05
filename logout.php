@@ -10,7 +10,8 @@ require_once "_functions.php";
 session_start();
 
 // unset the session and delete the cookie
-unset($_SESSION);
+session_unset();
+session_destroy();
 setcookie("uid", "", time() - 3600);
 
 header("Location: login.php");

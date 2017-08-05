@@ -197,8 +197,8 @@ function cookie_loader($dbh)
 //        var_dump($result);
 
         if ($result != false) {
-            if (hash_equals($result['token'], hash("sha256",
-                    $token)) && strtotime($result['expires']) >= time()
+            if (hash_equals($result['token'], hash("sha256", $token)) 
+                && strtotime($result['expires']) >= time()
             ) {
                 $_SESSION['user']     = $result['user_id'];
                 $_SESSION['username'] = $result['name'];
@@ -219,7 +219,7 @@ function cookie_loader($dbh)
 /**
  * Generates a random token from urandom byte data.
  *
- * @param int $length The length of the token to generate
+ * @param int $length The length in bytes of the token to generate
  *
  * @return string The generated token
  */
@@ -255,8 +255,8 @@ function get_prep_stmt($string, $data)
 }
 
 /**
- * Returns an order by string for sorting artists in the appropriate sql dialect.
- * 
+ * Returns an order by string for sorting artists in the appropriate sql
+ * dialect.
  * @return string The string to use following ORDER BY.
  */
 function artist_sort_sql()
