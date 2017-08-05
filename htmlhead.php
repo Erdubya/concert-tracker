@@ -13,6 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/images/concerts.png" type="image/x-icon" />
+    <!-- Source: https://icons8.com/icon/2830/microphone-2 -->
+
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
