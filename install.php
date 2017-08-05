@@ -11,7 +11,8 @@ $pageTitle = "Concert Tracker Install";
 // check if it's already been run
 if (file_exists("config.php")) {
     echo "<title>" . $pageTitle . "</title>";
-    die("Concert Tracker has already been installed. Delete config.php to reinstall.");
+    echo "Concert Tracker has already been installed. Delete config.php to reinstall.<br><br>";
+    die("<a href='index.php'>Go back</a>");
 }
 
 require_once "_functions.php";
