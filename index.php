@@ -66,13 +66,25 @@ ob_start();
                 </h1>
                 <h3>Concert Info:</h3>
                 <ul>
-                    <li><?php echo $result['city'] ?></li>
-                    <li><?php echo $result['notes'] ?></li>
+                    <?php 
+                    if (!is_null($result['city']) and $result['city'] !== '') {
+                        echo '<li>' . $result['city'] . '</li>';
+                    } 
+                    if (!is_null($result['notes']) and $result['notes'] !== '') {
+                        echo '<li>' . $result['notes'] . '</li>';
+                    }
+                    ?>
                 </ul>
                 <h3>Artist Info:</h3>
                 <ul>
-                    <li><?php echo $result['country'] ?></li>
-                    <li><?php echo $result['genre'] ?></li>
+                    <?php
+                    if (!is_null($result['country']) and $result['country'] !== '') {
+                        echo '<li>' . $result['country'] . '</li>';
+                    }
+                    if (!is_null($result['genre']) and $result['genre'] !== '') {
+                        echo '<li>' . $result['genre'] . '</li>';
+                    }
+                    ?>
                 </ul>
                 <?php
             } else {
