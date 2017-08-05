@@ -1,10 +1,10 @@
 # concert-tracker
-A web-based PHP solution to tracking concerts you've attended and artists you want to see. *Now with multiuser support!*
+A web-based PHP solution to tracking concerts you've attended and artists you want to see.
 
 Allows for simple management of artists and concerts for multiple users, along with the ability to import and export their own data.
 
 # Dependencies
-* A web server with PHP support
+* A web server with PHP support (Tested on Apache2 and Nginx)
 * PostgreSQL or MySQL (Others may work, these are the only ones tested)
 
 # Installation
@@ -17,7 +17,5 @@ The recommended installation is fairly straightforward:
 At this point, the system should be fully operational.
 
 # Bugs
-#### *Testing? What's that?*
-But seriously, I tried my best to test it out and make sure the system generally works. However, I can't catch them all, and I didn't put nearly enough time into error handling.
-
-If you find any bugs, please [report them](https://github.com/Erdubya/concert-tracker/issues) and I'll see what I can do.
+This is work-in-progress software, and as such is liable to have some bugs.  No warranty is provided. 
+However, if any bugs are found, please [report them](https://github.com/Erdubya/concert-tracker/issues) so that they can be patched.
