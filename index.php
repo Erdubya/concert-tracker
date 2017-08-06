@@ -61,8 +61,8 @@ ob_start();
             if ($result != false) {
                 ?>
                 <h1><?php echo $result['name'] ?>
-                    <small> <?php echo date("D, d M Y",
-                            strtotime($result['date'])) ?></small>
+                    <small><span class="avoidwrap"><?php echo date("D, d M Y",
+                            strtotime($result['date'])) ?></span></small>
                 </h1>
                 <h3>Concert Info:</h3>
                 <ul>

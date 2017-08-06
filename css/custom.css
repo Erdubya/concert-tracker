@@ -18,3 +18,7 @@
 .table-responsive {
     /*max-height: 80vh;*/
 }
+
+span.avoidwrap {
+    display: inline-block;
+}
