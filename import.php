@@ -70,7 +70,9 @@ ob_start();
                 <input type="file" id="file-upload" name="csvfile" required>
             </div>
             <div class="form-group">
-                <label for="headers">Headers</label><br>
+                <label for="headers" data-toggle="tooltip"
+                       title="Are there columns headers in the file?"
+                       data-placement="right">Headers</label><br>
                 <input id="headers" type="checkbox" name="headers"
                        data-group-cls="btn-group-sm">
             </div>
@@ -97,6 +99,8 @@ ob_start();
             }
 
             $(':checkbox').checkboxpicker();
+
+            $('[data-toggle="tooltip"]').tooltip();
         })
     </script>
     </body>

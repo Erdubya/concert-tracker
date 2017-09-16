@@ -64,7 +64,9 @@ ob_start();
                 </div>
             </div>
             <div class="form-group">
-                <label for="bom">Include BOM</label><br>
+                <label for="bom" data-toggle="tooltip" 
+                       title="If you don't know, choose yes" 
+                       data-placement="right">Include Unicode BOM</label><br>
                 <input type="checkbox" id="bom" name="bom" checked
                        data-group-cls="btn-group-sm">
             </div>
@@ -91,6 +93,8 @@ ob_start();
             }
 
             $(':checkbox').checkboxpicker();
+
+            $('[data-toggle="tooltip"]').tooltip();
         })
     </script>
     </body>
