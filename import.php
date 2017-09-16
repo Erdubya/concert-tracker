@@ -12,6 +12,9 @@ require_once "config.php";
 
 // start the session and connect to DB
 session_start();
+$dbh = db_connect() or die(ERR_MSG);
+
+cookie_loader($dbh);
 
 // redirect if not logged in
 if (!isset($_SESSION['user'])) {

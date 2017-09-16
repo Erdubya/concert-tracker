@@ -56,15 +56,6 @@ if (isset($_POST['login'])) {
             $formatExp = date("Y-m-d H:i:s", $expires);
             
             $stmt->execute() or die();
-            
-//            if(!$stmt->execute()) {
-//                var_dump($selector);
-//                var_dump($token);
-//                var_dump($hashToken);
-//                var_dump($_SESSION['user']);
-//                var_dump($formatExp);
-//                die();
-//            }
         }
         header("Location: index.php");
     } else {

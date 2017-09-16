@@ -186,15 +186,12 @@ function cookie_loader($dbh)
         $value = $_COOKIE['uid'];
 
         list($selector, $token) = explode(":", $value);
-//        var_dump($selector);
-//        var_dump($token);
 
         $stmt = $dbh->prepare("SELECT token, auth_token.user_id, expires, name FROM auth_token, users WHERE selector = :selector AND auth_token.user_id = users.user_id");
         $stmt->bindParam(":selector", $selector);
         $stmt->execute();
 
         $result = $stmt->fetch();
-//        var_dump($result);
 
         if ($result != false) {
             if (hash_equals($result['token'], hash("sha256", $token)) 
