@@ -65,7 +65,7 @@ ob_start();
             <div role="tabpanel" class="tab-pane active" id="panel1">
                 <!-- Concert List -->
                 <div class="table-responsive">
-                    <table class="table table-condensed">
+                    <table class="table">
                         <thead>
                         <tr>
                             <th class="col-xs-2">Date</th>
@@ -76,7 +76,7 @@ ob_start();
                         </thead>
                         <tbody>
                         <?php
-                        
+
                         // Get list of concerts
                         $sql = "SELECT c.concert_id, a.name, c.artist_id, c.date, c.city, c.notes, c.attend 
                                 FROM concert AS c, artist AS a 
@@ -86,11 +86,11 @@ ob_start();
                         $stmt = $dbh->prepare($sql);
                         $stmt->bindParam(":userid", $userid);
                         $stmt->execute();
-                        
+
                         // display concerts
                         foreach ($stmt->fetchAll() as $key => $result) {
                             $current_date = date("Y-m-d");
-                            
+
                             // Check if the show was in the past and highlight the row accordingly
                             if ($result['date'] < $current_date && !$result['attend']) {
                                 echo "<tr class='warning'>";
@@ -99,7 +99,7 @@ ob_start();
                             } else {
                                 echo "<tr>";
                             }
-                            
+
                             //date column, with data for edit display
                             echo "<td data-toggle='modal' 
                                       data-target='#concert-modal' 
@@ -111,11 +111,12 @@ ob_start();
                                       data-artist='" . $result['artist_id'] . "'>"
                                  . $result['date']
                                  . "</td>";
-                            
+
                             // artist and city
-                            echo "<td>" . $result['name'] . "</td>";
+                            echo "<td>" . $result['name'];
+                            echo "<br><small>Opener</small></td>";
                             echo "<td>" . $result['city'] . "</td>";
-                            
+
                             // attendance
                             echo "<td class='text-center'>";
                             // Set symbol for attendance bool
@@ -125,7 +126,7 @@ ob_start();
                                 echo "<span class='glyphicon glyphicon-remove'>";
                             }
                             echo "</td>";
-                            
+
                             // end row
                             echo "</tr>";
                         }
@@ -313,7 +314,7 @@ ob_start();
         //        var attend = $('#attend-edit');
         //        var attbtn = $('#attend-btn');
         //        var attspn = attbtn.find('span');
-        //        
+        //
         //        if (attend.attr('checked')) {
         //            attbtn.addClass('btn-danger');
         //            attbtn.removeClass('btn-success');
