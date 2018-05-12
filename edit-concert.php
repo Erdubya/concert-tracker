@@ -70,24 +70,27 @@ function delete_old_artists($dbh, $concert_id)
  */
 function add_new_artists($dbh, $concert_id, $p_artists, $o_artists)
 {
-//    $artist_id = 0;
     $stmt = $dbh->prepare("INSERT INTO concert_artists(artist_id, concert_id, is_primary) VALUES (:aid, :cid, :isp)");
     $stmt->bindParam(':aid', $artist_id);
     $stmt->bindParam(':cid', $concert_id);
     $stmt->bindParam(':isp', $is_primary);
 
     foreach ($p_artists as $a) {
-        $artist_id = $a;
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $artist_id  = $a;
+        /** @noinspection PhpUnusedLocalVariableInspection */
         $is_primary = true;
         $stmt->execute();
     }
     foreach ($o_artists as $a) {
-        $artist_id = $a;
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $artist_id  = $a;
+        /** @noinspection PhpUnusedLocalVariableInspection */
         $is_primary = false;
         $stmt->execute();
     }
 }
 
 unset($_POST);
-die();
+//die();
 header('Location: concerts.php');

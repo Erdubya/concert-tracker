@@ -301,7 +301,7 @@ ob_start();
         // Set navbar active highlighting
         $(document).ready(function () {
             // get current URL path and assign 'active' class to navbar
-            var pathname = new URL(window.location.href).pathname.split('/').pop();
+            let pathname = new URL(window.location.href).pathname.split('/').pop();
             if (pathname !== "") {
                 $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
             }
