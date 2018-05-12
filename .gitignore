@@ -46,3 +46,5 @@ fabric.properties
 
 .idea/
 config.php
+/artists.csv
+/concerts.csv
