@@ -36,7 +36,7 @@ $stmt = $dbh->prepare("SELECT artist_id, name FROM artist WHERE user_id=:userid 
 $stmt->bindParam(":userid", $userid);
 $stmt->execute();
 $artist_fetch = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$artist_arr = [];
+$artist_arr   = [];
 ob_start();
 foreach ($artist_fetch as $result) {
     $artist_arr[$result['artist_id']] = $result['name'];
@@ -59,7 +59,7 @@ ob_start();
     </header>
 
     <main class="container head-foot-spacing">
-        <button type="button" class="btn btn-primary">Add New</button>
+        <button type="button" class="btn btn-primary" data-toggle='modal' data-target='#concert-modal' data-attend='1'>Add New</button>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
@@ -104,17 +104,13 @@ ob_start();
                           c.notes,
                           array_to_json(ARRAY(select name from artist
                             join concert_artists a on artist.artist_id = a.artist_id
-                          where is_primary = true)) p_artists,
+                          where is_primary = true and c.concert_id = a.concert_id)) p_artists,
                           array_to_json(ARRAY(select name from artist
                             join concert_artists a on artist.artist_id = a.artist_id
-                          where is_primary = false)) o_artists
+                          where is_primary = false and c.concert_id = a.concert_id)) o_artists
                         FROM
                           concert c,
-                          artist a,
-                          concert_artists ca
-                        WHERE
-                          c.concert_id = ca.concert_id
-                          AND a.artist_id = ca.artist_id
+                          artist a
                         GROUP BY
                           c.concert_id
                         ORDER BY
@@ -137,20 +133,17 @@ ob_start();
                     }
 
                     //date column, with data for edit display
-                    echo "<td data-toggle='modal'
-                                      data-target='#concert-modal' 
-                                      data-id='" . $result['concert_id'] . "' 
-                                      data-date='" . $result['date'] . "'
-                                      data-o_artists='" . $result['o_artists'] . "'
-                                      data-p_artists='" . $result['p_artists'] . "'
-                                      data-city='" . $result['city'] . "' 
-                                      data-venue='" . $result['venue'] . "' 
-                                      data-notes='" . $result['notes'] . "' 
-                                      data-attend='" . $result['attend'] . "'>"
-                         . $result['date']
-                         . "<br>";
-                    echo "<span class='checkbox-inline'><label><input type='checkbox'></label></span> ";
-                    echo "<span class='glyphicon glyphicon-edit' >";
+                    echo "<td>" . $result['date'] . "<br>";
+                    echo "<span class='glyphicon glyphicon-unchecked'></span> ";
+                    echo "<span class='glyphicon glyphicon-pencil' data-toggle='modal' data-target='#concert-modal'
+                            data-id='" . $result['concert_id'] . "'
+                            data-date='" . $result['date'] . "'
+                            data-o_artists='" . $result['o_artists'] . "'
+                            data-p_artists='" . $result['p_artists'] . "'
+                            data-city='" . $result['city'] . "' 
+                            data-venue='" . $result['venue'] . "' 
+                            data-notes='" . $result['notes'] . "' 
+                            data-attend='" . $result['attend'] . "'></span> ";
                     echo "<span class='glyphicon glyphicon-remove-circle'>";
                     echo "</td>";
 
@@ -251,12 +244,19 @@ ob_start();
                                        maxlength="50">
                             </div>
                             <div class="form-group">
+                                <label for="venue-edit"
+                                       class="control-label">Venue</label>
+                                <input type="text" id="venue-edit"
+                                       name="venue" class="form-control"
+                                       maxlength="50">
+                            </div>
+                            <div class="form-group">
                                 <label for="notes-edit"
                                        class="control-label">Notes</label>
                                 <textarea id="notes-edit" name="notes"
                                           class="form-control"
                                           maxlength="500"
-                                          rows="10"></textarea>
+                                          rows="5"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="attend-edit">Attending</label><br>
@@ -268,14 +268,16 @@ ob_start();
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"
-                                form="edit-form" name="update">Save
-                            Changes
+                        <button type="submit" class="btn btn-primary" id="modal-edit-button"
+                                form="edit-form" name="update">Save Changes
                         </button>
-                        <button type="button" class="btn btn-default"
+                        <button type="submit" class="btn btn-success" id="modal-add-button"
+                                form="edit-form" name="add">Add Concert
+                        </button>
+                        <button type="button" class="btn btn-default" id="modal-cancel-button"
                                 data-dismiss="modal">Close
                         </button>
-                        <button type="submit" class="btn btn-danger"
+                        <button type="submit" class="btn btn-danger" id="modal-delete-button"
                                 form="edit-form" name="delete">Delete
                         </button>
                     </div>
@@ -330,44 +332,53 @@ ob_start();
         // Set dynamic data in the edit modal
         modaldiv.on('show.bs.modal', function (event) {
             let link = $(event.relatedTarget); // Item that triggered the modal
-
-            let date = link.data('date'); // Extract info from data-* attributes
+            let p_artist_keys = [];
+            let o_artist_keys = [];
+            // Extract info from data-* attributes, if exist
+            let date = link.data('date');
             let p_artist = link.data('p_artists');
             let o_artist = link.data('o_artists');
             let city = link.data('city');
+            let venue = link.data('venue');
             let notes = link.data('notes');
             let attend = link.data('attend');
             let id = link.data('id');
 
-            // console.log(date);
-            // console.log(artist_array);
-            // console.log(p_artist);
-            // console.log(o_artist);
-            // console.log(city);
-            // console.log(notes);
-            // console.log(attend);
-            // console.log(id);
+            console.log(attend);
 
-            // get selected artists
-            let p_artist_keys = [];
-            for (let artist of p_artist) {
-                p_artist_keys.push(getKeyByValue(artist_array, artist));
+            if (link.is('span')) {
+                // set title
+                $('#myModalLabel').text('Edit Concert');
+                jQuery('#edit-form').attr('action', 'edit-concert.php');
+                // get selected artists
+                for (let artist of p_artist) {
+                    p_artist_keys.push(getKeyByValue(artist_array, artist));
+                }
+                for (let artist of o_artist) {
+                    o_artist_keys.push(getKeyByValue(artist_array, artist));
+                }
+                jQuery('#modal-edit-button').show();
+                jQuery('#modal-delete-button').show();
+                jQuery('#modal-add-button').hide();
+            } else {
+                $('#myModalLabel').text('Add Concert');
+                jQuery('#edit-form').attr('action', 'add-concert.php');
+                jQuery('#modal-edit-button').hide();
+                jQuery('#modal-delete-button').hide();
+                jQuery('#modal-add-button').show();
             }
-            let o_artist_keys = [];
-            for (let artist of o_artist) {
-                o_artist_keys.push(getKeyByValue(artist_array, artist));
-            }
-            // console.log(p_artist_keys);
-            // console.log(o_artist_keys);
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             let modal = $(this);
             modal.find('.modal-body #date-edit').val(date);
             modal.find('.modal-body #city-edit').val(city);
+            modal.find('.modal-body #venue-edit').val(venue);
             modal.find('.modal-body #notes-edit').val(notes);
             if (attend === 1) {
                 modal.find('.modal-body #attend-edit').prop('checked', true);
+            } else {
+                modal.find('.modal-body #attend-edit').prop('checked', false);
             }
             modal.find('.modal-body #concert-id').val(id);
 
