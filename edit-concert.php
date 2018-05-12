@@ -12,24 +12,20 @@ require_once "_functions.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-
-var_dump($_POST);
-//die();
-
 if (isset($_POST['update'])) {
-    $stmt = $dbh->prepare("UPDATE concert SET date=:showdate, city=:city, attend=:attend, notes=:notes WHERE concert_id=:id");
-//    $stmt->bindParam(':artist', $artist);
+    $stmt = $dbh->prepare("UPDATE concert SET date=:showdate, city=:city, venue=:venue, attend=:attend, notes=:notes WHERE concert_id=:id");
     $stmt->bindParam(':showdate', $date);
     $stmt->bindParam(':city', $city);
+    $stmt->bindParam(':venue', $venue);
     $stmt->bindParam(':attend', $attend);
     $stmt->bindParam(':notes', $notes);
     $stmt->bindParam(':id', $id);
 
-//    $artist = (int)$_POST['artist'];
-    $date   = $_POST['date'];
-    $city   = $_POST['city'];
-    $notes  = $_POST['notes'];
-    $id     = (int)$_POST['id'];
+    $date  = $_POST['date'];
+    $city  = $_POST['city'];
+    $venue = $_POST['venue'];
+    $notes = $_POST['notes'];
+    $id    = (int)$_POST['id'];
     if (isset($_POST['attend'])) {
         $attend = 1;
     } else {
@@ -41,12 +37,14 @@ if (isset($_POST['update'])) {
     delete_old_artists($dbh, $id);
     add_new_artists($dbh, $id, $_POST['p_artist'], $_POST['o_artist']);
 } elseif (isset($_POST['delete'])) {
-    $stmt = $dbh->prepare("DELETE FROM concert WHERE concert_id=:id");
-
-    $stmt->bindParam(':id', $id);
-
     $id = (int)$_POST['id'];
 
+    $stmt = $dbh->prepare("DELETE FROM concert_artists WHERE concert_id=:id");
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+
+    $stmt = $dbh->prepare("DELETE FROM concert WHERE concert_id=:id");
+    $stmt->bindParam(':id', $id);
     $stmt->execute();
 }
 
@@ -77,14 +75,14 @@ function add_new_artists($dbh, $concert_id, $p_artists, $o_artists)
 
     foreach ($p_artists as $a) {
         /** @noinspection PhpUnusedLocalVariableInspection */
-        $artist_id  = $a;
+        $artist_id = $a;
         /** @noinspection PhpUnusedLocalVariableInspection */
         $is_primary = true;
         $stmt->execute();
     }
     foreach ($o_artists as $a) {
         /** @noinspection PhpUnusedLocalVariableInspection */
-        $artist_id  = $a;
+        $artist_id = $a;
         /** @noinspection PhpUnusedLocalVariableInspection */
         $is_primary = false;
         $stmt->execute();
@@ -92,5 +90,4 @@ function add_new_artists($dbh, $concert_id, $p_artists, $o_artists)
 }
 
 unset($_POST);
-//die();
 header('Location: concerts.php');

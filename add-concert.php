@@ -12,20 +12,17 @@ require_once "_functions.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
-//var_dump($_POST);
-//die();
-
 if (isset($_POST['add'])) {
-    $stmt = $dbh->prepare("INSERT INTO concert(date, city, attend, notes) VALUES (:showdate, :city, :attend, :notes)");
-//    $stmt->bindParam(':artist', $artist);
+    $stmt = $dbh->prepare("INSERT INTO concert(date, city, venue, attend, notes) VALUES (:showdate, :city, :venue, :attend, :notes)");
     $stmt->bindParam(':showdate', $date);
     $stmt->bindParam(':city', $city);
+    $stmt->bindParam(':venue', $venue);
     $stmt->bindParam(':attend', $attend);
     $stmt->bindParam(':notes', $notes);
 
-//    $artist = $_POST['artist_id'];
     $date   = $_POST['date'];
     $city   = $_POST['city'];
+    $venue   = $_POST['venue'];
     $notes  = $_POST['notes'];
     if (isset($_POST['attend'])) {
         $attend = 1;

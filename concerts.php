@@ -144,7 +144,8 @@ ob_start();
                             data-venue='" . $result['venue'] . "' 
                             data-notes='" . $result['notes'] . "' 
                             data-attend='" . $result['attend'] . "'></span> ";
-                    echo "<span class='glyphicon glyphicon-remove-circle'>";
+                    echo "<span class='glyphicon glyphicon-remove-circle' data-toggle='modal' data-target='#delete-modal'
+                            data-id='" . $result['concert_id'] . "'></span>";
                     echo "</td>";
 
                     // artists and city
@@ -277,8 +278,35 @@ ob_start();
                         <button type="button" class="btn btn-default" id="modal-cancel-button"
                                 data-dismiss="modal">Close
                         </button>
-                        <button type="submit" class="btn btn-danger" id="modal-delete-button"
-                                form="edit-form" name="delete">Delete
+                        <button type="button" class="btn btn-danger" id="modal-delete-button"
+                                data-dismiss="modal">Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DELETE MODAL -->
+        <div class="modal fade" id="delete-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel2">Confirm Delete</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="delete-form" action="edit-concert.php" method="post">
+                            <input hidden title="id" type="text" id="concert-idd" name="id">
+                        </form>
+                        Are you sure you wan to delete this concert?  This cannot be undone.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
+                        </button>
+                        <button type="submit" class="btn btn-danger" form="delete-form" name="delete">Delete
                         </button>
                     </div>
                 </div>
@@ -386,26 +414,17 @@ ob_start();
             $('#o-artist-edit').val(o_artist_keys).trigger('change');
         });
 
-        //    function change_attend() {
-        //        var attend = $('#attend-edit');
-        //        var attbtn = $('#attend-btn');
-        //        var attspn = attbtn.find('span');
-        //
-        //        if (attend.attr('checked')) {
-        //            attbtn.addClass('btn-danger');
-        //            attbtn.removeClass('btn-success');
-        //            attspn.addClass('glyphicon-remove');
-        //            attspn.removeClass('glyphicon-ok');
-        //            attend.removeAttr('checked');
-        //        } else {
-        //            attbtn.removeClass('btn-danger');
-        //            attbtn.addClass('btn-success');
-        //            attspn.removeClass('glyphicon-remove');
-        //            attspn.addClass('glyphicon-ok');
-        //            attend.prop('checked', true);
-        //        }
-        //    }
+        // Set concert ID for delete modal
+        jQuery('#delete-modal').on('show.bs.modal', function (event) {
+            let id = $(event.relatedTarget).data('id');
+            $(this).find('.modal-body #concert-idd').val(id);
+        });
 
+        jQuery('#modal-delete-button').click(function() {
+            jQuery('#delete-modal').modal('show');
+        });
+
+        // Disallow hard line breaks in edit textareas
         $('textarea').on('keyup', function () {
             $(this).val($(this).val().replace(/[\r\n\v]+/g, ''));
         });
