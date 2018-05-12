@@ -59,7 +59,9 @@ ob_start();
     </header>
 
     <main class="container head-foot-spacing">
-        <button type="button" class="btn btn-primary" data-toggle='modal' data-target='#concert-modal' data-attend='1'>Add New</button>
+        <button type="button" class="btn btn-primary" data-toggle='modal' data-target='#concert-modal' data-attend='1'>
+            Add New
+        </button>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
@@ -102,21 +104,44 @@ ob_start();
                           c.venue,
                           c.attend,
                           c.notes,
-                          array_to_json(ARRAY(select name from artist
-                            join concert_artists a on artist.artist_id = a.artist_id
-                          where is_primary = true and c.concert_id = a.concert_id)) p_artists,
-                          array_to_json(ARRAY(select name from artist
-                            join concert_artists a on artist.artist_id = a.artist_id
-                          where is_primary = false and c.concert_id = a.concert_id)) o_artists
+                          array_to_json(
+                            ARRAY(
+                              select 
+                                name 
+                              from 
+                                artist
+                                join concert_artists a 
+                                  on artist.artist_id = a.artist_id
+                              where 
+                                is_primary = true 
+                                and c.concert_id = a.concert_id
+                            )
+                          ) p_artists,
+                          array_to_json(
+                            ARRAY(
+                              select 
+                                name 
+                              from 
+                                artist
+                                join concert_artists a 
+                                  on artist.artist_id = a.artist_id
+                              where 
+                                is_primary = false 
+                                and c.concert_id = a.concert_id
+                            )
+                          ) o_artists
                         FROM
                           concert c,
                           artist a
+                        WHERE
+                          a.user_id = :user
                         GROUP BY
                           c.concert_id
                         ORDER BY
                           c.date DESC;";
 
                 $stmt = $dbh->prepare($sql);
+                $stmt->bindParam(":user", $_SESSION['user']);
                 $stmt->execute();
 
                 // display concerts
@@ -220,10 +245,7 @@ ob_start();
                                        class="control-label">Primary Artist(s)</label>
                                 <select id="p-artist-edit" name="p_artist[]"
                                         class="form-control" multiple="multiple">
-                                    <?php
-                                    // Display list of available artists
-                                    echo $artist_list;
-                                    ?>
+                                    <?php echo $artist_list; ?>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -231,10 +253,7 @@ ob_start();
                                        class="control-label">Opening Artist(s)</label>
                                 <select id="o-artist-edit" name="o_artist[]"
                                         class="form-control" multiple="multiple">
-                                    <?php
-                                    // Display list of available artists
-                                    echo $artist_list;
-                                    ?>
+                                    <?php echo $artist_list; ?>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -301,7 +320,7 @@ ob_start();
                         <form id="delete-form" action="edit-concert.php" method="post">
                             <input hidden title="id" type="text" id="concert-idd" name="id">
                         </form>
-                        Are you sure you wan to delete this concert?  This cannot be undone.
+                        Are you sure you want to delete this concert? This cannot be undone.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
@@ -328,28 +347,23 @@ ob_start();
         artist_array = <?php echo json_encode($artist_arr) ?>;
         modaldiv = $('#concert-modal');
 
-        // Set navbar active highlighting
         $(document).ready(function () {
+            // Set navbar active highlighting
             // get current URL path and assign 'active' class to navbar
             let pathname = new URL(window.location.href).pathname.split('/').pop();
             if (pathname !== "") {
                 $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
             }
 
+            // create yes/no toggle checkboxes
             $(':checkbox').checkboxpicker();
 
-            // $("#datepicker").datepicker({
-            //     showOtherMonths: true,
-            //     selectOtherMonths: true,
-            //     dateFormat: "yy-mm-dd"
-            // });
-
+            // create artist selects for edit modal
             $('#p-artist-edit').select2({
                 dropdownParent: modaldiv,
                 theme: "bootstrap",
                 width: '100%'
             });
-
             $('#o-artist-edit').select2({
                 dropdownParent: modaldiv,
                 theme: "bootstrap",
@@ -362,7 +376,8 @@ ob_start();
             let link = $(event.relatedTarget); // Item that triggered the modal
             let p_artist_keys = [];
             let o_artist_keys = [];
-            // Extract info from data-* attributes, if exist
+
+            // Extract info from data-* attributes, if it exists
             let date = link.data('date');
             let p_artist = link.data('p_artists');
             let o_artist = link.data('o_artists');
@@ -372,12 +387,12 @@ ob_start();
             let attend = link.data('attend');
             let id = link.data('id');
 
-            console.log(attend);
-
+            // if edit or create dialog
             if (link.is('span')) {
                 // set title
                 $('#myModalLabel').text('Edit Concert');
                 jQuery('#edit-form').attr('action', 'edit-concert.php');
+
                 // get selected artists
                 for (let artist of p_artist) {
                     p_artist_keys.push(getKeyByValue(artist_array, artist));
@@ -385,12 +400,17 @@ ob_start();
                 for (let artist of o_artist) {
                     o_artist_keys.push(getKeyByValue(artist_array, artist));
                 }
+
+                // display correct buttons
                 jQuery('#modal-edit-button').show();
                 jQuery('#modal-delete-button').show();
                 jQuery('#modal-add-button').hide();
             } else {
+                // set title
                 $('#myModalLabel').text('Add Concert');
                 jQuery('#edit-form').attr('action', 'add-concert.php');
+
+                // display correct buttons
                 jQuery('#modal-edit-button').hide();
                 jQuery('#modal-delete-button').hide();
                 jQuery('#modal-add-button').show();
@@ -410,6 +430,7 @@ ob_start();
             }
             modal.find('.modal-body #concert-id').val(id);
 
+            // set selected artists
             $('#p-artist-edit').val(p_artist_keys).trigger('change');
             $('#o-artist-edit').val(o_artist_keys).trigger('change');
         });
@@ -420,7 +441,8 @@ ob_start();
             $(this).find('.modal-body #concert-idd').val(id);
         });
 
-        jQuery('#modal-delete-button').click(function() {
+        // edit modal delete defers to delete modal
+        jQuery('#modal-delete-button').click(function () {
             jQuery('#delete-modal').modal('show');
         });
 
