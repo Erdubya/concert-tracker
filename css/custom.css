@@ -22,3 +22,21 @@
 span.avoidwrap {
     display: inline-block;
 }
+
+#ui-datepicker-div {
+    z-index: 5 !important;
+}
+
+.select2-container--bootstrap .select2-selection {
+    /*display: block;*/
+    width: 100%;
+    min-height: 43px;
+    padding: 5px 10px;
+    font-size: 15px;
+    line-height: 1.42857143;
+    color: #333333;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #cccccc;
+    border-radius: 0;
+}
