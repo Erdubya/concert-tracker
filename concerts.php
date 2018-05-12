@@ -224,7 +224,7 @@ ob_start();
                             <div class="form-group">
                                 <label for="p-artist-edit"
                                        class="control-label">Primary Artist(s)</label>
-                                <select id="p-artist-edit" name="p_artist"
+                                <select id="p-artist-edit" name="p_artist[]"
                                         class="form-control" multiple="multiple">
                                     <?php
                                     // Display list of available artists
@@ -235,7 +235,7 @@ ob_start();
                             <div class="form-group">
                                 <label for="o-artist-edit"
                                        class="control-label">Opening Artist(s)</label>
-                                <select id="o-artist-edit" name="o_artist"
+                                <select id="o-artist-edit" name="o_artist[]"
                                         class="form-control" multiple="multiple">
                                     <?php
                                     // Display list of available artists
@@ -308,11 +308,11 @@ ob_start();
 
             $(':checkbox').checkboxpicker();
 
-            $("#datepicker").datepicker({
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                dateFormat: "yy-mm-dd"
-            });
+            // $("#datepicker").datepicker({
+            //     showOtherMonths: true,
+            //     selectOtherMonths: true,
+            //     dateFormat: "yy-mm-dd"
+            // });
 
             $('#p-artist-edit').select2({
                 dropdownParent: modaldiv,
