@@ -16,12 +16,7 @@ $dbh = db_connect() or die(ERR_MSG);
 
 cookie_loader($dbh);
 
-// redirect if not logged in
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-} else {
-    $userid = $_SESSION['user'];
-}
+$userid = check_login();
 
 $pageTitle     = "Import Data - Concert Tracker";
 $extraIncludes = array(
@@ -93,7 +88,7 @@ ob_start();
         // Handle dynamic navbar highlighting
         $(document).ready(function () {
             // get current URL path and assign 'active' class to navbar
-            var pathname = new URL(window.location.href).pathname.split('/').pop();
+            let pathname = new URL(window.location.href).pathname.split('/').pop();
             if (pathname !== "") {
                 $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
             }

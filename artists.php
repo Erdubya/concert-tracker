@@ -16,12 +16,7 @@ $dbh = db_connect() or die(ERR_MSG);
 
 cookie_loader($dbh);
 
-// redirect if not logged in
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-} else {
-    $userid = $_SESSION['user'];
-}
+$userid = check_login();
 
 // set page title
 $pageTitle = "Artists - Concert Tracker";
@@ -190,7 +185,7 @@ ob_start();
         // Control navbar active highlighting
         $(document).ready(function () {
             // get current URL path and assign 'active' class to navbar
-            var pathname = new URL(window.location.href).pathname.split('/').pop();
+            let pathname = new URL(window.location.href).pathname.split('/').pop();
             if (pathname !== "") {
                 $('.nav > li > a[href="' + pathname + '"]').parent().addClass('active');
             }
@@ -198,15 +193,15 @@ ob_start();
 
         // Set dynamic data in the edit modal
         $('#artist-modal').on('show.bs.modal', function (event) {
-            var link = $(event.relatedTarget); // Item that triggered the modal
-            var artist = link.data('artist'); // Extract info from data-* attributes
-            var genre = link.data('genre');
-            var country = link.data('country');
-            var id = link.data('id');
+            let link = $(event.relatedTarget); // Item that triggered the modal
+            let artist = link.data('artist'); // Extract info from data-* attributes
+            let genre = link.data('genre');
+            let country = link.data('country');
+            let id = link.data('id');
 
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this);
+            let modal = $(this);
             modal.find('.modal-body #artist-edit').val(artist);
             modal.find('.modal-body #genre-edit').val(genre);
             modal.find('.modal-body #country-edit').val(country);

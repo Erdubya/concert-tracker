@@ -181,6 +181,18 @@ function check_install()
     }
 }
 
+function check_login()
+{
+    // redirect if not logged in
+    if (!isset($_SESSION['user'])) {
+        header("Location: /login");
+    } else {
+        return $_SESSION['user'];
+    }
+
+    return null; // never called due to header redirect
+}
+
 /**
  * Removes the byte order mark from a utf-8 string.
  *

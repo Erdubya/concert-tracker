@@ -16,13 +16,7 @@ $dbh = db_connect() or die(ERR_MSG);
 
 cookie_loader($dbh);
 
-// redirect if not logged in
-if (!isset($_SESSION['user'])) {
-    $userid = null;
-    header("Location: login.php");
-} else {
-    $userid = $_SESSION['user'];
-}
+$userid = check_login();
 
 $pageTitle = "Profile - Concert Tracker";
 
@@ -47,7 +41,7 @@ ob_start();
     </header>
     <main class="container head-foot-spacing">
         <div>
-            <form class="form-login container panel panel-default" 
+            <form class="form-login container panel panel-default"
                   method="post" action="user-update.php">
                 <h2>Update User Info</h2>
                 <small>Change all or part of your info</small>
@@ -100,14 +94,14 @@ ob_start();
     include 'footer.php';
     echo $footer;
     ?>
-    
+
     <script>
         function checkPasswordMatch() {
             // set variables
-            var password        = $("#newpass").val();
-            var confirmPassword = $("#newpass-conf").val();
-            var div             = $("#confirm-div");
-            var matchHelp       = $("#helpblock-match");
+            let password = $("#newpass").val();
+            let confirmPassword = $("#newpass-conf").val();
+            let div = $("#confirm-div");
+            let matchHelp = $("#helpblock-match");
 
             // check password confirmation
             if (password === "" && confirmPassword === "") {

@@ -17,7 +17,7 @@ $dbh = db_connect() or die(ERR_MSG);
 cookie_loader($dbh);
 
 if (isset($_SESSION['user'])) {
-    header("Location: index.php");
+    header("Location: /");
 }
 
 $pageTitle = "Login - Concert Tracker";
@@ -27,11 +27,11 @@ ob_start();
     <!DOCTYPE html>
     <html lang="en">
     <!-- Include the HTML head -->
-    <?php include "htmlhead.php" ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . "/htmlhead.php" ?>
     <body>
     <header>
         <?php
-        include "navbar.php";
+        include $_SERVER['DOCUMENT_ROOT'] . "/navbar.php";
         echo $navbar;
         ?>
     </header>
@@ -40,7 +40,7 @@ ob_start();
         <!-- Import from file form -->
         <form class="container panel form-login panel-default"
               action="user-login.php" method="post">
-            <a class="btn btn-sm btn-primary" style="float: right" href="register.php">Register Here</a>
+            <a class="btn btn-sm btn-primary" style="float: right" href="/register">Register Here</a>
             <h2>Login</h2>
             <hr>
             <div class="form-group">
@@ -68,7 +68,7 @@ ob_start();
     include 'footer.php';
     echo $footer;
     ?>
-    
+
     </body>
     </html>
 <?php

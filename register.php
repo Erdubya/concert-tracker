@@ -17,7 +17,7 @@ $dbh = db_connect() or die(ERR_MSG);
 cookie_loader($dbh);
 
 if (isset($_SESSION['user'])) {
-    header("Location: index.php");
+    header("Location: /");
 }
 
 $pageTitle = "Register - Concert Tracker";
@@ -40,7 +40,7 @@ ob_start();
         <!-- Import from file form -->
         <form class="container panel form-login panel-default"
               action="user-register.php" method="post">
-            <a class="btn btn-sm btn-primary" style="float: right" href="login.php">Login Here</a>
+            <a class="btn btn-sm btn-primary" style="float: right" href="/login">Login Here</a>
             <h2>Register</h2>
             <hr>
             <div class="form-group">
@@ -72,14 +72,14 @@ ob_start();
     include 'footer.php';
     echo $footer;
     ?>
-    
+
     <script>
         function checkPasswordMatch() {
             // set variables
-            var password        = $("#password").val();
-            var confirmPassword = $("#passconf").val();
-            var div             = $("#confirm-div");
-            var matchHelp       = $("#helpblock-match");
+            let password = $("#password").val();
+            let confirmPassword = $("#passconf").val();
+            let div = $("#confirm-div");
+            let matchHelp = $("#helpblock-match");
 
             // check password confirmation
             if (password === "" && confirmPassword === "") {

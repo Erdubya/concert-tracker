@@ -11,10 +11,6 @@ class Home {
     public function GET() { include 'home.php'; }
 }
 
-class Login {
-    public function GET() { include 'login.php'; }
-}
-
 class Concerts {
     public function GET() { include 'concerts.php'; }
 }
@@ -35,6 +31,14 @@ class Profile {
     public function GET() { include 'profile.php'; }
 }
 
+class Login {
+    public function GET() { include 'login.php'; }
+}
+
+class Register {
+    public function GET() { include 'register.php'; }
+}
+
 class Logout {
     public function GET() { include 'logout.php'; }
 }
@@ -43,6 +47,7 @@ class Logout {
 $routes = array(
     '/' => 'Home',
     '/login' => 'Login',
+    '/register' => 'Register',
     '/concerts' => 'Concerts',
     '/artists' => 'Artists',
     '/profile/edit' => 'Profile',
