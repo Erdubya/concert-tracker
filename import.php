@@ -25,7 +25,7 @@ if (!isset($_SESSION['user'])) {
 
 $pageTitle     = "Import Data - Concert Tracker";
 $extraIncludes = array(
-    "<script src='js/bootstrap-checkbox.js' defer></script>"
+    "<script src='/js/bootstrap-checkbox.js' defer></script>"
 );
 
 ob_start();
@@ -33,11 +33,11 @@ ob_start();
     <!DOCTYPE html>
     <html lang="en">
     <!-- Include the HTML head -->
-    <?php include "htmlhead.php" ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . "/htmlhead.php" ?>
     <body>
     <header>
         <?php
-        include "navbar.php";
+        include $_SERVER['DOCUMENT_ROOT'] . "/navbar.php";
         echo $navbar;
         ?>
     </header>
@@ -45,7 +45,7 @@ ob_start();
     <main class="container head-foot-spacing">
         <!-- Import from file form -->
         <form class="container panel form-upload panel-default"
-              action="import-csv.php"
+              action="/import-csv.php"
               method="post" enctype="multipart/form-data">
             <h2>Import Data</h2>
             <hr>

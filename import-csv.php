@@ -41,7 +41,7 @@ if (isset($_FILES['csvfile'])) {
             $name    = $line[0];
             $genre   = $line[1];
             $country = $line[2];
-            
+
             // run only if artist does not exist
             $check = $dbh->prepare("SELECT artist_id FROM artist WHERE name=?");
             $check->execute(array($name));
@@ -52,7 +52,7 @@ if (isset($_FILES['csvfile'])) {
         }
 
         unset($_POST);
-        header('Location: artists.php');
+        header('Location: /artists');
     } elseif ($_POST['filetype'] == "concert") {
         // Prepare the statement for insertion
         $sql_str = "INSERT INTO concert(artist_id, date, city, notes, attend) VALUES (:artist, :showdate, :city, :notes, :attend)";
@@ -76,14 +76,14 @@ if (isset($_FILES['csvfile'])) {
                 $city   = $line[2];
                 $notes  = $line[3];
                 $attend = $line[4];
-                
+
                 // fix boolean return from postgres
                 if (is_string($attend)) {
                     $attend = (int)$attend;
                 }
 
 //                $array = array(
-//                    "artist" => $artist, 
+//                    "artist" => $artist,
 //                    "showdate" => $date,
 //                    "city" => $city,
 //                    "notes" => $notes,
@@ -96,8 +96,8 @@ if (isset($_FILES['csvfile'])) {
         }
 
         unset($_POST);
-        header('Location: concerts.php');
+        header('Location: /concerts');
     }
 } else {
-    header('Location: import.php');
+    header('Location: /data/import');
 }

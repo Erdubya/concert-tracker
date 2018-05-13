@@ -14,4 +14,4 @@ session_unset();
 session_destroy();
 setcookie("uid", "", time() - 3600);
 
-header("Location: login.php");
+header("Location: /login");

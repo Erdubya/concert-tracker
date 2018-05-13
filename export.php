@@ -25,7 +25,7 @@ if (!isset($_SESSION['user'])) {
 
 $pageTitle     = "Export Data - Concert Tracker";
 $extraIncludes = array(
-    "<script src='js/bootstrap-checkbox.js' defer></script>"
+    "<script src='/js/bootstrap-checkbox.js' defer></script>"
 );
 
 ob_start();
@@ -33,11 +33,11 @@ ob_start();
     <!DOCTYPE html>
     <html lang="en">
     <!-- Include the HTML head -->
-    <?php include "htmlhead.php" ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . "/htmlhead.php" ?>
     <body>
     <header>
         <?php
-        include "navbar.php";
+        include $_SERVER['DOCUMENT_ROOT'] . "/navbar.php";
         echo $navbar;
         ?>
     </header>
@@ -64,8 +64,8 @@ ob_start();
                 </div>
             </div>
             <div class="form-group">
-                <label for="bom" data-toggle="tooltip" 
-                       title="If you don't know, choose yes" 
+                <label for="bom" data-toggle="tooltip"
+                       title="If you don't know, choose yes"
                        data-placement="right">Include Unicode BOM</label><br>
                 <input type="checkbox" id="bom" name="bom" checked
                        data-group-cls="btn-group-sm">

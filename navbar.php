@@ -29,8 +29,8 @@ ob_start();
         <!-- Other navbar buttons -->
         <div class="collapse navbar-collapse" id="collapsible-navbar">
             <ul class="nav navbar-nav">
-                <li><a href="/concerts.php">Concerts</a></li>
-                <li><a href="/artists.php">Artists</a></li>
+                <li><a href="/concerts">Concerts</a></li>
+                <li><a href="/artists">Artists</a></li>
             </ul>
             <!-- Dropdown -->
             <ul class="nav navbar-nav">
@@ -38,8 +38,8 @@ ob_start();
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                        role="button">Data Management<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/import.php">Import</a></li>
-                        <li><a href="/export.php">Export</a></li>
+                        <li><a href="/data/import">Import</a></li>
+                        <li><a href="/data/export">Export</a></li>
                     </ul>
                 </li>
             </ul>
@@ -48,7 +48,7 @@ ob_start();
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                        role="button">
-                        <?php 
+                        <?php
                         if (isset($_SESSION['username'])) {
                             echo $_SESSION['username'];
                         } else {
@@ -57,8 +57,8 @@ ob_start();
                         ?>
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="profile.php">Options</a></li>
-                        <li><a href="logout.php">Logout</a></li>
+                        <li><a href="/profile/edit">Options</a></li>
+                        <li><a href="/profile/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -67,4 +67,5 @@ ob_start();
     </div>
 </nav>
 <?php
+global $navbar;
 $navbar = ob_get_clean();
