@@ -43,6 +43,10 @@ class Logout {
     public function GET() { include 'logout.php'; }
 }
 
+class Install {
+    public function GET() { include 'install.php'; }
+}
+
 // Mapping of request pattern (URL) to action classes (above)
 $routes = array(
     '/' => 'Home',
@@ -50,6 +54,7 @@ $routes = array(
     '/register' => 'Register',
     '/concerts' => 'Concerts',
     '/artists' => 'Artists',
+    '/install' => 'Install',
     '/profile/edit' => 'Profile',
     '/profile/logout' => 'Logout',
     '/data/import' => 'Import',

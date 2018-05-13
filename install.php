@@ -12,7 +12,7 @@ $pageTitle = "Concert Tracker Install";
 if (file_exists("config.php")) {
     echo "<title>" . $pageTitle . "</title>";
     echo "Concert Tracker has already been installed. Delete config.php to reinstall.<br><br>";
-    die("<a href='index.php'>Go back</a>");
+    die("<a href='/'>Go back</a>");
 }
 
 require_once "_functions.php";
@@ -57,10 +57,10 @@ if (isset($_POST['install'])) {
     if (!build_db($dbh, $dbms)) {
         unlink('config.php');
         unset($_POST);
-        header('Location: install.php');
+        header('Location: /install');
     }
 
-    header('Location: index.php');
+    header('Location: /');
 }
 ?>
 <html>

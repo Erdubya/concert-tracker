@@ -23,7 +23,7 @@ if (isset($_POST['login'])) {
     // Ensure only one row is returned
     if (count($result) != 1) {
         unset($_POST);
-        header("Location: login.php");
+        header("Location: /login");
     } else {
         $result = $result[0];
     }

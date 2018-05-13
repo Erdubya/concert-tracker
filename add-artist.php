@@ -27,4 +27,4 @@ if (isset($_POST['submit'])) {
     $stmt->execute();
 }
 unset($_POST);
-header('Location: artists.php');
+header('Location: /artists');

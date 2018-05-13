@@ -18,15 +18,15 @@ if (isset($_POST['register'])) {
     $stmt->bindParam(":email", $email);
     $stmt->bindParam(":passwd", $passwd);
     $stmt->bindParam(":name", $name);
-    
+
     $email  = trim($_POST['email']);
     $passwd = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $name   = trim($_POST['name']);
-    
+
     $stmt->execute();
-    
-    header("Location: login.php");
+
+    header("Location: /login");
 } else {
     unset($_POST);
-    header("Location: register.php");
+    header("Location: /register");
 }

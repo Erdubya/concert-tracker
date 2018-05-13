@@ -90,4 +90,4 @@ function add_new_artists($dbh, $concert_id, $p_artists, $o_artists)
 }
 
 unset($_POST);
-header('Location: concerts.php');
+header('Location: /concerts');

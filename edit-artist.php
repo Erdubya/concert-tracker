@@ -32,4 +32,4 @@ if (isset($_POST['submit'])) {
 
 // clear POST and return to the calling page
 unset($_POST);
-header('Location: artists.php');
+header('Location: /artists');

@@ -17,11 +17,11 @@ if (isset($_POST['update'])) {
     $stmt = $dbh->prepare("SELECT passwd FROM users WHERE user_id=?");
     $stmt->execute(array($userid));
     $result = $stmt->fetch();
-    
+
     if (password_verify($_POST['curpass'], $result['passwd'])) {
         $sql  = "UPDATE users SET email=:email, name=:name WHERE user_id=:uid";
         $stmt = $dbh->prepare($sql);
-        
+
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(":uid", $userid);
@@ -30,30 +30,30 @@ if (isset($_POST['update'])) {
         $name  = $_POST['name'];
 
         $stmt->execute();
-        
+
         $_SESSION['username'] = $name;
-        
+
         if ($_POST['newpass'] !== "" && ($_POST['newpass'] === $_POST['newpass-conf'])) {
             $sql  = "UPDATE users SET passwd=:passwd WHERE user_id=:uid";
             $stmt = $dbh->prepare($sql);
-            
+
             $stmt->bindParam(":passwd", $passwd);
             $stmt->bindParam(":uid", $userid);
-            
+
             $passwd = password_hash($_POST['newpass'], PASSWORD_DEFAULT);
-            
+
             $stmt->execute();
         }
-        
-        header("Location: profile.php");
+
+        header("Location: /profile/edit");
     } else {
         unset($_POST);
 //        die("PASSWORD incorrect");
-//        header("Location: profile.php");
+//        header("Location: /profile/edit");
     }
 
 } else {
     unset($_POST);
 //    die("UPDATE not set");
-//    header("Location: profile.php");
+//    header("Location: /profile/edit");
 }

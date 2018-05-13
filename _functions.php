@@ -177,7 +177,7 @@ function pgsql_tables()
 function check_install()
 {
     if ( ! file_exists('config.php')) {
-        die("Please run the <a href='install.php'>install script</a> set up Concert Tracker.");
+        die("Please run the <a href='/install'>install script</a> set up Concert Tracker.");
     }
 }
 
