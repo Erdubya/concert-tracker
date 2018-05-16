@@ -1,0 +1,19 @@
+{
+  "name": "erdubya/concert-tracker",
+  "description": "a simple app to track concerts",
+  "minimum-stability": "stable",
+  "license": "gpl",
+  "authors": [
+    {
+      "name": "Erik Wilson",
+      "email": "erikwilson@outlook.com"
+    }
+  ],
+  "require": {
+    "paragonie/random_compat": "dev-master",
+    "neitanod/forceutf8": "~2.0"
+  },
+  "autoload": {
+    "files": ["src/_functions.php"]
+  }
+}

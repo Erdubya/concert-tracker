@@ -5,8 +5,7 @@
  * Time: 18:14
  */
 require_once "config.php";
-require_once "_functions.php";
-require_once "lib/random_compat.phar";
+require_once "vendor/autoload.php";
 
 // start the session and connect to DB
 session_start();

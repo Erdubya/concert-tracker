@@ -48,3 +48,4 @@ fabric.properties
 config.php
 /artists.csv
 /concerts.csv
+/vendor/
