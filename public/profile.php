@@ -8,7 +8,7 @@ require_once '_functions.php';
 check_install();
 
 //require the config file
-require_once "config.php";
+require_once "paths.php";
 
 // start the session and connect to DB
 session_start();

@@ -45,7 +45,7 @@ crashlytics-build.properties
 fabric.properties
 
 .idea/
-config.php
 /artists.csv
 /concerts.csv
 /vendor/
+/config/config.json

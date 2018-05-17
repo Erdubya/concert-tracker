@@ -4,7 +4,7 @@
  * Date: 25-May-17
  * Time: 13:29
  */
-require_once "config.php";
+require_once "paths.php";
 require_once "_functions.php";
 
 // start the session and connect to DB

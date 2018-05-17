@@ -67,5 +67,4 @@ ob_start();
     </div>
 </nav>
 <?php
-global $navbar;
 $navbar = ob_get_clean();

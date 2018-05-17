@@ -1,16 +1,16 @@
 <?php
 /**
  * User: Erik Wilson
- * Date: 16-Apr-17
- * Time: 00:16
+ * Date: 17-Apr-17
+ * Time: 00:52
  */
 require_once '_functions.php';
 check_install();
 
 //require the config file
-require_once "config.php";
+require_once "paths.php";
 
-// start the session and connect to DB
+// start the session
 session_start();
 $dbh = db_connect() or die(ERR_MSG);
 
@@ -18,9 +18,9 @@ cookie_loader($dbh);
 
 $userid = check_login();
 
-$pageTitle     = "Import Data - Concert Tracker";
+$pageTitle     = "Export Data - Concert Tracker";
 $extraIncludes = array(
-    "<script src='/js/bootstrap-checkbox.js' defer></script>"
+    "<script src='/public/js/bootstrap-checkbox.js' defer></script>"
 );
 
 ob_start();
@@ -38,42 +38,36 @@ ob_start();
     </header>
 
     <main class="container head-foot-spacing">
-        <!-- Import from file form -->
+        <!-- Export Request form -->
         <form class="container panel form-upload panel-default"
-              action="/import-csv.php"
+              action="export-csv.php"
               method="post" enctype="multipart/form-data">
-            <h2>Import Data</h2>
+            <h2>Export Data</h2>
             <hr>
             <div class="form-group">
-                <label>Data Type</label>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="filetype" value="artist"
-                               required>
+                        <input type="radio" name="data" value="artist" required>
                         Artist Data
                     </label>
                 </div>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="filetype" value="concert">
+                        <input type="radio" name="data" value="concert">
                         Concert Data
                     </label>
                 </div>
             </div>
             <div class="form-group">
-                <label for="file-upload">Upload CSV</label>
-                <input type="file" id="file-upload" name="csvfile" required>
-            </div>
-            <div class="form-group">
-                <label for="headers" data-toggle="tooltip"
-                       title="Are there columns headers in the file?"
-                       data-placement="right">Headers</label><br>
-                <input id="headers" type="checkbox" name="headers"
+                <label for="bom" data-toggle="tooltip"
+                       title="If you don't know, choose yes"
+                       data-placement="right">Include Unicode BOM</label><br>
+                <input type="checkbox" id="bom" name="bom" checked
                        data-group-cls="btn-group-sm">
             </div>
             <hr>
-            <button type="submit" class="btn btn-default" name="filesubmit">
-                Submit
+            <button type="submit" class="btn btn-default" name="export">
+                Export
             </button>
         </form>
     </main>
@@ -85,7 +79,7 @@ ob_start();
     ?>
 
     <script>
-        // Handle dynamic navbar highlighting
+        // Set dynamic navbar highlighting
         $(document).ready(function () {
             // get current URL path and assign 'active' class to navbar
             let pathname = new URL(window.location.href).pathname.split('/').pop();

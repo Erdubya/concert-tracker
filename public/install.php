@@ -9,9 +9,9 @@
 $pageTitle = "Concert Tracker Install";
 
 // check if it's already been run
-if (file_exists("config.php")) {
+if (file_exists("paths.php")) {
     echo "<title>" . $pageTitle . "</title>";
-    echo "Concert Tracker has already been installed. Delete config.php to reinstall.<br><br>";
+    echo "Concert Tracker has already been installed. Delete paths.php to reinstall.<br><br>";
     die("<a href='/'>Go back</a>");
 }
 
@@ -47,15 +47,15 @@ if (isset($_POST['install'])) {
             $password
         ),
         $file);
-    file_put_contents('config.php', $config);
+    file_put_contents('paths.php', $config);
 
     // Test DB connection
-    require_once "config.php";
+    require_once "paths.php";
     $dbh = db_connect() or die(ERR_MSG);
 
     // build database and handle errors
     if (!build_db($dbh, $dbms)) {
-        unlink('config.php');
+        unlink('paths.php');
         unset($_POST);
         header('Location: /install');
     }

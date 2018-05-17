@@ -5,22 +5,6 @@
  * Time: 21:23
  */
 
-/** Function to connect to a database
- * Uses settings provided in _configuration.php
- * @return null|PDO
- */
-function db_connect()
-{
-    try {
-        $dbh = new PDO(HANDLER . ":host=" . HOSTNAME . ";dbname=" . DATABASE,
-            USERNAME, PASSWORD);
-    } catch (PDOException $e) {
-        $dbh = null;
-    }
-
-    return $dbh;
-}
-
 /**
  * @param $dbh     PDO The connection to build the database in
  * @param $handler string The DB handler to create the DB for
@@ -116,75 +100,21 @@ function mysql_tables()
 }
 
 /**
- * Generates the SQL needed to create the database tables in PostgreSQL.
- * @return array An array of SQL strings for creating tables.
+ * ends the script and request for application installation.
  */
-function pgsql_tables()
+function request_install()
 {
-    unset($tables);
-    $tables['user']            =
-        "CREATE TABLE IF NOT EXISTS users(
-        user_id SERIAL,
-        email VARCHAR(30) UNIQUE NOT NULL ,
-        passwd VARCHAR(255) NOT NULL ,
-        name VARCHAR(50) NOT NULL ,
-        PRIMARY KEY (user_id))";
-    $tables['artist']          =
-        "CREATE TABLE IF NOT EXISTS artist(
-        artist_id SERIAL ,
-        user_id INT NOT NULL ,
-        name VARCHAR(50) NOT NULL ,
-        genre VARCHAR(50) NULL , 
-        country VARCHAR(50) NULL ,
-        hidden BOOLEAN NOT NULL DEFAULT FALSE ,
-        PRIMARY KEY (artist_id),
-        FOREIGN KEY (user_id) REFERENCES users(user_id),
-        UNIQUE (user_id, name))";
-    $tables['concert']         =
-        "CREATE TABLE IF NOT EXISTS concert(
-        concert_id SERIAL ,
-        date DATE NOT NULL , 
-        city VARCHAR(30) NOT NULL , 
-        venue VARCHAR(30) NULL ,
-        attend BOOLEAN NOT NULL DEFAULT FALSE,
-        notes VARCHAR(500) ,
-        PRIMARY KEY (concert_id));";
-    $tables['concert_artists'] =
-        "CREATE TABLE IF NOT EXISTS concert_artists(
-        id SERIAL ,
-        artist_id INT NOT NULL ,
-        concert_id INT NOT NULL , 
-        is_primary BOOLEAN NOT NULL DEFAULT FALSE,
-        PRIMARY KEY (id) ,
-        FOREIGN KEY (artist_id) REFERENCES artist(artist_id) ,
-        FOREIGN KEY (concert_id) REFERENCES concert(concert_id))";
-    $tables['token']           =
-        "CREATE TABLE IF NOT EXISTS auth_token(
-        token_id SERIAL ,
-        selector CHAR(12) UNIQUE NOT NULL ,
-        token CHAR(64) NOT NULL ,
-        user_id INT NOT NULL ,
-        expires TIMESTAMP NOT NULL ,
-        PRIMARY KEY (token_id) ,
-        FOREIGN KEY (user_id) REFERENCES users(user_id))";
-
-    return $tables;
+    die("Please run the <a href='/install'>install script</a> set up Concert Tracker.");
 }
 
 /**
- * checks if the program is installed, and ends the script if it is not
+ * Checks if a user is logged in and redirects appropriately.
+ * @return string the name of the user if logged in.
  */
-function check_install()
-{
-    if ( ! file_exists('config.php')) {
-        die("Please run the <a href='/install'>install script</a> set up Concert Tracker.");
-    }
-}
-
 function check_login()
 {
     // redirect if not logged in
-    if (!isset($_SESSION['user'])) {
+    if ( ! isset($_SESSION['user'])) {
         header("Location: /login");
     } else {
         return $_SESSION['user'];
@@ -243,6 +173,21 @@ function cookie_loader($dbh)
             return false;
         }
 
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Loads the configuration file of the application.
+ * @return bool|object Returns the config if found, otherwise false.
+ */
+function config_loader()
+{
+    $config_file = BASE_PATH . "/config/config.json";
+    if (file_exists($config_file)) {
+        $json = file_get_contents($config_file);
+        return json_decode($json);
     } else {
         return false;
     }

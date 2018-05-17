@@ -4,7 +4,7 @@
  * Date: 13-May-17
  * Time: 01:35
  */
-require_once "config.php";
+require_once "paths.php";
 require_once "_functions.php";
 require_once "lib/random_compat.phar";
 

@@ -4,7 +4,7 @@
  * Date: 13-May-17
  * Time: 18:14
  */
-require_once "config.php";
+require_once "paths.php";
 require_once "vendor/autoload.php";
 
 // start the session and connect to DB

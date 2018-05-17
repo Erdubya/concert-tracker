@@ -4,7 +4,7 @@
  * Date: 17-Apr-17
  * Time: 01:09
  */
-require_once "config.php";
+require_once "paths.php";
 require_once "_functions.php";
 session_start();
 $dbh = db_connect() or die(ERR_MSG);

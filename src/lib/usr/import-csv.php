@@ -5,7 +5,7 @@
  * Time: 12:56
  */
 //require the config file
-require_once "config.php";
+require_once "paths.php";
 require_once "vendor/autoload.php";
 use ForceUTF8\Encoding;
 

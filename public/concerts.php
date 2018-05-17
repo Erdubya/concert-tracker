@@ -8,7 +8,7 @@ require_once '_functions.php';
 check_install();
 
 //require the config file
-require_once "config.php";
+require_once "paths.php";
 
 // start the session and connect to DB
 session_start();
@@ -23,7 +23,7 @@ $pageTitle = "Concerts - Concert Tracker";
 
 // include script for checkbox formatting
 $extraIncludes = array(
-    "<script src='js/bootstrap-checkbox.js' defer></script>"
+    "<script src='public/js/bootstrap-checkbox.js' defer></script>"
 );
 
 // get list of artist names

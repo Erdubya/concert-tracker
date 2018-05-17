@@ -5,6 +5,7 @@
  * Time: 18:44
  */
 
+include dirname(__FILE__) . "/../vendor/autoload.php";
 
 // Define a couple of simple actions
 class Home {
