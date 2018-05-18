@@ -6,7 +6,7 @@
  */
 
 // define the base path of the application
-define("BASE_PATH", dirname(__FILE__));
+define("BASE_PATH", dirname(__FILE__) . '/..');
 
 // extra paths
 define("CONFIG_PATH", BASE_PATH . "/config");

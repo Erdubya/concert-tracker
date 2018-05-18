@@ -4,17 +4,7 @@
  * Date: 10-May-17
  * Time: 23:39
  */
-require_once '_functions.php';
-check_install();
 
-//require the config file
-require_once "paths.php";
-
-// start the session and connect to DB
-session_start();
-$dbh = db_connect() or die(ERR_MSG);
-
-cookie_loader($dbh);
 
 if (isset($_SESSION['user'])) {
     header("Location: /");
@@ -27,11 +17,11 @@ ob_start();
     <!DOCTYPE html>
     <html lang="en">
     <!-- Include the HTML head -->
-    <?php include $_SERVER['DOCUMENT_ROOT'] . "/htmlhead.php" ?>
+    <?php include TEMPLATE_PATH . "/htmlhead.php" ?>
     <body>
     <header>
         <?php
-        include $_SERVER['DOCUMENT_ROOT'] . "/navbar.php";
+        include TEMPLATE_PATH . "/navbar.php";
         echo $navbar;
         ?>
     </header>
@@ -65,7 +55,7 @@ ob_start();
 
     <!-- Simple footer -->
     <?php
-    include 'footer.php';
+    include TEMPLATE_PATH . '/footer.php';
     echo $footer;
     ?>
 

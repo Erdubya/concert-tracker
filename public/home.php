@@ -11,7 +11,7 @@ if (!$config = config_loader()) {
 
 // start the session and connect to DB
 session_start();
-$dbh = \Vir\Cls\Database::create_pdo($config->database);
+$dbh = \Vir\Classes\Database::create_pdo($config->database);
 
 cookie_loader($dbh);
 

@@ -4,15 +4,14 @@
  * Date: 13-May-17
  * Time: 17:20
  */
-require_once '_functions.php';
-check_install();
-
-//require the config file
-require_once "paths.php";
+require_once BASE_PATH . '/vendor/autoload.php';
+if (!$config = config_loader()) {
+    request_install();
+}
 
 // start the session and connect to DB
 session_start();
-$dbh = db_connect() or die(ERR_MSG);
+$dbh = \Vir\Classes\Database::create_pdo($config->database);
 
 cookie_loader($dbh);
 
@@ -27,11 +26,11 @@ ob_start();
     <!DOCTYPE html>
     <html lang="en">
     <!-- Include the HTML head -->
-    <?php include "htmlhead.php" ?>
+    <?php include TEMPLATE_PATH . "/htmlhead.php" ?>
     <body>
     <header>
         <?php
-        include "navbar.php";
+        include TEMPLATE_PATH . "/navbar.php";
         echo $navbar;
         ?>
     </header>
@@ -69,7 +68,7 @@ ob_start();
 
     <!-- Simple footer -->
     <?php
-    include 'footer.php';
+    include TEMPLATE_PATH . '/footer.php';
     echo $footer;
     ?>
 

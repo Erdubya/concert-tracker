@@ -11,10 +11,11 @@
   ],
   "require": {
     "paragonie/random_compat": "dev-master",
-    "neitanod/forceutf8": "~2.0"
+    "neitanod/forceutf8": "~2.0",
+    "guzzlehttp/guzzle": "6.3.3"
   },
   "autoload": {
-    "files": ["src/_functions.php", "paths.php"],
+    "files": ["src/lib/usr/_functions.php", "config/paths.php"],
     "psr-4": {"Vir\\": "src/"}
   }
 }

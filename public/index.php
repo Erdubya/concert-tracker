@@ -5,110 +5,39 @@
  * Time: 18:44
  */
 
-include dirname(__FILE__) . "/../vendor/autoload.php";
+// initial autoload
+require_once dirname(__FILE__) . "/../vendor/autoload.php";
 
-// Define a couple of simple actions
-class Home {
-    public function GET() { include 'home.php'; }
+if (!$config = config_loader()) {
+    request_install();
 }
 
-class Concerts {
-    public function GET() { include 'concerts.php'; }
-}
+// start the session and connect to DB
+session_start();
+$dbh = \Vir\Classes\Database::create_pdo($config->database);
 
-class Artists {
-    public function GET() { include 'artists.php'; }
-}
+cookie_loader($dbh);
 
-class Import {
-    public function GET() { include 'import.php'; }
-}
+// create route object
+$routes = new \Vir\Classes\Route();
 
-class Export {
-    public function GET() { include 'export.php'; }
-}
+// add main page routes
+$routes->register_route('/', 'home.php');
+$routes->register_route('/install', 'install.php');
+$routes->register_route('/login', 'login.php');
+$routes->register_route('/logout', 'logout.php');
+$routes->register_route('/register', 'register.php');
+$routes->register_route('/concerts', 'concerts.php');
+$routes->register_route('/artists', 'artists.php');
+$routes->register_route('/data/import', 'import.php');
+$routes->register_route('/data/export', 'export.php');
+$routes->register_route('/profile/edit', 'profile.php');
 
-class Profile {
-    public function GET() { include 'profile.php'; }
-}
+// add an api
+$routes->register_api('/api/v1', 'api.php');
 
-class Login {
-    public function GET() { include 'login.php'; }
-}
+// add the 404
+$routes->set_page_not_found('404.php');
 
-class Register {
-    public function GET() { include 'register.php'; }
-}
-
-class Logout {
-    public function GET() { include 'logout.php'; }
-}
-
-class Install {
-    public function GET() { include 'install.php'; }
-}
-
-// Mapping of request pattern (URL) to action classes (above)
-$routes = array(
-    '/' => 'Home',
-    '/login' => 'Login',
-    '/register' => 'Register',
-    '/concerts' => 'Concerts',
-    '/artists' => 'Artists',
-    '/install' => 'Install',
-    '/profile/edit' => 'Profile',
-    '/profile/logout' => 'Logout',
-    '/data/import' => 'Import',
-    '/data/export' => 'Export',
-);
-
-
-//Remove request parameters:
 list($path) = explode('?', $_SERVER['REQUEST_URI']);
-//Remove script path:
-//$path = substr($path, strlen(dirname($_SERVER['SCRIPT_NAME'])));
-//Explode path to directories and remove empty items:
-$pathInfo = array();
-foreach (explode('/', $path) as $dir) {
-    if (!empty($dir)) {
-        $pathInfo[] = urldecode($dir);
-    }
-}
-if (count($pathInfo) > 0) {
-    //Remove file extension from the last element:
-    $last = $pathInfo[count($pathInfo)-1];
-    list($last) = explode('.', $last);
-    $pathInfo[count($pathInfo)-1] = $last;
-}
-var_dump($path);
-var_dump($pathInfo);
-
-// Match the request to a route (find the first matching URL in routes)
-$request = '/' . trim($path, '/');
-$route = null;
-foreach ($routes as $pattern => $class) {
-    if ($pattern == $request) {
-        $route = $class;
-        break;
-    }
-}
-
-// If no route matched, or class for route not found (404)
-if (is_null($route) || !class_exists($route)) {
-    header('HTTP/1.1 404 Not Found');
-    echo 'Page not found';
-    exit(1);
-}
-
-// If method not found in action class, send a 405 (e.g. Home::POST())
-if (!method_exists($route, $_SERVER["REQUEST_METHOD"])) {
-    header('HTTP/1.1 405 Method not allowed');
-    echo 'Method not allowed';
-    exit(1);
-}
-
-// Otherwise, return the result of the action
-$action = new $route;
-$result = call_user_func(array($action, $_SERVER["REQUEST_METHOD"]));
-echo $result;
-
+$routes->load_route($path);

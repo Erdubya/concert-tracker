@@ -5,36 +5,6 @@
  * Time: 21:23
  */
 
-/**
- * @param $dbh     PDO The connection to build the database in
- * @param $handler string The DB handler to create the DB for
- *
- * @return bool The success state of the database creation
- */
-function build_db($dbh, $handler)
-{
-    // get the correct SQL code
-    if ($handler == "mysql") {
-        $tables = mysql_tables();
-    } elseif ($handler == "pgsql") {
-        $tables = pgsql_tables();
-    } else {
-        $tables = null;
-    }
-
-    // attempt to execute the queries
-    try {
-        $dbh->exec($tables['user']);
-        $dbh->exec($tables['artist']);
-        $dbh->exec($tables['concert']);
-        $dbh->exec($tables['concert_artists']);
-        $dbh->exec($tables['token']);
-
-        return true;
-    } catch (PDOException $e) {
-        return false;
-    }
-}
 
 /**
  * Generates the SQL needed to create the database tables in MySQL.
@@ -98,6 +68,8 @@ function mysql_tables()
 
     return $tables;
 }
+
+
 
 /**
  * ends the script and request for application installation.
