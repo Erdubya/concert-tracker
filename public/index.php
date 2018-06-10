@@ -8,6 +8,7 @@
 // initial autoload
 require_once dirname(__FILE__) . "/../vendor/autoload.php";
 
+// load the config
 if (!$config = config_loader()) {
     request_install();
 }
@@ -16,6 +17,7 @@ if (!$config = config_loader()) {
 session_start();
 $dbh = \Vir\Classes\Database::create_pdo($config->database);
 
+// load user cookie
 cookie_loader($dbh);
 
 // create route object
@@ -39,5 +41,6 @@ $routes->register_api('/api/v1', 'api.php');
 // add the 404
 $routes->set_page_not_found('404.php');
 
+// handle path routing
 list($path) = explode('?', $_SERVER['REQUEST_URI']);
-$routes->load_route($path);
+require_once $routes->load_route($path);

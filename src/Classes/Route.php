@@ -44,14 +44,10 @@ class Route
     public function load_route($path)
     {
         if (array_key_exists($path, $this->routes) && $_SERVER['REQUEST_METHOD'] == \Vir\Http\Http::GET) {
-            require_once $this->routes[$path];
-        } elseif ( ! $this->load_api($path)) {
-            require_once $this->page_not_found;
-
-            return false;
+            return $this->routes[$path];
+        } else {
+            return $this->load_api($path);
         }
-
-        return true;
     }
 
     public function load_api($path)
@@ -60,12 +56,11 @@ class Route
         foreach ($paths as $key=>$val) {
             $new_path = implode('/', array_slice($paths, 0, $key + 1));
             if (array_key_exists($new_path, $this->apis)) {
-                require_once $this->apis[$new_path];
-                return true;
+                return $this->apis[$new_path];
             }
         }
 
-        return false;
+        return $this->page_not_found;
     }
 
     public function set_page_not_found($file)

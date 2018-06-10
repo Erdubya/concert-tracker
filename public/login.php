@@ -29,7 +29,7 @@ ob_start();
     <main class="container head-foot-spacing">
         <!-- Import from file form -->
         <form class="container panel form-login panel-default"
-              action="user-login.php" method="post">
+              action="/api/v1/user/login" method="post">
             <a class="btn btn-sm btn-primary" style="float: right" href="/register">Register Here</a>
             <h2>Login</h2>
             <hr>

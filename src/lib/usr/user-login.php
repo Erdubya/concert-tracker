@@ -4,13 +4,6 @@
  * Date: 13-May-17
  * Time: 01:35
  */
-require_once "paths.php";
-require_once "_functions.php";
-require_once "lib/random_compat.phar";
-
-// start the session and connect to DB
-session_start();
-$dbh = db_connect() or die(ERR_MSG);
 
 if (isset($_POST['login'])) {
     //Get user info based off input email

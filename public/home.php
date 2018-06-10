@@ -4,16 +4,18 @@
  * Date: 13-Apr-17
  * Time: 21:23
  */
-require_once BASE_PATH . '/vendor/autoload.php';
-if (!$config = config_loader()) {
-    request_install();
-}
+//require_once BASE_PATH . '/vendor/autoload.php';
+//if (!$config = config_loader()) {
+//    request_install();
+//}
+//
+//// start the session and connect to DB
+//session_start();
+//$dbh = \Vir\Classes\Database::create_pdo($config->database);
+//
+//cookie_loader($dbh);
 
-// start the session and connect to DB
-session_start();
-$dbh = \Vir\Classes\Database::create_pdo($config->database);
-
-cookie_loader($dbh);
+use \Vir\Api\Database;
 
 $userid = check_login();
 
@@ -40,57 +42,8 @@ ob_start();
         <div class="jumbotron">
             <?php
             $date = date("Y-m-d");
-            $sql = "SELECT
-                          c.concert_id,
-                          c.date,
-                          c.city,
-                          c.venue,
-                          c.attend,
-                          c.notes,
-                          array_to_json(
-                            ARRAY(
-                              select 
-                                name 
-                              from 
-                                artist
-                                join concert_artists a 
-                                  on artist.artist_id = a.artist_id
-                              where 
-                                is_primary = true 
-                                and c.concert_id = a.concert_id
-                            )
-                          ) p_artists,
-                          array_to_json(
-                            ARRAY(
-                              select 
-                                name 
-                              from 
-                                artist
-                                join concert_artists a 
-                                  on artist.artist_id = a.artist_id
-                              where 
-                                is_primary = false 
-                                and c.concert_id = a.concert_id
-                            )
-                          ) o_artists
-                        FROM
-                          concert c,
-                          artist a
-                        WHERE
-                          date >= :date
-                          AND a.user_id = :user
-                          AND attend = TRUE 
-                        GROUP BY
-                          c.concert_id
-                        ORDER BY
-                          c.date DESC;";
 
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindParam(":date", $date);
-            $stmt->bindParam(":user", $_SESSION['user']);
-            $stmt->execute();
-
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = Database::get_next_concert($dbh, ['date' => $date, 'user' => $userid]);
             // get artist strings
             $primaries = "";
             $openers   = "";
